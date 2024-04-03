@@ -1,0 +1,41 @@
+---
+title: "Räumliche Datenanalyse"
+subtitle: "am Beispiel Airbnb"
+author: "Prof. Dr. Jörg Schoder"
+date: "2023-11-28"
+bibliography: ../lit/Statistics.json
+reference-section-title: Quellenverzeichnis
+output: html_document
+---
+
+
+```{r, echo=FALSE}
+htmltools::img(src = knitr::image_uri(xfun::from_root('img', 'FFHS_mit_Zusatz_rgb.svg')), 
+               alt = 'logo', 
+               style = 'position:absolute; top:0; right:0; padding:10px; width:100px; height:70px')
+```
+
+```{r setup, echo=FALSE,message=FALSE,warning=FALSE}
+source(xfun::from_root('R','00_setup.R'))
+library(fontawesome)
+```
+
+# Aufgabenstellung
+
+Ein globaler Immobilieninvestor hat das Marktsegment der Short-Term-Leases für sich entdeckt und möchte in der Schweiz investieren. Für den Investor erscheinen ohne nähere Kenntnis der Schweiz vor allem die Städte Genf und Zürich interessant.
+
+Führe eine Räumliche Datenanalyse mit [Airbnb-Daten](http://insideairbnb.com/get-the-data/) zu beiden Städten durch und versuche Investmenthypothesen für die Städte und Standorte innerhalb der Städte zu erarbeiten.
+
+# Bewertungskriterien
+
+Die Ausarbeitung soll folgende wesentliche Punkte einer räumlichen Datenanalyse beinhalten:
+
+* Datenvisualisierung (Karten)
+
+* Kennzahlen (Autokorrelation)
+
+* Identifikation von Mustern und Clustern
+
+
+Bewertet wird die Qualität der Darstellungen, die Verwendung adäquater Kennzahlen bzw. Methoden und die inhaltliche Richtigkeit der Interpretationen. Das eingereichte R-Projekt muss vollständig reproduzierbar sein.
+
