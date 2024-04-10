@@ -620,9 +620,11 @@ class: left
 
 * "Navigation" mittels `xfun::from_root()`
 
-* Vorlage im FFHS-Moodle-Kurs: `R-Projektvorlage.zip`
+* Vorlage im FFHS-Moodle-Kurs: `r fa('link')` [R-Projektvorlage.zip](https://moodle.ffhs.ch/pluginfile.php/5003190/mod_folder/content/0/R-Projektvorlage.zip?forcedownload=1) 
 
+???
 
+UPDATE bzw. Anpassen für unterschiedliche Kurse
 
 ---
 class: left
@@ -655,7 +657,7 @@ class: inverse,center,middle
 ---
 
 background-image: url("http://bit.ly/cs631-donkey")
-background-size: 80%
+background-size: cover
 
 
 
