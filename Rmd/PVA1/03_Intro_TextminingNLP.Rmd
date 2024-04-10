@@ -587,7 +587,7 @@ tbl_plot %>%
 
 ???
 
-* die: deutsches Füllwort oder englisch: sterben?
+* "die": deutsches Füllwort oder englisch: sterben?
 
 
 
@@ -634,7 +634,7 @@ class: left
 
 ```{r}
 #| echo: false
-knitr::include_url('https://www.tidytextmining.com/ngrams',height = '400px')
+knitr::include_url('https://www.tidytextmining.com/ngrams#analyzing-bigrams',height = '450px')
 ```
 
 ---
@@ -710,7 +710,9 @@ class: left
 .panelset[
 .panel[.panel-name[Dataviz]
 ```{r}
-#|echo: false
+#| echo: false
+#| fig-align: 'center'
+#| out-width: '50%'
 get_sentiments("loughran") %>%
      count(sentiment) %>%
      mutate(sentiment2 = fct_reorder(sentiment, n)) %>% 
@@ -724,19 +726,20 @@ get_sentiments("loughran") %>%
              )
 ```
 ]
-.panel[.panel.name[Code]
+.panel[.panel-name[Code]
 ```{r}
-sent_counts <- get_sentiments("loughran") %>%
-                    count(sentiment) %>%
-                    mutate(sentiment2 = fct_reorder(sentiment, n)) %>% 
-                    ggplot(aes(x = sentiment2, y = n)) +
-                      geom_col() +
-                      coord_flip() +
-                      labs(
-                           title = "Sentiment Häufigkeiten (Loughran)",
-                           x = "Häufigkeit",
-                           y = "Sentiment"
-                           )
+#| eval: false
+get_sentiments("loughran") %>%
+               count(sentiment) %>%
+               mutate(sentiment2 = fct_reorder(sentiment, n)) %>% 
+               ggplot(aes(x = sentiment2, y = n)) +
+                 geom_col() +
+                 coord_flip() +
+                 labs(
+                      title = "Sentiment-Häufigkeiten (Loughran)",
+                      x = "Häufigkeit",
+                      y = "Sentiment"
+                      )
 ```
 ]
 ]
@@ -751,58 +754,84 @@ class: left
 * Datenkombination mit der `inner_join()`-Funktion (vgl. [cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)).
 
 ```{r}
-
-tbl_sentZH <- tidy_wort %>%
-                inner_join(get_sentiments("bing"), 
-                           join_by(wort == word), 
-                           relationship = "many-to-many") %>%
-                 mutate(line = row_number()) %>%
+tidy_wort %>%
+  inner_join(get_sentiments("bing"), 
+                            join_by(wort == word), 
+                            relationship = "many-to-many") %>%
+  mutate(line = row_number()) %>%
   count(property_type, index = line %/% 80, sentiment) %>% 
-  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>% 
-  mutate(sentiment = positive - negative)
+  pivot_wider(names_from = sentiment, 
+              values_from = n, 
+              values_fill = 0
+              ) %>% 
+  mutate(sentiment = positive - negative) -> tbl_sentZH
 ```
 
 
 ---
 class: left
 
-.blockquote[Datenvisualisierung]
+.blockquote[Beispiel: Airbnb Zürich]
 
-## Beispiel: Airbnb Zürich
-
-Sentimentanalyse nach Art der Unterkunft
+## Sentimentanalyse nach Art der Unterkunft
 
 ```{r}
 #Häufigkeiten unterschiedlicher Arten von Unterkünften
 tbl_props <- tbl_sentZH %>% 
                 count(property_type) %>% 
-                arrange(desc(n)) 
-tbl_props
-# Auswahl Top4 für die Grafik
-prop_list <- tbl_props %>%
-                  slice(1:4) %>% 
-                  pull(property_type)
-                  
-tbl_plot <- tbl_sentZH %>% 
-                filter(property_type%in%prop_list)
-# Erzeugung ggplot (speichern im Objekt p)
-p <- tbl_plot %>% 
-ggplot(aes(index, sentiment, fill = property_type)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(vars(property_type), ncol = 2, scales = "free_x")
+                arrange(desc(n))
+head(tbl_props)
+
 ```
 
 ---
 class: left
 
-.blockquote[Datenvisualisierung]
+.blockquote[Beispiel: Airbnb Zürich]
 
-## Balkendiagramm Sentimentanalyse Airbnb ZH
+## Balkendiagramm Sentimentanalyse
 
+.panelset[
+.panel[.panel-name[Plot]
 ```{r}
 #| echo: false
-p
+#| out-width: '55%'
+#| fig-align: 'center'
+# Identifikation der Top4 Unterkunftsarten
+prop_list <- tbl_props %>%
+                  slice(1:4) %>% 
+                  pull(property_type)
+# Filtern der Top4 Unterkunftsarten                 
+tbl_plot <- tbl_sentZH %>% 
+                filter(property_type%in%prop_list)
+# Erzeugung ggplot
+tbl_plot %>% 
+  ggplot(aes(index, sentiment, fill = property_type)) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(vars(property_type), ncol = 2, scales = "free_x")
 ```
+]
+.panel[.panel-name[Code]
+# Auswahl Top4 für die Grafik
+```{r}
+#| eval: false
+# Identifikation der Top4 Unterkunftsarten
+prop_list <- tbl_props %>%
+                  slice(1:4) %>% 
+                  pull(property_type)
+# Filtern der Top4 Unterkunftsarten                 
+tbl_plot <- tbl_sentZH %>% 
+                filter(property_type%in%prop_list)
+# Erzeugung ggplot
+tbl_plot %>% 
+  ggplot(aes(index, sentiment, fill = property_type)) +
+    geom_col(show.legend = FALSE) +
+    facet_wrap(vars(property_type), ncol = 2, scales = "free_x")
+```
+]
+]
+
+
 
 
 
@@ -815,7 +844,7 @@ class: left
 
 ```{r}
 #| echo: false
-#| out-width: '90%'
+#| out-width: '55%'
 #| fig-align: 'center'
 knitr::include_graphics(xfun::from_root('img','PVA1','sentimentplot_austen_(Silgen_Robinson_2017).png'))
 ```
@@ -851,7 +880,7 @@ class: inverse, center, middle
 
 .blockquote[Grundlagen NLP]
 
-.blockquote[LDA]
+.blockquote[Latent Dirichlet Allocation]
 
 
 
@@ -868,15 +897,19 @@ class: left
 * Latente Dirichlet-Zuordnung (LDA): Standard-Themenmodell (Topic Model)
 
 --
+
 * Korpus: Sammlung von Dokumenten
 
 --
+
 * Bag-of-Words: jedes Wort in einem Dokument wird separat/isoliert behandelt
 
 --
+
 * Themenmodelle finden **Muster zusammen vorkommenender Wörter**
 
 --
+
 * Unsupervised Learning: Suche nach Mustern anstelle von Vorhersagen wird als  bezeichnet.
 
 
@@ -947,7 +980,14 @@ knitr::include_graphics(xfun::from_root('img','PVA1','tmwr_(Silge_Robinson_2017)
 ---
 class: left
 
-.blockquote[LDA]
+.blockquote[Latent Dirichlet Allocation]
+
+## Kombination von tidytext- und quanteda-Funktionen
+
+```{r}
+#| echo: false
+knitr::include_url('https://www.tidytextmining.com/topicmodeling#latent-dirichlet-allocation',height = '450px')
+```
 
 
 
