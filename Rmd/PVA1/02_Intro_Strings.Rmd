@@ -167,19 +167,71 @@ class: inverse, center, middle
 .blockquote[strings zerlegen]
 
 
+---
+class: left
+
+.blockquote[strings erzeugen]
+
+## Eingabe mit Anführungzeichen
+
+* Einfache Anführungszeichen
+
+```{r}
+"hoi!"
+```
+
+* Doppelte Anführungszeichen
+
+```{r}
+'hoi!'
+```
+
+* Problem: verschachtelte Anführungszeichen
+
+```{r}
+#| error: true
+# Ich habe "hoi!" gesagt
+"Ich habe "hoi!" gesagt."
+``` 
+
 
 
 ---
 class: left
 
+.blockquote[strings erzeugen]
 
 ## Escape-Sequenz
 
+* Verschachtelte Anführungszeichen: 
+  * Variante 1 (`'`)
 
-* Doppelte Anführungszeichen: `\"`
+```{r}
+'Ich habe "hoi!" gesagt.'
+```
+  
+  * Variante 2 `\"` (Escape Sequenz!)
+```{r}
+"Ich habe \"hoi!\" gesagt."
+```
+
+
+
+---
+class: left
+
+.blockquote[strings erzeugen]
+
+## Weitere Anwendungsfälle für Escape Sequenzen
 
 * Neue Zeile: `\n` 
 
+```{r}
+"Mit dem Pfeil, dem Bogen
+Durch Gebirg und Tal
+Kommt der Schütz gezogen
+Früh am Morgenstrahl."
+```
 * Unicode-Symbole ([Unicode-Chart](https://www.unicode.org/charts/)):
   * 8 Hexcode-Symbole: `\U`
   * 8 Hexcode-Symbole: `\u`
@@ -206,15 +258,119 @@ class: left
 
 ## Zahlenformate
 
-* Fix vs. Wissenschaftlich
-  * 5770
-  * 5.77e+3
+.pull-left[
 
+```{r}
+x <- pi
+x
+```
+* `format()`: fix vs. wissenschaftlich
+
+```{r}
+format(x, scientific = TRUE)
+```
 * `as.character()`
 
-* `format()`
+```{r}
+as.character(x)
+```
 
 
+
+???
+
+wissenschaftlich: $3,1415*10^0$
+
+
+---
+class: left
+
+.blockquote[strings verknüpfen]
+
+## `paste()`-Funktion
+
+```{r}
+paste("H","O","P","P")
+```
+
+```{r}
+paste("H","O","P","P", sep = "-")
+```
+
+```{r}
+paste(c("Hey","Ach","Mach"), "Du")
+```
+---
+class: left
+
+.blockquote[strings verknüpfen]
+
+## Old MacDonald
+
+```{r}
+old_mac <- function(animal, animal_goes){
+eieio <- paste("E", "I", "E", "I", "O", sep = "-")
+old_mac <- "Old MacDonald had a farm"
+writeLines(c(
+old_mac,
+eieio,
+paste("And on his farm he had a", animal),
+eieio,
+paste(c("Here", "There", "Everywhere"), "a",
+c(animal_goes, animal_goes,
+paste(rep(animal_goes, 2), collapse = "-")),
+collapse = ", "),
+old_mac,
+eieio))
+}
+
+```
+
+---
+class: left
+
+.blockquote[strings verknüpfen]
+
+## Old MacDonald
+
+```{r}
+old_mac("cow","moo")
+
+```
+
+```{r}
+old_mac("dog","wolf")
+
+```
+---
+class: left
+
+.blockquote[strings zerlegen]
+
+## stringr-Paket
+
+* Leistungsstark, aber leicht zu erlernen
+
+* Aufbauend auf stringi
+
+* Prägnant und konsistent
+
+* Alle Funktionen beginnen mit `str_`
+
+* Alle Funktionen nehmen einen Vektor von Strings als erstes Argument
+
+
+---
+class: left
+
+.blockquote[strings zerlegen]
+
+## stringr-Vignette
+
+```{r}
+#| echo: false
+knitr::include_url('https://stringr.tidyverse.org/',height = "410px")
+```
 
 
 ---

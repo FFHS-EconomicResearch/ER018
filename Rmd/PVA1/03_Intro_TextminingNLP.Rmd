@@ -496,6 +496,8 @@ class: left
 .panel[.panel-name[Balkendiagramm]
 ```{r}
 #| echo: false
+#| out-width: '55%'
+#| fig-align: 'center'
 tidy_wort %>% 
    count(wort, sort = TRUE) %>%
    slice(1:20) %>%
@@ -508,6 +510,7 @@ tidy_wort %>%
 ]
 .panel[.panel-name[Code zum Plot]
 ```{r}
+#| eval: false
 p <- tidy_wort %>% 
          count(wort, sort = TRUE) %>%
          slice(1:20) %>%
@@ -561,14 +564,21 @@ stop_words2 <- get_stopwords(language = "en",
 ```{r}
 tidy_wort2 <- tidy_wort %>%
                 anti_join(stop_words2, join_by(wort==word))
-tidy_wort2 %>%
-  count(wort, sort = TRUE) %>%
-   slice(1:20) %>%
-    mutate(wort = reorder(wort, n)) %>%
-    ggplot(aes(x=wort, y=n)) +
+tbl_plot <- tidy_wort2 %>%
+                count(wort, sort = TRUE) %>%
+                slice(1:20) %>%
+                mutate(wort = reorder(wort, n)) 
+```
+]
+.panel[.panel-name[Plot]
+```{r}
+#| echo: false
+#| out-width: '55%'
+#| fig-align: 'center'
+tbl_plot %>%
+  ggplot(aes(x=wort, y=n)) +
         geom_col() +
         coord_flip()
-        labs(y = NULL)
 ```
 ]
 ]
@@ -582,40 +592,6 @@ tidy_wort2 %>%
 
 
 
-
----
-class: left
-
-.blockquote[Häufigkeiten]
-
-## Wortlänge
-
-
----
-class: left
-
-.blockquote[Häufigkeitsanalysen]
-
-## Satzlänge
-
-
-
----
-class: left
-
-.blockquote[Datenvisualisierung]
-
-## Balkendiagramme
-
-```{r}
-#Farben definieren
-ffhs_red <- "#d50006"
-ffhs_pur <- "#502479"
-my_cols <- c(ffhs_red,ffhs_pur)
-
-```
-
-
 ---
 class: left
 
@@ -623,6 +599,43 @@ class: left
 
 ## Wordcloud
 
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-align: 'center'
+#| out-width: '70%'
+library(wordcloud)
+tidy_wort2 %>% 
+  count(wort) %>%
+  with(wordcloud(wort, n, max.words = 100))
+```
+]
+.panel[.panel-name[Code]
+```{r}
+#| eval: false
+library(wordcloud)
+tidy_wort2 %>% 
+  count(wort) %>%
+  with(wordcloud(wort, n, max.words = 100))
+```
+]
+]
+
+---
+class: left
+
+.blockquote[Zusammenhänge]
+
+## Beispiel Jane Austen Romane
+
+```{r}
+#| echo: false
+knitr::include_url('https://www.tidytextmining.com/ngrams',height = '400px')
+```
 
 ---
 class: inverse, center, middle
@@ -711,7 +724,7 @@ get_sentiments("loughran") %>%
              )
 ```
 ]
-`.panel[.panel.name[Code]
+.panel[.panel.name[Code]
 ```{r}
 sent_counts <- get_sentiments("loughran") %>%
                     count(sentiment) %>%
@@ -792,12 +805,51 @@ p
 ```
 
 
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Beispiel: Romane von Jane Austen
+
+```{r}
+#| echo: false
+#| out-width: '90%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','sentimentplot_austen_(Silgen_Robinson_2017).png'))
+```
+
+.quelle[Quelle: `r Citet(bib, "silge_text_2017")`.]
+
+
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Vergleich der Sentiment-Lexika
+
+```{r}
+#| echo: false
+#| out-width: '90%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','sentiment_compareplot_(Silge_Robinson_2017).png'))
+```
+
+.quelle[Quelle: `r Citet(bib, "silge_text_2017")`.]
+
+
+
+
+
 ---
 class: inverse, center, middle
 
 ## Topic Modeling
 
-.blockquote[Grundlegende NLP-Begriffe]
+.blockquote[Grundlagen NLP]
 
 .blockquote[LDA]
 
@@ -808,18 +860,22 @@ class: inverse, center, middle
 ---
 class: left
 
-.blockquote[Grundlegende NLP-Begriffe]
+.blockquote[Grundlagen NLP]
 
 ## Unsupervised Learning
 
 
 * Latente Dirichlet-Zuordnung (LDA): Standard-Themenmodell (Topic Model)
+
 --
 * Korpus: Sammlung von Dokumenten
+
 --
 * Bag-of-Words: jedes Wort in einem Dokument wird separat/isoliert behandelt
+
 --
 * Themenmodelle finden **Muster zusammen vorkommenender Wörter**
+
 --
 * Unsupervised Learning: Suche nach Mustern anstelle von Vorhersagen wird als  bezeichnet.
 
@@ -827,7 +883,7 @@ class: left
 ---
 class: left
 
-.blockquote[Grundlegende NLP-Begriffe]
+.blockquote[Grundlagen NLP]
 
 ## Themen (Topics) als gruppierte Listen
 
@@ -845,7 +901,7 @@ class: left
 ---
 class: left
 
-.blockquote[Grundlegende NLP-Begriffe]
+.blockquote[Grundlagen NLP]
 
 ## Topic Modeling vs. Clusteranalyse
 
@@ -870,6 +926,23 @@ class: left
 
 ]
 
+
+---
+class: left
+
+.blockquote[Grundlagen NLP]
+
+## Topic Modeling Workflow
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| out-width: '100%'
+knitr::include_graphics(xfun::from_root('img','PVA1','tmwr_(Silge_Robinson_2017).png'))
+
+```
+
+.quelle[Quelle: `r `Citet(bib, "silge_text_2017")`.]
 
 ---
 class: left
