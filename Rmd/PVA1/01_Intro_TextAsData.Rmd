@@ -1,0 +1,497 @@
+---
+title: "Analyzing Business Relations & Documents"
+subtitle: "Text as Data"
+author: "Prof. Dr. Jörg Schoder"
+institute: "FFHS" 
+date: "`r Sys.Date()`"
+bibliography: ../../lit/my_bib.bib
+reference-section-title: Quellenverzeichnis
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: 
+         - default
+         - ../../css/ffhs-theme_js.css
+         - xaringan-themer.css
+    includes:
+      after_body: ../../css/insert-logo.html
+    lib_dir: ../../libs
+    nature:
+      slideNumberFormat: "%current%/%total%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+    
+
+    
+---
+class: title-slide
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#d50006",inverse_text_color = "#FFFFFF",inverse_background_color = "#d50006", title_slide_background_color = "#d50006",header_background_color = "#d50006",header_color = "#FFFFFF",header_h1_font_size = "32px",
+  header_h2_font_size = "26px",link_color="#502479",
+  header_h3_font_size = "20px",text_slide_number_color = "#d50006",text_slide_number_font_size = "0.5em")
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#d50006", location = "bottom")
+xaringanExtra::use_xaringan_extra(c("tile_view","scribble","panelset","tachyons"))
+xaringanExtra::style_panelset_tabs(font_family = "inherit")
+#xaringanExtra::use_search(show_icon = TRUE)
+#weitere: "share_again","animate_css", "webcam","freezeframe","clipboard","fit_screen","extra-styles" 
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_freezeframe(trigger = "hover")
+``` 
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(latex2exp)
+library(fontawesome)
+library(emo)
+source(xfun::from_root("lit","helper.R"))
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+file.name <- system.file("Bib", 
+                         "my_bib.bib", 
+                         package = "RefManageR")
+bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+```
+
+# ER018 - Analyzing Business Relations & Documents
+
+## PVA1
+
+### Einführung: Textdaten und Auswertungsmethoden
+
+ 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+### FS 2024
+<br>
+### Prof. Dr. Jörg Schoder
+.mycontacts[
+`r fa('github')` @FFHS-EconomicResearch
+`r fa('linkedin')` @jfschoder
+]
+
+
+---
+layout: true
+
+<div class="my-footer"></div>       
+
+<div style="position: absolute;left:400px;bottom:10px;font-size:9px">`r fa('creative-commons')``r rmarkdown::metadata$author`</div>
+
+
+---
+name: agenda
+class: left
+
+.blockquote[Agenda]
+
+## Einführung in die Analyse von Textdaten
+
+* Motivation und Einordnung
+
+* Analyse von Textdaten
+
+* NLP und LLMs 
+
+
+
+---
+class: left
+
+.blockquote[Motivation und Einordnung]
+
+## Generative KI
+
+.panelset[
+.panel[.panel-name[ChatGPT]
+
+```{r}
+#| echo: false
+#| out-width: '80%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','chatgpt_(ultimate.ai).png'))
+```
+
+
+]
+.panel[.panel-name[Work in Progress]
+.center[
+"*ChatGPT is incredibly limited but good enough at some things to create a misleading impression of greatness. It's a mistake to be relying on it for anything important right now. It's a preview of progress; we have **lots of work to do on robustness and truthfulness**.*"
+.tr[
+Sam Altman (CEO OpenAI)
+]
+]
+]
+]
+.quellePanURL[Quelle: [ultimate.ai](https://www.ultimate.ai/blog/ai-automation/chatgpt-the-tech-behind-the-hype-and-what-it-means-for-your-support).]
+
+???
+
+* Jeder Kennt ChatGPT. Zusammengesetzt aus Chat und GPT
+
+* GPT: Generative Pre-Trained Transformer
+  * **generative**:  Anwendungen können neuen content erzeugen und nicht nur bestehende Daten auswerten
+  * **pre-trained**: wurden mit Hilfe (meist riesiger Mengen) an Daten "trainiert" (gleich mehr dazu...)
+  * **transformer**: Transformer-Modelle sind **tiefe neuronale Netze**
+    * kann Kontext und damit die **Bedeutung** (mehr dazu gleich...) erlernen, indem es die **Beziehung zwischen Wörtern (Token) in einem Satz (Sequenz)** verfolgt.
+    * Wichtigste Innovation von Transformatormodellen: Verwendung von **Mechanismen der Selbstaufmerksamkeit**. Diese ermöglichen es den Modellen, die Bedeutung verschiedener Teile der Eingabe bei der Vorhersage abzuwägen.
+
+* ChatGPT ist ein großartiges Beispiel für die Leistungsfähigkeit von Transformatoren in generativen KI-Modellen.
+  * **Chat** weil die Anwendung Konversationen erzeugt
+  * entwickelt von OpenAI. OpenAI laut CB Insights Ende März 2024  wertvollstes Startup mit einer Bewertung von 80 Mrd. USD. An der Börse wird Mercedes-Benz ähnlich bewertet.
+
+* Enorme Geschwindigkeit des Aufstiegs von OpenAI. Woher kommt der Erfolg? Letztlich: Kombination von Daten und Auswertungsmethoden.
+
+**Klick auf Work in Progress**
+
+* Zu den Auswertungsmethoden gehören NLP und LLM. 
+  * LLM: Antworten von ChatGPT klingen "menschlich". Dies ist möglich, weil eine riesige Datenmenge dazu genutzt wurde, um ein LL-Modell zu trainieren.
+      * Die genutzten Daten wurden dabei von echten Menschen geschrieben (das heißt, im gesamten Internet vor 2022).
+      * LL-Modelle basieren in der Regel auf sog. neuronalen Netzen und werden mit einer Machine-Learning-Technik (unüberwachtes Lernen). Dabei lernt das Modell, das nächste Wort in einem Satz auf der Grundlage der vorherigen Wörter vorherzusagen. Vorhersage basierend auf Statistik!
+
+
+  * NLP (=Natural Language Processing): Verarbeitung natürlicher Sprache.
+    * Diese Technologie ist eine weitere Erfolgskomponente von ChatGPT. NLP **greift auf transformer-Modelle zurück** (das T in GPT), um eingehende Nachrichten bzw. Prompts zu **verstehen**.
+    * Ähnlich nutzen fortschrittliche Chatbots für den Kundensupport NLP, um die **Absichten der Kunden zu verstehen** und zu gruppieren
+  
+
+
+* Eine Idee, wie solche Methoden funktionieren werden wir uns heute erarbeiten.
+
+
+---
+class: left
+
+.blockquote[Motivation und Einordnung]
+
+## Strukturierte vs. unstrukturierte Daten
+
+
+.panelset[
+.panel[.panel-name[Datentypen]
+```{r}
+#| echo: false
+#| out-width: '80%'
+#| fig-align: 'center'
+
+knitr::include_graphics(xfun::from_root('img','PVA1','big-data-types_(crmconsultant.weebly.com).png'))
+```
+
+.quellePanURL[Bildquelle: [outrightcrm.com](https://crmconsultant.weebly.com/blog/big-data-and-crm-what-future-holds-for-both-the-technologies).]
+
+Ausführlicher bspw. [ibm.com](https://www.ibm.com/blog/structured-vs-unstructured-data/)
+]
+.panel[.panel-name[Exkurs: Datenmanagement]
+```{r}
+#| echo: false
+#| out-width: '80%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','data-warehouse-vs-data-lake-vs-data-mesh_(xenonstack.com).png'))
+```
+
+<br>
+.quellePanURL[Bildquelle: [xenonstack.com](https://www.xenonstack.com/blog/data-warehouse-vs-data-lake-vs-data-mesh)]
+
+`r NoCite(bib, "xenonstackcom_data_2023")`
+
+]
+]
+
+
+
+
+???
+
+* Strukturierte Daten
+  * häufig auch als "quantitative Daten" bezeichnet
+  * Beispiele:
+    * Namen, Adressen, Kreditkartennummern usw. 
+  * Vorteile: Benutzerfreundlichkeit und einfacher Zugriff
+  * Nachteile: Unflexibilität, (Informations-)Gehalt der Daten? 
+  * hochgradig organisiert und durch Algorithmen des maschinellen Lernens leicht entzifferbar.
+    * Verwaltung u.a. mit der 1974 von IBM entwickelten strukturierten Abfragesprache (SQL), häufig in Kombination mit relationalen (SQL) Datenbanken. 
+    * Damit können Nutzer strukturierte Daten schnell eingeben, durchsuchen und bearbeiten.
+  
+
+* Unstrukturierte Daten
+    * auch als qualitative Daten bezeichnet
+    * Beispiele:
+      * Texte, mobile Aktivitäten, Beiträge in sozialen Medien, Sensordaten aus dem Internet der Dinge (IoT) usw.
+      * **Rapide zunehmende Bedeutung** von unstrukturierten Daten.
+        * Schätzungen zufolge über 80% aller Unternehmensdaten unstrukturiert; 95% der Unternehmen räumen der Verwaltung unstrukturierter Daten Priorität ein.
+      * Vorteile: Format, Geschwindigkeit und Speicherung
+      * Nachteile: erforderliches Fachwissen zur Auswertung und verfügbare Ressourcen.
+    * "erforderliches Fachwissen": unstrukturierte Daten können nicht mit herkömmlichen Daten-Tools und -Methoden verarbeitet und analysiert werden.
+
+* Exkurs:
+  * Strukturierte Daten werden in der Regel in Datenspeichersystemen mit starren Schemata (z. B. **Data Warehouses**) gespeichert. 
+    * starres Schmema vordefiniert, Daten werden dann entsprechend eingegeben/abgelegt
+    * Dadurch wenig flexibel: Änderungen der Datenanforderungen machen eine Aktualisierung aller strukturierten Daten erforderlich, was zu einem massiven Zeit- und Ressourcenaufwand führt.
+  * Unstrukturierte Daten 
+
+  * Bei unstrukturierten Daten existiert meist kein vordefiniertes Datenmodell
+      * daher Verwaltung in nicht-relationalen (NoSQL) Datenbanken. 
+      * Alternativ: Verwendung von **Data Lakes** - zur Aufbewahrung **in Rohform**
+
+---
+class: inverse, center, middle
+
+## Analyse von Textdaten
+
+.blockquote[Besonderheiten von Textdaten]
+
+.block[Alternative Auswertungsmethoden]
+
+
+---
+class: left
+
+.blockquote[Besonderheiten von Textdaten]
+
+## Zeichen(ketten) und Bedeutungen
+
+* Zeichen
+
+--
+  * Buchstaben (bspw. griechisch: $\alpha-\omega$, lateinisch: a-z)
+--
+
+  * Ziffern (bspw. römisch: I, V, X..., arabisch: 0-9)
+--
+
+  * Symbole (bspw. $, €, §, %, &)
+
+--
+* Zeichenketten (Wörter, Zahlen, Hexcode, 😃...)
+
+--
+* Syntax
+  * Baumstamm, Stammbaum
+  * Hund beißt Mann, Mann beißt Hund
+
+--
+* Semantik
+
+--
+  * Bank
+
+--
+  * Ein Fräulein ist eine Frau, der zum Glück der Mann fehlt.
+
+--
+  * Fluggäste ärgern sich über Gebühr. 
+
+
+--
+`r fa('exclamation-circle')` Textdaten: Bedeutungen und Sinnverstehen.
+
+
+???
+
+* Semantik - Bedeutung von Zeichen und Zeichenketten
+  * Bank: Kreditinstitut vs. Sitzgelegenheit?
+  * Fräulein: Glück als "glücklicherweise" oder "zum Glücklichsein"?
+  * Fluggäste: ärgern sich über (neue/zusätzliche) Gebühr? oder "mehr als sich gebührt"?
+
+
+---
+class: inverse, center, middle
+
+## Alternative Auswertungsmethoden
+
+.blockquote[Qualitative vs. Quantitative Inhaltsanalysen]
+
+.blockquote[Natural Language Processing]
+
+
+
+---
+class: left
+
+.blockquote[Qualitative vs. Quantitative Inhaltsanalysen] 
+
+## Heuristik zur Wahl inhaltsanalytischer Auswertungstechniken
+
+```{r}
+#| echo: false
+#| out-width: '75%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','Heuristik_Inhaltsanalysen_(Schneijderberg_etal_2022)_S24.PNG'))
+```
+
+.quelle[`r Citet(bib,"schneijderberg_qualitative_2022")`, S. 24.]
+
+???
+
+* Form follows Function
+
+* Verweis auf Masterarbeit:
+  * Am Anfang steht immer die Forschungsfrage
+  * Dann wird die geeignete Methode (aus)gesucht
+  * Dazu wertvolle Hinweise in Schneijderberg et al!
+
+
+
+
+---
+class: left
+
+.blockquote[Natural Language Processing]
+
+## Grundlegende Konzepte
+
+* Attention (Aufmerksamkeit)
+  * Fokus auf Teile einer Zeichenkette (Eingabe/Prompt)
+  * zu Vorhersage einer Ausgabesequenz
+
+--
+* Self-Attention (Selbstaufmerksamkeit)
+  *  Aufmerksamkeitsmechanismus, der verschiedene Positionen einer einzelnen Sequenz miteinander in Beziehung setzt
+  * Ziel: Berechnung einer Abbildung der Sequenz
+
+--
+
+.blockquote[
+Beispiel:
+  * "*Ich habe Wasser aus der Flasche in die **Tasse** gegossen, bis **sie** **voll** war.*"
+  * "*Ich habe Wasser aus der **Flasche** in die Tasse gegossen, bis **sie** **leer** war*."
+]
+--
+Bedeutung von "sie"?
+
+
+???
+
+* Die Attention ermöglichte es uns, uns auf Teile unserer Eingabesequenz zu konzentrieren, während wir unsere Ausgabesequenz vorhersagten. Wenn unser Modell das Wort "rouge" [französische Übersetzung für die Farbe Rot] vorausgesagt hat, ist es sehr wahrscheinlich, dass wir in unserer Eingabesequenz eine hohe Gewichtung für das Wort "rot" finden. Die Aufmerksamkeit ermöglichte es uns also gewissermaßen, eine Verbindung/Korrelation zwischen dem Eingabewort "rouge" und dem Ausgabewort "rot" herzustellen.
+
+* Self-Attention, auch Intra-Attention
+
+ * Beispiel:
+    * *"Ich habe Wasser aus der Flasche in die **Tasse** gegossen, bis **sie** **voll** war."* (sie: die Tasse)
+    * *"Ich habe Wasser aus der **Flasche** in die Tasse gegossen, bis **sie** **leer** war.* (sie: die Flasche)
+  * Durch die Änderung eines Wortes "voll" - > "leer" hat sich das **Bezugsobjekt für "sie" geändert**. 
+  
+  * Wenn wir einen solchen Satz übersetzen, müssen wir wissen, auf welches Wort sich "sie" bezieht.
+  * Naiv: 50-50 Chance: entweder  Flasche oder Tasse.
+    * wir suchen ein Modell, das mit einer höheren Wahrscheinlichkeit die korrekte Vorhersage treffen kann.
+  * Dazu benötigen wir durchaus komplexe Modelle
+  * Wir schauen uns nun einige zentrale Bausteine solcher Modelle an...
+
+
+---
+class: left
+
+.blockquote[Natural Language Processing]
+
+## Aufmerksamkeitsmechanismen
+
+Transformermodelle:
+
+* **Encoder-Decoder Attention**
+
+  Aufmerksamkeit zwischen der Eingangssequenz und der Ausgangssequenz.
+
+--
+* **Self Attention** in der **Eingabe**sequenz 
+
+  Aufmerksamkeit für alle Wörter in der Eingabesequenz.
+
+--
+* **Self Attention** in der **Ausgabe**sequenz
+
+  beschränkter Umfang der Selbstaufmerksamkeit auf Wörter, die vor einem bestimmten Wort auftreten. 
+
+.tr[
+`r fa('link')` Ausführlicher bspw. [Kulshrestha (2020)](https://towardsdatascience.com/transformers-89034557de14).
+`r NoCite(bib,"kulshrestha_transformers_2020")`
+]
+
+???
+
+1. Encoder-Decoder Aufmerksamkeit: Aufmerksamkeit zwischen der Eingangssequenz und der Ausgangssequenz.
+
+2. Self Attention in der Eingabesequenz: Aufmerksamkeit für alle Wörter in der Eingabesequenz.
+
+3. Self Attention in der Ausgabesequenz: 
+Hier ist zu beachten, dass der Umfang der Selbstaufmerksamkeit auf die Wörter beschränkt ist, die vor einem bestimmten Wort auftreten. **Dadurch wird verhindert, dass beim Training des Modells Informationen verloren gehen.** Zu diesem Zweck werden die **Wörter, die nach einem Wort auftreten**, für jeden Schritt ausgeblendet. Für Schritt 1 wird also nur das erste Wort der Ausgabesequenz NICHT maskiert, für Schritt 2 werden die ersten beiden Wörter NICHT maskiert und so weiter.
+
+
+---
+class: left
+
+.blockquote[Natural Language Processing]
+
+## Der Weg ins Transformer-Modell
+
+* Computer verstehen **nur** Zahlen. Wörter müssen in Zahlen "übersetzt" werden, um sie zu verarbeiten.
+
+--
+* 3 Schritte:
+  * Tokenisierung
+      * Zerlegung von Zeichenketten (Text) in Einzelteile
+      * Zuweisung einer eindeutigen ID
+--
+  * Vektorisierung
+      * Überführung in Zahlen durch Zuweisung IDs
+      * ID `r fa('circle-right')` n-dimensionaler Vektor
+--
+  * Einbettung
+      * "Bedeutung lernen" durch...
+      * ..."Einbettung" der Wortvektoren in einen "embedding space" (word embedding)
+
+.tr[
+`r fa('link')` Ausführlicher bspw. [Metzger (2022)](https://medium.com/@saschametzger/what-are-tokens-vectors-and-embeddings-how-do-you-create-them-e2a3e698e037).
+`r NoCite(bib,"metzger_what_2022")`
+]
+
+
+???
+
+* Tokenisierung
+  * Token: "Platzhalter" - bspw. Casino-Chips, die dann wieder in Geld getauscht werden können
+  * Bei der Tokenisierung wird der ursprüngliche Text in einzelne Teile, so genannte Token, zerlegt. Jedem Token wird eine eindeutige ID zugewiesen, um es als Zahl darzustellen.
+
+* Vektorisierung: Die eindeutigen IDs werden dann zufällig initialisierten n-dimensionalen Vektoren zugewiesen.
+
+* Einbettung: Um den Token eine Bedeutung zu geben, muss das Modell auf sie trainiert werden. Dadurch kann das Modell die Bedeutung von Wörtern und deren Beziehung zu anderen Wörtern lernen. Um dies zu erreichen, werden die Wortvektoren in einen Einbettungsraum "eingebettet". Dies hat zur Folge, dass ähnliche Wörter nach dem Training ähnliche Vektoren haben sollten
+
+
+---
+class: inverse,center,middle
+
+# Wir brauchen eine Pause.
+
+---
+
+background-image: url("http://bit.ly/cs631-donkey")
+background-size: cover
+
+
+
+
+
+---
+class: left
+
+## Quellenverzeichnis
+
+.ref-slide[
+```{r, results='asis', echo=FALSE, warning=FALSE}
+PrintBibliography(bib)
+```
+]

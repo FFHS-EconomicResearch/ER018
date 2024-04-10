@@ -1,0 +1,904 @@
+---
+title: "Analyzing Business Relations & Documents"
+subtitle: "Text as Data"
+author: "Prof. Dr. Jörg Schoder"
+institute: "FFHS" 
+date: "`r Sys.Date()`"
+bibliography: ../../lit/my_bib.bib
+reference-section-title: Quellenverzeichnis
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: 
+         - default
+         - ../../css/ffhs-theme_js.css
+         - xaringan-themer.css
+    includes:
+      after_body: ../../css/insert-logo.html
+    lib_dir: ../../libs
+    nature:
+      slideNumberFormat: "%current%/%total%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+    
+
+    
+---
+class: title-slide
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#d50006",inverse_text_color = "#FFFFFF",inverse_background_color = "#d50006", title_slide_background_color = "#d50006",header_background_color = "#d50006",header_color = "#FFFFFF",header_h1_font_size = "32px",
+  header_h2_font_size = "26px",link_color="#502479",
+  header_h3_font_size = "20px",text_slide_number_color = "#d50006",text_slide_number_font_size = "0.5em")
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#d50006", location = "bottom")
+xaringanExtra::use_xaringan_extra(c("tile_view","scribble","panelset","tachyons"))
+xaringanExtra::style_panelset_tabs(font_family = "inherit")
+#xaringanExtra::use_search(show_icon = TRUE)
+#weitere: "share_again","animate_css", "webcam","freezeframe","clipboard","fit_screen","extra-styles" 
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_freezeframe(trigger = "hover")
+``` 
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(magrittr)
+library(latex2exp)
+library(fontawesome)
+library(emo)
+source(xfun::from_root("lit","helper.R"))
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+file.name <- system.file("Bib", 
+                         "my_bib.bib", 
+                         package = "RefManageR")
+bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+```
+
+# ER018 - Analyzing Business Relations & Documents
+
+## PVA1
+
+### Quantitative Textanalyse mit tidytext
+
+ 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+### FS 2024
+<br>
+### Prof. Dr. Jörg Schoder
+.mycontacts[
+`r fa('github')` @FFHS-EconomicResearch
+`r fa('linkedin')` @jfschoder
+]
+
+
+---
+layout: true
+
+<div class="my-footer"></div>       
+
+<div style="position: absolute;left:400px;bottom:10px;font-size:9px">`r fa('creative-commons')``r rmarkdown::metadata$author`</div>
+
+
+
+
+---
+name: agenda
+class: left
+
+.blockquote[Agenda]
+
+## Quantitative Textanalyse mit tidytext
+
+* Datenstrukturen zur Speicherung von Textdaten
+
+* tidytext und Tokenisierung
+
+* Wort- und Textmetriken
+
+* Sentimentanalysen
+
+* Beziehungen zwischen Wörtern
+
+* NLP und Topic Modeling
+ 
+
+---
+class: left
+
+.blockquote[Datenstrukturen Textdaten]
+
+## Formen zur Speicherung von Textdaten
+
+* **strings**: Speichern von Text als Zeichenvektor; typischerweise werden Textdaten in dieser Form in R eingelesen.
+
+* **Corpus**: Objektyp enthält meist rohe strings, die mit **zusätzlichen Metadaten** und Details ergänzt sind.
+
+* **Dokument-Begriffs-Matrix**: 
+    * Sammlung (Korpus) von Dokumenten mit
+      * einer Zeile für jedes Dokument
+      * einer Spalte für jeden Begriff
+    * Wert in der Matrix ist in der Regel die Wortanzahl oder tf-idf
+
+* **tidy text**: angelehnt an tidy-Datenformat: ein Token pro Zeile
+
+
+
+???
+
+* **tf-idf** soll messen, **wie wichtig ein Wort** für ein Dokument in einer Sammlung (oder einem Korpus) von Dokumenten ist, zum Beispiel für einen Roman in einer Sammlung von Romanen oder für eine Website in einer Sammlung von Websites.
+  * tf: term frequency
+  * idf: inverse term frequency
+
+
+---
+class: left
+
+.blockquote[Datenstrukturen Textdaten]
+
+## Beispiel Airbnb Zürich
+
+.panelset[
+.panel[.panel-name[Daten importieren]
+```{r}
+#| cache: true
+# Loading data from data folder -----
+my_in_file <- "airbnbZH_20240408.rds"
+tbl_airbnbZH <- readr::read_rds(xfun::from_root('data','raw',my_in_file))
+head(tbl_airbnbZH)
+```
+]
+.panel[.panel-name[Strukturierte Daten]
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::filter(priceUSD<=100) %>% 
+  dplyr::summarise(mean_rating=mean(rating, na.rm = TRUE))
+```
+]
+.panel[.panel-name[Unstrukturierte Daten]
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::filter(priceUSD<=100) %>% 
+  dplyr::summarise(mean_rating=mean(comments))
+```
+]
+]
+
+
+
+---
+class: left
+
+.blockquote[Datenstrukturen Textdaten]
+
+## Spalten und Vektortypen am Beispiel Airbnb ZH
+
+.panelset[
+.panel[.panel-name[Überblick]
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::glimpse()
+```
+]
+.panel[.panel-name[numeric]
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::select(listing_id,priceUSD) %>% 
+  head()
+```
+]
+.panel[.panel-name[character]
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::select(comments) %>% 
+  head()
+```
+
+]
+]
+
+
+???
+
+
+
+* numeric
+  * integer (bspw. listing_id)
+  * double (bspw. priceUSD)
+* character (bspw. comment)
+
+
+---
+class: left
+
+.blockquote[Datenstrukturen Textdaten]
+
+## Zusammenfassende Statistiken am Beispiel Airbnb ZH
+
+.panelset[
+.panel[.panel-name[Variante 1]
+
+Kombination von `summarize()`- und `n()`-Funktion
+
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::group_by(property_type) %>% 
+  dplyr::summarize(n_zeilen=dplyr::n()) %>% 
+  dplyr::slice(1:4)
+```
+]
+.panel[.panel-name[Variante 2]
+
+`count()`-Funktion
+
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::count(property_type) %>% 
+  head() 
+```
+]
+.panel[.panel-name[Sortierung]
+
+`arrange()`-Funktion
+
+```{r}
+tbl_airbnbZH %>% 
+  dplyr::count(property_type) %>% 
+  dplyr::arrange(desc(n)) %>% 
+  dplyr::slice(1:4)
+```
+]
+]
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Tokenisierung und Textmetriken
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+.blockquote[Worthäufigkeiten]
+
+.blockquote[Datenvisualisierung]
+
+
+
+
+---
+class: left
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+## tidy-Format und tidyverse
+
+.panelset[
+.panel[.panel-name[tidyformat]
+
+* tidy-Daten
+
+```{r}
+#| label: img-tidy-format
+#| echo: false
+#| fig-align: 'center'
+#| out-width: '70%'
+knitr::include_graphics(xfun::from_root('img','PVA1','tidy-data_(Wickham).png'))
+```
+
+
+* Vorteil einheitlicher Struktur von Daten: überschaubare Zahl an (zu erlernenden) Werkzeugen und Verfahren. 
+
+.quellePanURL[Bildquelle: [Wickham et al. (2023)](wickham_r_2023).]
+`r NoCite(bib,"wickham_r_2023")`
+]
+.panel[.panel-name[tidyverse]
+* `r fa('r-project')` als Sprache, tidy als Dialekt
+* tidyverse als "Metapaket"
+
+```{r}
+#| warning: false
+#| out-height: '50%'
+library(tidyverse)
+```
+]
+.panel[.panel-name[Kernelemente]
+
+* tidy-Daten
+  * jede Variable eine Spalte darstellt,
+  * jeder Fall eine Zeile und
+  * jeder Wert einer Beobachtung entspricht.
+* Verben (dplyr-Bibliothek)
+  * Spaltenbezogene Operationen (bspw. `select()`, `mutate()`)
+  * Zeilenbezogene Operationen (bspw. `filter()`, `arrange()`,`slice()`)
+  * Operationen für Gruppen von Zeilen (bspw. `group_by()`, `summarize()`)
+* Pipe (`%>%`)
+
+`r fa('circle-right')` Ausführlicher im Skript [Datenprojekte in R](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA1/04_DatenprojekteR.html#1)
+]
+]
+
+???
+
+* tidy-Daten:
+  * jede Variable eine Spalte darstellt,
+  * jeder Fall eine Zeile und
+  * jeder Wert einer Beobachtung entspricht.
+
+* tidyverse-Bibliotheken...
+  * ...decken grundsätzlich alle notwendigen Schritte eines Datenprojekts ab
+  * ...und sind Verwendung mit tidy Daten konzipiert/optimiert.
+
+
+vgl. ausführlicher [Intro Datenprojekte in R](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA1/04_DatenprojekteR.html#1)
+
+
+
+---
+class: left
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+## Das tidytext-Paket
+
+```{r}
+#| echo: false
+knitr::include_url('https://www.tidytextmining.com/',height="410px")
+```
+
+`r Citet(bib, "silge_text_2017")`
+
+
+
+
+
+---
+class: left
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+## Tokenisierung
+
+.panelset[
+.panel[.panel-name[tidytext-Format]
+.blockquote[
+"We [..] define the tidy text format as being a table with **one-token-per-row**."
+.tr[
+`r Citet(bib,"silge_text_2017")`
+]
+]
+.blockquote[
+"A **token** is a **meaningful unit of text**, most often a word, that we are interested in using for further analysis, and tokenization is the process of splitting text into tokens."
+.tr[
+`r Citet(bib,"silge_text_2017")`
+]
+]
+]
+.panel[.panel-name[tidytext-Funktion]
+* `unnest_tokens()`-Funktion als komfortable Möglichkeit zur Tokenisierung in der tidytext-Bibliothek
+* Argumente: 
+  * input
+  * output
+  * **token**
+  * format ("text", "man", "latex", "html", "xml")
+  * to_lower
+  * ...
+* Option **token**:
+  * "characters"
+  * "regex"
+  * "words"
+  * "sentences"
+  * "lines"
+  * "paragraphs"
+  * ...
+]
+]
+
+
+
+???
+
+* A **token** is a meaningful unit of text, most often a word, that we are interested in using for further analysis, and tokenization is the process of splitting text into tokens
+
+---
+class: left
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+## Beispiel Tokenisierung
+
+.panelset[
+.panel[.panel-name[Sätze]
+```{r}
+library(tidytext)
+tidy_satz <- tbl_airbnbZH %>%
+                unnest_tokens(input = "comments",output = "satz",
+                              token="sentences")
+tidy_satz %>%  
+  select(listing_id,id,reviewer_name,satz) %>% 
+  slice(1:4)
+```
+]
+.panel[.panel-name[Wörter]
+```{r}
+#| message: false
+#| cache: true
+tidy_wort <- tbl_airbnbZH %>%
+                  mutate(id = row_number()) %>%
+                  unnest_tokens(input = "comments",output = "wort",
+                                token = "words")
+tidy_wort %>% 
+  select(listing_id,id,reviewer_name,wort) %>% 
+  slice(1:5)
+```
+]
+.panel[.panel-name[Bereinigung]
+
+* Eliminierung von Füllwörtern unter Rückgriff auf Datenbanken der **stopwords**-Bibliothek
+
+* Unterstützte Sprachen: "en", "es", "de", "fr"
+
+* Datenkombination mit `anti_join()`-Funktion (vgl. [cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf))
+
+```{r}
+#| cache: true
+tidy_wort <- tidy_wort %>%
+                    anti_join(get_stopwords(language = "en",
+                                            source = "snowball"
+                                            ),
+                              join_by(wort == word)
+                              )
+```
+]
+.panel[.panel-name[tidy Wörter]
+```{r}
+tidy_wort %>% 
+  select(listing_id,id,reviewer_name,wort) %>% 
+  slice(1:7)
+```
+]
+]
+
+
+???
+
+* Datenbank `stop_words` in tidytext-Bibliothek enthalten
+* Kombination der beiden Datensätze `tidy_wort` und `stop_words` mit der `anti_join()`-Funktion elminiert alle Füllwörter.
+* Obs! `tbl_airbnbZH` enthalt auch andere Sprachen als Englisch!
+* stopwords-Bibliothek unterstützt zwar mehrere Sprachen, aber die Bereinigung muss einzeln für jede Sprache durchgeführt werden.
+
+---
+class: left
+
+.blockquote[tidytext-Format und Tokenisierung]
+
+## Erste (primitive) quantitative Auswertung
+
+.panelset[
+.panel[.panel-name[Balkendiagramm]
+```{r}
+#| echo: false
+tidy_wort %>% 
+   count(wort, sort = TRUE) %>%
+   slice(1:20) %>%
+    mutate(wort = reorder(wort, n)) %>%
+    ggplot(aes(x=wort, y=n)) +
+        geom_col() +
+        coord_flip()
+        labs(y = NULL)
+```
+]
+.panel[.panel-name[Code zum Plot]
+```{r}
+p <- tidy_wort %>% 
+         count(wort, sort = TRUE) %>%
+         slice(1:20) %>%
+         mutate(wort = reorder(wort, n)) %>%
+         ggplot(aes(x=wort, y=n)) +
+              geom_col() +
+              coord_flip()
+              labs(y = NULL)
+```
+]
+]
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Wort- und Textmetriken
+
+.blockquote[Häufigkeiten]
+
+.blockquote[Zusammenhänge]
+
+
+
+---
+class: left
+
+.blockquote[Häufigkeiten]
+
+## Customizing "stop words"
+
+.panelset[
+.panel[.panel-name[Ergänzung Liste]
+```{r}
+custom_stop_words <- tribble(
+                    ~word, ~lexicon,
+                    "zurich", "CUSTOM",
+                    "br", "CUSTOM",
+                    "und", "CUSTOM",
+                    "sehr", "CUSTOM",
+                    )
+stop_words2 <- get_stopwords(language = "en",
+                             source = "snowball") %>%
+                  bind_rows(custom_stop_words)
+```
+]
+.panel[.panel-name[Bereinigung Teil2]
+```{r}
+tidy_wort2 <- tidy_wort %>%
+                anti_join(stop_words2, join_by(wort==word))
+tidy_wort2 %>%
+  count(wort, sort = TRUE) %>%
+   slice(1:20) %>%
+    mutate(wort = reorder(wort, n)) %>%
+    ggplot(aes(x=wort, y=n)) +
+        geom_col() +
+        coord_flip()
+        labs(y = NULL)
+```
+]
+]
+
+
+
+???
+
+* die: deutsches Füllwort oder englisch: sterben?
+
+
+
+
+
+---
+class: left
+
+.blockquote[Häufigkeiten]
+
+## Wortlänge
+
+
+---
+class: left
+
+.blockquote[Häufigkeitsanalysen]
+
+## Satzlänge
+
+
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Balkendiagramme
+
+```{r}
+#Farben definieren
+ffhs_red <- "#d50006"
+ffhs_pur <- "#502479"
+my_cols <- c(ffhs_red,ffhs_pur)
+
+```
+
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Wordcloud
+
+
+---
+class: inverse, center, middle
+
+## Sentimentanalysen
+
+.blockquote[Sentiment-Lexika]
+
+.blockquote[Beispiel]
+
+.blockquote[Datenvisualisierung]
+
+
+
+
+---
+class: left
+
+.blockquote[Sentimentanalysen mit tidytext]
+
+## Workflow
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| out-width: '100%'
+knitr::include_graphics(xfun::from_root('img','PVA1','sentiment_tidytext_(Silge_Robinson_2017).png'))
+```
+
+.quelle[Quelle: `r Citet(bib, "silge_text_2017")`]
+
+
+
+---
+class: left
+
+.blockquote[Sentiment-Lexika]
+
+## Beispiele einfach verfügbarer Sentiment-Lexika
+
+.panelset[
+.panel[.panel-name[bing]
+```{r}
+get_sentiments("bing")
+```
+]
+.panel[.panel-name[afinn]
+```{r}
+get_sentiments("afinn")
+```
+]
+.panel[.panel-name[loughran]
+```{r}
+get_sentiments("loughran")
+```
+]
+.panel[.panel-name[nrc]
+```{r}
+get_sentiments("nrc")
+```
+]
+]
+
+
+---
+class: left
+
+.blockquote[Sentiment Lexika]
+
+## Beispiel Loughran Dictionary
+
+.panelset[
+.panel[.panel-name[Dataviz]
+```{r}
+#|echo: false
+get_sentiments("loughran") %>%
+     count(sentiment) %>%
+     mutate(sentiment2 = fct_reorder(sentiment, n)) %>% 
+     ggplot(aes(x = sentiment2, y = n)) +
+        geom_col() +
+        coord_flip() +
+        labs(
+             title = "Sentiment Häufigkeiten (Loughran)",
+             x = "Häufigkeit",
+             y = "Sentiment"
+             )
+```
+]
+`.panel[.panel.name[Code]
+```{r}
+sent_counts <- get_sentiments("loughran") %>%
+                    count(sentiment) %>%
+                    mutate(sentiment2 = fct_reorder(sentiment, n)) %>% 
+                    ggplot(aes(x = sentiment2, y = n)) +
+                      geom_col() +
+                      coord_flip() +
+                      labs(
+                           title = "Sentiment Häufigkeiten (Loughran)",
+                           x = "Häufigkeit",
+                           y = "Sentiment"
+                           )
+```
+]
+]
+
+---
+class: left
+
+.blockquote[Beispiel Airbnb ZH]
+
+## Zuordnung: Sentiment der Kommentar-Wörter
+
+* Datenkombination mit der `inner_join()`-Funktion (vgl. [cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)).
+
+```{r}
+
+tbl_sentZH <- tidy_wort %>%
+                inner_join(get_sentiments("bing"), 
+                           join_by(wort == word), 
+                           relationship = "many-to-many") %>%
+                 mutate(line = row_number()) %>%
+  count(property_type, index = line %/% 80, sentiment) %>% 
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>% 
+  mutate(sentiment = positive - negative)
+```
+
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Beispiel: Airbnb Zürich
+
+Sentimentanalyse nach Art der Unterkunft
+
+```{r}
+#Häufigkeiten unterschiedlicher Arten von Unterkünften
+tbl_props <- tbl_sentZH %>% 
+                count(property_type) %>% 
+                arrange(desc(n)) 
+tbl_props
+# Auswahl Top4 für die Grafik
+prop_list <- tbl_props %>%
+                  slice(1:4) %>% 
+                  pull(property_type)
+                  
+tbl_plot <- tbl_sentZH %>% 
+                filter(property_type%in%prop_list)
+# Erzeugung ggplot (speichern im Objekt p)
+p <- tbl_plot %>% 
+ggplot(aes(index, sentiment, fill = property_type)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(vars(property_type), ncol = 2, scales = "free_x")
+```
+
+---
+class: left
+
+.blockquote[Datenvisualisierung]
+
+## Balkendiagramm Sentimentanalyse Airbnb ZH
+
+```{r}
+#| echo: false
+p
+```
+
+
+---
+class: inverse, center, middle
+
+## Topic Modeling
+
+.blockquote[Grundlegende NLP-Begriffe]
+
+.blockquote[LDA]
+
+
+
+
+
+---
+class: left
+
+.blockquote[Grundlegende NLP-Begriffe]
+
+## Unsupervised Learning
+
+
+* Latente Dirichlet-Zuordnung (LDA): Standard-Themenmodell (Topic Model)
+--
+* Korpus: Sammlung von Dokumenten
+--
+* Bag-of-Words: jedes Wort in einem Dokument wird separat/isoliert behandelt
+--
+* Themenmodelle finden **Muster zusammen vorkommenender Wörter**
+--
+* Unsupervised Learning: Suche nach Mustern anstelle von Vorhersagen wird als  bezeichnet.
+
+
+---
+class: left
+
+.blockquote[Grundlegende NLP-Begriffe]
+
+## Themen (Topics) als gruppierte Listen
+
+* Themen-/Kategorienbildung nach Wahrscheinlichkeiten, mit denen ein Wort in einem Thema vorkommt
+
+* Fuzzy-Logik vs. binäre Logik
+  * Fuzzy: ein Wort gehört mit einer bestimmten Wahrscheinlichkeit zu einem Thema
+  * binäre Logik: ein Wort gehört entweder zu einem Thema, oder nicht
+  
+* Thema als Liste aller Wörter im Korpus. Jedem Wort ist eine Wahrscheinlichkeit zugewiesen
+
+* Wörter, die häufig gemeinsam vorkommen, gehören mit größerer Wahrscheinlichkeit zu einem Thema
+
+
+---
+class: left
+
+.blockquote[Grundlegende NLP-Begriffe]
+
+## Topic Modeling vs. Clusteranalyse
+
+.pull-left[
+**Clusteranalyse**
+
+- Exploratives Verfahren für quantitative Daten
+- jede Einheit gehört zu einem Cluster oder nicht (binäre Logik)
+
+- verschieden Algorithmen (bspw. k-means)
+- Anzahl Cluster nicht vorab festgelegt
+
+]
+--
+.pull-right[
+**Topic Modeling**
+- Exploratives Verfahren für (qualitative) Textdaten
+- jedes Dokument (bspw. Kundenkommentar, Buch...) kann zu mehreren Themen gehören (partielles Mitglied, fuzzy-Logik) 
+
+- verschieden Algorithmen (bspw. Gibbs)
+- Anzahl Themen nicht vorab festgelegt
+
+]
+
+
+---
+class: left
+
+.blockquote[LDA]
+
+
+
+
+---
+name: EndHanks
+class: center
+
+background-size: 75%
+background-image: url(https://media.giphy.com/media/KJ1f5iTl4Oo7u/giphy.gif)
+
+
+
+
+
+
+
+---
+class: left
+
+## Quellenverzeichnis
+
+.ref-slide[
+```{r, results='asis', echo=FALSE, warning=FALSE}
+PrintBibliography(bib)
+```
+]

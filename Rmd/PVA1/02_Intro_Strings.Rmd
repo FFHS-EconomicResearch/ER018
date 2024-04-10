@@ -1,0 +1,669 @@
+---
+title: "Analyzing Business Relations & Documents"
+subtitle: "Text as Data"
+author: "Prof. Dr. Jörg Schoder"
+institute: "FFHS" 
+date: "`r Sys.Date()`"
+bibliography: ../../lit/my_bib.bib
+reference-section-title: Quellenverzeichnis
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: 
+         - default
+         - ../../css/ffhs-theme_js.css
+         - xaringan-themer.css
+    includes:
+      after_body: ../../css/insert-logo.html
+    lib_dir: ../../libs
+    nature:
+      slideNumberFormat: "%current%/%total%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+    
+
+    
+---
+class: title-slide
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#d50006",inverse_text_color = "#FFFFFF",inverse_background_color = "#d50006", title_slide_background_color = "#d50006",header_background_color = "#d50006",header_color = "#FFFFFF",header_h1_font_size = "32px",
+  header_h2_font_size = "26px",link_color="#502479",
+  header_h3_font_size = "20px",text_slide_number_color = "#d50006",text_slide_number_font_size = "0.5em")
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#d50006", location = "bottom")
+xaringanExtra::use_xaringan_extra(c("tile_view","scribble","panelset","tachyons"))
+xaringanExtra::style_panelset_tabs(font_family = "inherit")
+#xaringanExtra::use_search(show_icon = TRUE)
+#weitere: "share_again","animate_css", "webcam","freezeframe","clipboard","fit_screen","extra-styles" 
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_freezeframe(trigger = "hover")
+``` 
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(latex2exp)
+library(fontawesome)
+library(emo)
+source(xfun::from_root("lit","helper.R"))
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+file.name <- system.file("Bib", 
+                         "my_bib.bib", 
+                         package = "RefManageR")
+bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+```
+
+# ER018 - Analyzing Business Relations & Documents
+
+## PVA1
+
+### Arbeiten mit Zeichenketten (strings)
+
+ 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+### FS 2024
+<br>
+### Prof. Dr. Jörg Schoder
+.mycontacts[
+`r fa('github')` @FFHS-EconomicResearch
+`r fa('linkedin')` @jfschoder
+]
+
+
+---
+layout: true
+
+<div class="my-footer"></div>       
+
+<div style="position: absolute;left:400px;bottom:10px;font-size:9px">`r fa('creative-commons')``r rmarkdown::metadata$author`</div>
+
+
+---
+name: agenda
+class: left
+
+.blockquote[Agenda]
+
+## Arbeiten mit Zeichenketten (strings)
+
+* (Sehr kurze) Einführung in R-Objekte
+
+* Zeichenketten in Base-R und das stringr-Paket
+
+* Regelhafte Ausdrücke (regular expressions)
+
+* Fortgeschrittene reguläre Ausdrücke
+ 
+
+---
+class: left
+
+.blockquote[Intro R-Objekte]
+
+## R als objektorientierte Sprache
+
+* Objekte lassen sich in Klassen einteilen
+  * tibbles, data.frames
+  * Vektoren
+  * Funktionen
+
+--
+* Objekte sind vektorbasiert
+
+--
+* Variablentypen
+
+--
+  * logisch (`logical`)
+
+--
+  * numerisch
+      * `integer`
+      * `double`
+--
+  * kategorial
+      * `character` (Zeichenketten, engl. strings)
+      * `factor`
+
+
+`r fa('circle-right')` vgl. ausführlicher `r Citet(bib,"wickham_r_2023")`, Kapitel 12ff.
+
+???
+
+* logical: binäre Logik (true vs. false)
+* numerisch: integer (ganze Zahlen), double (Doppelgleitkommazahlen)
+* kategoriale Daten
+  * strings (Zeichenketten)
+  * factors für überschaubar viele Ausprägungen, die nich alphanumerisch geordnet werden sollen
+
+
+
+---
+class: inverse, center, middle
+
+## Zeichenketten in Base-R und das stringr-Paket
+
+
+.blockquote[strings erzeugen]
+
+.blockquote[strings verknüpfen]
+
+.blockquote[strings zerlegen]
+
+
+
+
+---
+class: left
+
+
+## Escape-Sequenz
+
+
+* Doppelte Anführungszeichen: `\"`
+
+* Neue Zeile: `\n` 
+
+* Unicode-Symbole ([Unicode-Chart](https://www.unicode.org/charts/)):
+  * 8 Hexcode-Symbole: `\U`
+  * 8 Hexcode-Symbole: `\u`
+
+ 
+
+
+???
+
+Escape sequences
+You might have been surprised at the output from the last part of the last exercise. How did you get two lines from one string, and how did you get that little globe? The key is the \.
+
+A sequence in a string that starts with a \ is called an escape sequence and allows us to include special characters in our strings. You saw one escape sequence in the first exercise: \" is used to denote a double quote.
+
+In "hello\n\U1F30D" there are two escape sequences: \n gives a newline, and \U followed by up to 8 hex digits sequence denotes a particular Unicode character.
+
+Unicode is a standard for representing characters that might not be on your keyboard. Each available character has a Unicode code point: a number that uniquely identifies it. These code points are generally written in hex notation, that is, using base 16 and the digits 0-9 and A-F. You can find the code point for a particular character by looking up a code chart. If you only need four digits for the codepoint, an alternative escape sequence is \u.
+
+When R comes across a `\` it assumes you are starting an escape, so if you actually need a backslash in your string you'll need the sequence `\\`.
+
+
+---
+class: left
+
+## Zahlenformate
+
+* Fix vs. Wissenschaftlich
+  * 5770
+  * 5.77e+3
+
+* `as.character()`
+
+* `format()`
+
+
+
+
+---
+class: inverse, center, middle
+
+
+## Regelhafte Ausdrücke
+
+.blockquote[Regelhafte Ausdrücke mit dem rebus-Paket]
+
+.blockquote[Abwechselnde Zeichenfolgen (Alternations)]
+
+.blockquote[Zeichenklassen (Character classes)]
+
+.blockquote[Wiederholungen]
+
+.blockquote[Abkürzungen]
+
+
+---
+class: left
+
+.blockquote[Regelhafte Ausdrücke mit dem rebus-Paket]
+
+## Regelhafte Ausdrücke 
+
+???
+
+* regular expressions (regexp)
+
+
+
+
+---
+class: left
+
+.blockquote[Regelhafte Ausdrücke mit dem rebus-Paket]
+
+## Regelhafte Ausdrücke
+
+* Übersicht
+
+| Muster               | Regelmäßiger Ausdruck |   rebus    |
+|----------------------|:---------------------:|:----------:|
+| Beginn eines strings |          `^`          |  `START`   |
+| Ende eines strings   |          `$`          |   `END`    |
+| Einzelne Symbole     |          `.`          | `ANY_CHAR` |
+| "Belegte" Symbole (`.`,`^`,`$`)|    `\.`,`\^`,`\$` | `DOT`,`CARAT`, `DOLLAR`|
+
+
+* Besondere Muster regelhafte Ausdrücke
+  * Alternative Zeichenfolgen (Alternations)
+  * Zeichenklassen (character classes)
+  * Wiederholungen
+
+
+
+---
+class: left
+
+.blockquote[Alternative Zeichenfolgen]
+
+## Unterschiedliche Kombinationen von Zeichenfolgen
+
+`(winter|sommer)`
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+library(stringr)
+library(rebus)
+or("Winter","Sommer")
+```
+```{r}
+#| echo: true
+str_view(c("Sommer-Hitze","Traum-Winter","Traumwinter"),
+  pattern = or("[Ww]inter","[Ss]ommer"),
+  match=TRUE,html=TRUE)
+```
+???
+
+* Obs! Die erste Ausgabe unterscheidet sich leicht von der Eingabe: rebus ergänzt um `?:`, um anzuzeigen, dass es sich um eine "nicht-einfangende Gruppe" von Zeichen (non-capturing group) handelt. Dazu später mehr
+
+
+---
+class: left
+
+.blockquote[Zeichenklassen (character classes)]
+
+## Identifikation von (definierten) Symbolen
+
+.pull-left[
+```{r}
+char_class("Aa")
+```
+
+
+```{r}
+str_view(c("Frankfurt","Freiheit","Effekt","Schifffahrt"),
+          pattern = char_class("Ff"),html=TRUE
+)
+```
+]
+--
+.pull-right[
+```{r}
+negated_char_class("Ff")
+```
+
+```{r}
+str_view(c("Frankfurt","Freiheit","Effekt","Schifffahrt"),
+          pattern = negated_char_class("Ff"),html=TRUE
+)
+```
+
+]
+
+???
+
+* `char_class()` hilft alle Symbole zu finden
+* Mit `negated_char_class()` können alle Symbole "außer" die angebebenen identifiziert werden.
+  * dies wird in rebus durch das Carat `^`-Symbol innerhalb der eckigen Klammer angezeigt
+  
+
+
+<!-- --- -->
+<!-- class: left -->
+
+<!-- ## Besonderheiten bei Verwendung von Zeichenklassen -->
+
+<!-- .pull-left[ -->
+
+<!-- * Minuszeichen -->
+
+<!-- ```{r} -->
+<!-- str_view(c("allgemein","Aaron","Sommer-Hitze"), -->
+<!--          pattern = char_class("Aa-"),html=TRUE -->
+<!--          ) -->
+<!-- ``` -->
+<!-- ] -->
+
+<!-- .pull-right[ -->
+
+<!-- <br> -->
+
+<!-- ```{r} -->
+<!-- str_view(c("allgemein","Aaron","Sommer-Hitze"), -->
+<!--          pattern = char_class("-Aa"),html=TRUE -->
+<!--          ) -->
+<!-- ``` -->
+<!-- ] -->
+
+<!-- ??? -->
+
+
+<!-- * **Wichtig:** innerhalb von `char_class()` müssen spezielle Symbole wie bspw. `^` oder `$` **nicht** "maskiert" werden. Ein Punkt `.` kann also direkt eingefügt werden. -->
+<!--   * Ausnahme: Das Minuszeichen. Wenn es in der `char_class()`-Funktion verwendet werden soll, dann sollte es **an erster Stelle** kommen, also bspw. `char_class("-Aa")` -->
+
+
+---
+class: left
+
+.blockquote[Wiederholungen]
+
+## Zeichenketten mit mehreren gleichartigen Symbolen/Mustern
+
+* Übersicht
+
+| Muster               | Regelmäßiger Ausdruck |   rebus    |
+|----------------------|:---------------------:|:----------:|
+| Optional             |          `?`          |  `optional()` |
+| Null oder mehr       |          `*`          |   `zero_or_more()` |
+| Eins oder mehr     |          `+`          | `one_or_more()` |
+| Zwischen m- und n-mal |    `{m,n}` | `repeated()`|
+
+* Beispiel
+
+```{r}
+str_view(c("Frankfurt","Freiheit","Effekt","Schifffahrt"),
+         pattern = repeated("Ff",2,3),html=TRUE
+         )
+
+```
+
+
+
+---
+class: left
+
+.blockquote[Abkürzungen]
+
+## Abgekürzte Eingabe regelhafter Ausdrücke
+
+.pull-left[
+
+* $-Symbol und Ziffer(n):
+
+```{r}
+DOLLAR %R% char_class("0123456789")
+```
+]
+--
+.pull-right[
+* Eine Ziffer:
+
+```{r}
+char_class("0-9")
+```
+
+]
+--
+
+
+.pull-left[
+* Kleinbuchstaben
+
+```{r}
+char_class("a-z")
+```
+
+]
+--
+.pull-right[
+
+* Großbuchstaben
+
+```{r}
+char_class("A-Z")
+```
+
+
+]
+
+
+---
+class: left
+
+.blockquote[Abkürzungen]
+
+## Abgekürzte Eingabe regelhafter Ausdrücke
+
+.pull-left[
+
+* Ziffern
+
+```{r}
+DGT
+```
+
+]
+--
+
+.pull-right[
+<br>
+```{r}
+char_class("0-9")
+```
+]
+--
+.pull-left[
+
+* Buchstaben
+
+```{r}
+WRD
+```
+]
+--
+.pull-right[
+<br>
+```{r}
+char_class("a-zA-Z0-0_")
+```
+]
+--
+.pull-left[
+* Leerzeichen (Whitespace)
+
+```{r}
+SPC
+```
+
+]
+
+
+---
+class: inverse, center, middle
+
+## Fortgeschrittene regelhafte Ausdrücke
+
+.blockquote[Erfassung (Capturing)]
+
+.blockquote[Rückbezüge (Backreferences)]
+
+.blockquote[Mustererkennung mit Unicode]
+
+---
+class: left
+
+.blockquote[Erfassung (Capturing)]
+
+##  Gruppierung von Teilmustern
+
+* Dient der *Gruppierung von Teilen* von Mustern
+* Erfasste Teile (von Mustern) können in darauffolgenden Schritten referenziert werden.
+
+
+.pull-left[
+```{r}
+ANY_CHAR %R% "a"
+```
+]
+--
+.pull-right[
+```{r}
+str_extract(c("Fakten","Katzen"),
+            pattern=ANY_CHAR %R% "a")
+```
+]
+--
+
+
+
+.pull-left[
+
+* Erfasste Teile (*captured groups*) werden in regulären Ausdrücken durch `()` angezeigt/eingegeben: 
+```{r}
+capture(ANY_CHAR) %R% "a"
+```
+]
+--
+.pull-right[
+* Capturing führt vordergründig (!) zum selben Ergebnis:
+```{r}
+str_extract(c("Fakten","Katzen"),
+            capture(ANY_CHAR) %R% "a")
+```
+]
+
+???
+
+* Capturing ändert nicht das Muster, das abgeglichen wird, entsprechend führt es auch zum selben Ergebnis
+* Aber: capturing zeigt an, dass wir (in darauffolgenden Schritten) etwas mit dem erfassten Muster machen wollen
+
+
+---
+class: left
+
+.blockquote[Erfassung (Capturing)]
+
+##  Verwendung erfasster Teilmuster
+
+* Verwendung in `str_match()` liefert eine Matrix, wobei die...
+  * ...erste Spalte  dem Ergebnis von `str_extract()` entspricht.
+  * ...zweite Spalte  nur den erfassten Teil des Musters enthält.
+
+* Beispiel
+
+```{r}
+str_match(c("Fakten","Katze"), pattern=capture(ANY_CHAR) %R% "a")
+```
+
+???
+
+* Verwendung in `str_match()` liefert eine Matrix
+  * erste Spalte entspricht dem Ergebnis von `str_extract()` **mit dem exakten Match**
+  * die zweite Spalte enthält dagegen nur den erfassten Teil des Musters in der captured group
+
+
+---
+class: left
+
+.blockquote[Erfassung (Capturing)]
+
+##  Anwendungsbeispiel mit erfassten Gruppen
+
+* Beispiel: Dollar-Beträge unter 100$
+
+```{r}
+muster <- DOLLAR %R% DGT %R% optional(DGT) %R% DOT %R% dgt(2)
+str_view(c("$7.70","$27.00"),pattern = muster)
+```
+
+* Nutzung erfasster Teilmuster zur getrennten Extraktion von Dollar- und Cent-Beträgen:
+
+```{r}
+cap_muster <- DOLLAR %R% capture(DGT %R% optional(DGT)) %R% DOT %R% capture(dgt(2))
+str_match(c("$7.70","$27.00"), pattern = cap_muster)
+```
+
+
+
+???
+
+* Obs! capture-Funktion wird zweimal verwendet:
+  * einmal um die Vorkommastelle(n) und 
+  * einmal um die Nachkommastellen
+
+
+
+---
+class: left
+
+.blockquote[Rückbezüge (Backreferences)]
+
+## Verweis auf erfasste Teile von Mustern
+
+```{r}
+REF1
+```
+
+```{r}
+REF2
+```
+
+
+
+---
+class: left
+
+.blockquote[Mustererkennung mit Unicode]
+
+## Unicode
+
+
+
+
+---
+class: inverse,center,middle
+
+# Wir brauchen eine Pause.
+
+---
+
+background-image: url("http://bit.ly/cs631-donkey")
+background-size: 80%
+
+
+
+
+
+---
+class: left
+
+## Quellenverzeichnis
+
+.ref-slide[
+```{r, results='asis', echo=FALSE, warning=FALSE}
+PrintBibliography(bib)
+```
+]
