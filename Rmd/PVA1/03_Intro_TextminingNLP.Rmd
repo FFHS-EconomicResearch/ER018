@@ -591,39 +591,75 @@ tbl_plot %>%
 
 
 
-
 ---
 class: left
 
 .blockquote[Datenvisualisierung]
 
-## Wordcloud
-
+## Wordcloud mit ggworldcloud
 
 .panelset[
 .panel[.panel-name[Plot]
 ```{r}
-#| echo: false
-#| message: false
+#| include: false
 #| warning: false
+#| message: false
+#| out-width: '80%'
 #| fig-align: 'center'
-#| out-width: '70%'
-library(wordcloud)
-tidy_wort2 %>% 
-  count(wort) %>%
-  with(wordcloud(wort, n, max.words = 100))
+#| fig-margin: true
+#install.packages("ggwordcloud") ggf. Paket installieren
+par(mar = c(0, 0, 0, 0))
+library(ggwordcloud)
+library(glue)
+set.seed(7)
+n_words <- 50
+tbl_plot <- tidy_wort2 %>% 
+              count(wort) %>% 
+              arrange(desc(n)) %>%
+              top_n(n_words) %>%
+              mutate(angle = 90*sample(c(0, 1), n(), replace = TRUE, prob = c(63, 35))) 
+
+p<- tbl_plot %>%   
+      ggplot(aes(label = wort, size = n,color=n,angle=angle)) + 
+            #  geom_text_wordcloud(rm_outside = TRUE) +
+             geom_text_wordcloud_area(rm_outside = TRUE, 
+                                      shape = "diamond",grid_margin = 0) +
+             scale_size_area(max_size = 15)+ theme_minimal() 
+p
+fig_name <- glue("wordcloud_airbnbZH.svg")
+ggsave(xfun::from_root("figs","PVA1",fig_name),
+       width = 18,  height = 10,  units = "cm")
+```
+
+```{r}
+#| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('figs','PVA1','wordcloud_airbnbZH.svg'))
 ```
 ]
 .panel[.panel-name[Code]
 ```{r}
 #| eval: false
-library(wordcloud)
+#| warning: false
+#install.packages("ggwordcloud") ggf. Paket installieren
+library(ggwordcloud)
+set.seed(7)
+n_words <- 50
 tidy_wort2 %>% 
-  count(wort) %>%
-  with(wordcloud(wort, n, max.words = 100))
+  count(wort) %>% 
+  arrange(desc(n)) %>%
+  top_n(n_words) %>%
+  mutate(angle = 90*sample(c(0, 1), n(), replace = TRUE, prob = c(63, 35))) %>%
+  ggplot(aes(label = wort, size = n,color=n,angle=angle)) + 
+#  geom_text_wordcloud(rm_outside = TRUE) +
+  geom_text_wordcloud_area(rm_outside = TRUE, 
+                           shape = "diamond",grid_margin = 0) +
+  scale_size_area(max_size = 15) + theme_minimal()
 ```
 ]
 ]
+
 
 ---
 class: left
