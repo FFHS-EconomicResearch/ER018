@@ -280,9 +280,13 @@ class: left
   * Daten (Vektoren, Matrizen, etc.)
   * Funktionen
   * Diagramme (bspw. ggplot)
+
+--
 * Objekte können unterschiedlichen Objekt-Klassen zugeordnet werden
   * bspw. `character`, `numeric`, `factor`, `tibble`, etc. 
   * Zu welcher Klasse ein Objekt gehört kann mit dem Befehl `class()` abgefragt werden.
+
+--
 * Objekte haben eine Länge 
   * bspw. Zahl der Elemente in einem Vektor
   * Die Objektlänge kann mit dem Befehl length() abgefragt werden.
@@ -301,14 +305,22 @@ class: left
 
 * Kursmaterialien ER018
 
+--
+
 * **swirl**-Paket als interaktives `r fa('r-project')`-Tutorial.
 
   * `install.packages(’Paketname’,dep=TRUE)`
   * `library(Paketname)`
 
+--
+
 * [RStudio Education](https://education.rstudio.com/learn/beginner/)
 
+--
+
 * Diverse Tutorials bei [datacamp.com](https://www.datacamp.com/tutorial/category/r-programming)
+
+--
 
 * Wickham et al. (2023): [R for Data Science (2. Aufl.)](https://r4ds.hadley.nz/)
 
@@ -614,13 +626,22 @@ class: left
     * Abbildungen
     * ...
 
+--
+
+* Vorlage im FFHS-Moodle-Kurs: `r fa('link')` [R-Projektvorlage.zip](https://moodle.ffhs.ch/pluginfile.php/5003190/mod_folder/content/0/R-Projektvorlage.zip?forcedownload=1) 
+
+--
+
 * Dokumentation mit README.md auf jeder Ordnerebene
+
+--
 
 * Ein Projekt ist erst angelegt, wenn die .Rproj-Datei im Wurzelverzeichnis erzeugt wurde.
 
+--
+
 * "Navigation" mittels `xfun::from_root()`
 
-* Vorlage im FFHS-Moodle-Kurs: `r fa('link')` [R-Projektvorlage.zip](https://moodle.ffhs.ch/pluginfile.php/5003190/mod_folder/content/0/R-Projektvorlage.zip?forcedownload=1) 
 
 ???
 
