@@ -21,3 +21,7 @@ length(my_text) # 4 Textseiten
 text[1] # Text auf Seite 1
 text[2] # Text auf Seite 2
 
+text_processed <- str_c(my_text, collapse = "\\n")
+
+# Note that currently this model can only handle 36K Tokens
+text_processed %>% str_sub(1, 20000)

@@ -157,7 +157,7 @@ class: left
 ---
 class: inverse, center, middle
 
-## Zeichenketten in Base-R und das stringr-Paket
+## Zeichenketten in Base-R
 
 
 .blockquote[strings erzeugen]
@@ -259,22 +259,28 @@ class: left
 ## Zahlenformate
 
 .pull-left[
-
+* `format()`: fix vs. wissenschaftlich
 ```{r}
 x <- pi
 x
 ```
-* `format()`: fix vs. wissenschaftlich
+]
+--
+.pull-right[
+<br>
 
 ```{r}
 format(x, scientific = TRUE)
 ```
+]
+--
+.pull-left[
 * `as.character()`
 
 ```{r}
 as.character(x)
 ```
-
+]
 
 
 ???
@@ -290,7 +296,8 @@ class: left
 ## `paste()`-Funktion
 
 ```{r}
-paste("H","O","P","P")
+hopp <- paste("H","O","P","P")
+hopp
 ```
 
 ```{r}
@@ -305,72 +312,578 @@ class: left
 
 .blockquote[strings verknüpfen]
 
-## Old MacDonald
+## Beispiel: Old MacDonald...
 
+.panelset[
+.panel[.panel-name[Funktion definieren]
 ```{r}
 old_mac <- function(animal, animal_goes){
-eieio <- paste("E", "I", "E", "I", "O", sep = "-")
-old_mac <- "Old MacDonald had a farm"
-writeLines(c(
-old_mac,
-eieio,
-paste("And on his farm he had a", animal),
-eieio,
-paste(c("Here", "There", "Everywhere"), "a",
-c(animal_goes, animal_goes,
-paste(rep(animal_goes, 2), collapse = "-")),
-collapse = ", "),
-old_mac,
-eieio))
-}
-
+              eieio <- paste("E", "I", "E", "I", "O", sep = "-")
+              old_mac <- "Old MacDonald had a farm"
+              writeLines(c(
+              old_mac,
+              eieio,
+              paste("And on his farm he had a", animal),
+              eieio,
+              paste(c("Here", "There", "Everywhere"), "a",
+              c(animal_goes, animal_goes,
+              paste(rep(animal_goes, 2), collapse = "-")),
+              collapse = ", "),
+              old_mac,
+              eieio))
+              }
 ```
-
----
-class: left
-
-.blockquote[strings verknüpfen]
-
-## Old MacDonald
-
+.quellePanURL[Quelle: [C. Wickham, datacamp](https://app.datacamp.com/learn/courses/string-manipulation-with-stringr-in-r).]
+]
+.panel[.panel-name[Beispiel 1]
 ```{r}
 old_mac("cow","moo")
 
 ```
-
+]
+.panel[.panel-name[Beispiel 2]
 ```{r}
 old_mac("dog","wolf")
 
 ```
+]
+]
+
+
 ---
 class: left
 
 .blockquote[strings zerlegen]
 
-## stringr-Paket
+## `strsplit()`-Funktion
 
-* Leistungsstark, aber leicht zu erlernen
+
+.panelset[
+.panel[.panel-name[Beispiele]
+```{r}
+strsplit(hopp,split = " ")
+```
+`r fa('exclamation-circle')` Output ist eine Liste.
+```{r}
+test_dates<-c("24-03-2024","25-03-2024","26-03-2024","27-03-2024")
+date_split <- strsplit(test_dates, split = "-")
+class(date_split)
+```
+
+]
+.panel[.panel-name[Listen]
+
+* Anzahl Listen und Anzahl Elemente im ersten Teilobjekt
+
+```{r}
+length(date_split)
+length(date_split[[1]])
+
+```
+
+* Inhalt des ersten Teilobjekts der Liste
+
+```{r}
+date_split[1]
+```
+]
+]
+
+???
+
+* arbeiten mit Listen ist eher kompliziert, daher empfiehlt es sich...
+
+* ...Zerlegungen nicht mit der Base-R-Funktion strsplit() zu machen
+
+* sondern auf tidyverse-Pakete zurückzugreifen
+  * allgemein: stringr-Paket
+  * speziell für Datumsangeben: lubridate
+  
+* bevor wir das stringr-Paket ausführlicher anschauen, ein kurzer Exkurs ins
+lubridate-Paket
+
+
+---
+class: inverse, center, middle
+
+## strings verarbeiten im tidyverse
+
+.blockquote[Exkurs: lubridate für Datumsangaben]
+
+.blockquote[stringr-Paket]
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+
+---
+class: left
+
+.blockquote[Exkurs: lubridate für Datumsangaben]
+
+## Verarbeitung von Datumsangaben im tidyverse
+
+* **lubridate**-Bibliothek ist Teil des **tidyverse**-Metapakets
+
+* Datumsobjekt erzeugen:
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+dates <- dmy(test_dates) # transformieren in Date-Objekt
+```
+
+--
+* Zerlegung in Tag, Monat, Jahr
+
+.pull-left[
+```{r}
+#| output-details: false
+day(dates)
+year(dates)
+```
+]
+--
+.pull-right[
+```{r}
+#| output-details: false
+month(dates)
+month(dates,label = TRUE)
+```
+
+]
+
+???
+
+* **lubridate**-Paket  mit speziellen Funktionen für Datumsangaben
+
+
+
+
+---
+class: left 
+
+.blockquote[stringr-Paket]
+
+## Verarbeitung von Zeichenketten (strings) im **tidyverse**
+
+.panelset[
+.panel[.panel-name[Kurzüberblick]
 
 * Aufbauend auf stringi
 
-* Prägnant und konsistent
+* Wird mit dem **tidyverse**-Metapaket automatisch geladen
 
-* Alle Funktionen beginnen mit `str_`
+* Als Teil des **tidyverse** leistungsstark und leicht zu erlernen
 
-* Alle Funktionen nehmen einen Vektor von Strings als erstes Argument
+* Prägnant und konsistent: Alle Funktionen...
+
+  * beginnen mit `str_`
+
+  * nutzen als erstes Argument (Input) einen Vektor von Strings 
+
+* Ergebnisse werden in `tibble`-Objekten gespeichert und können direkt in **Pipes** weiterverarbeitet werden.
+]
+.panel[.panel-name[Vignette]
+```{r}
+#| echo: false
+knitr::include_url('https://stringr.tidyverse.org/',height = "400px")
+```
+]
+]
+
 
 
 ---
 class: left
 
-.blockquote[strings zerlegen]
+.blockquote[Beispiel: Vornamenhitparade CH]
 
-## stringr-Vignette
+## Datenbasis 
 
+
+.panelset[
+.panel[.panel-name[Datenquelle]
 ```{r}
 #| echo: false
-knitr::include_url('https://stringr.tidyverse.org/',height = "410px")
+#| out-width: '70%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA1','BFS_20240408.png'))
 ```
+
+.quellePanURL[`r fa('link')` [Download Rohdaten](https://www.bfs.admin.ch/bfs/de/home/statistiken/bevoelkerung/geburten-todesfaelle/vornamen-neugeborene.assetdetail.26565506.html).]
+
+]
+.panel[.panel-name[Datenimport]
+
+* Aufbereitete Daten importieren
+
+```{r}
+my_in_file <- "BabynamesCH_(BFS_2024).rds"
+tbl_babynames <- read_rds(xfun::from_root('data','tidy',my_in_file))
+```
+
+* Anzahl Beobachtungen
+
+```{r}
+tbl_babynames %>% 
+            count()
+```
+
+]
+.panel[.panel-name[Daten]
+* Einblick in die Tabelle (long-Format)
+
+```{r}
+head(tbl_babynames,7)
+```
+
+]
+]
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Länge der Vornamen mit `str_length()`
+
+```{r}
+#| message: false
+tbl_babynames %>% 
+      group_by(year,gender) %>% 
+      summarize(min=min(str_length(Vorname)),
+                max=max(str_length(Vorname)),
+                schnitt=mean(str_length(Vorname))) %>% head()
+```
+
+???
+
+
+str_length() gibt die Länge einer Zeichenfolge zurück, das heißt, die Anzahl der Zeichen in der Zeichenfolge.
+Beispiel: str_length("banana") würde 6 zurückgeben, da "banana" sechs Zeichen lang ist.
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Anzahl Zeichen in Vornamen mit `str_count()`
+
+.panelset[
+.panel[.panel-name[Einfach]
+```{r}
+tbl_babynames %>% 
+      mutate(n_zeichen = str_count(Vorname)) %>% 
+      head(5)
+```
+]
+.panel[.panel-name[Muster]
+```{r}
+tbl_babynames %>% 
+      mutate(n_zeichen = str_count(Vorname, "m")) %>% 
+      head(5)
+```
+]
+]
+
+`r fa('exclamation-circle')` `r fa('r-project')` ist "case-sensitive" (`r fa('circle-right')` Mia)
+
+???
+
+* Zahl der Zeichen im Vornamen kann auch mit `str_count()` ermittelt werden
+
+* darüber hinaus bietet `str_count()` die Möglichkeit zum zählen der Anzahl der Vorkommen eines bestimmten **Musters** in einer Zeichenfolge.
+Sie geben das Muster an, nach dem gesucht werden soll, und die Funktion gibt die Anzahl der Vorkommen dieses Musters in jeder Zeichenfolge zurück.
+Wenn das Muster nicht gefunden wird, gibt str_count() 0 zurück.
+Beispiel: str_count("banana", "a") würde 3 zurückgeben, da das Muster "a" drei Mal in "banana" vorkommt.
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Teile von Vornamen extrahieren mit `str_sub()`
+
+
+.panelset[
+.panel[.panel-name[Erste 3 Buchstaben]
+```{r}
+tbl_babynames %>% 
+  mutate(erste3 = str_sub(Vorname, 1, 3)) %>% 
+  head()
+```
+]
+.panel[.panel-name[Letzte 3 Buchstaben]
+```{r}
+tbl_babynames %>% 
+  mutate(letzte3 = str_sub(Vorname, -3, -1)) %>% 
+  head()
+```
+]
+]
+
+
+???
+
+str_sub():
+
+str_sub() wird verwendet, um Teilzeichenfolgen aus einer Zeichenfolge zu extrahieren.
+Sie müssen Start- und Endindizes angeben, um den Teil der Zeichenfolge zu definieren, den Sie extrahieren möchten.
+Das Ergebnis ist eine Teilzeichenfolge mit der Länge, die durch die angegebenen Start- und Endindizes definiert ist.
+str_subset():
+
+str_subset() wird verwendet, um eine Teilmenge von Zeichenfolgen zu extrahieren, die ein bestimmtes Muster erfüllen.
+Sie müssen das Muster angeben, nach dem Sie suchen möchten.
+Das Ergebnis ist eine Teilmenge der ursprünglichen Zeichenfolgen, die das angegebene Muster erfüllen.
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Teile von Vornamen extrahieren mit `str_subset()`
+
+```{r}
+tbl_babynames %>%
+  reframe(muster = str_subset(Vorname, pattern = "anna"))
+```
+
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Teile von Vornamen extrahieren mit `str_extract()`
+
+
+.panelset[
+.panel[.panel-name[str_extract]
+
+* `str_extract()` prüft die Zeichenfolgen auf das Muster...
+
+* ...und gibt für Fälle, in denen das Muster nicht vorkommt "NA" aus
+
+```{r}
+tbl_babynames %>%
+  reframe(muster = str_extract(Vorname, pattern = "anna")) %>% 
+  head(3)
+```
+
+]
+.panel[.panel-name[Auszählen]
+```{r}
+tbl_babynames %>%
+  reframe(muster = str_extract(Vorname, pattern = "anna")) %>% 
+  summarize(fehlende = sum(is.na(muster)),
+            nicht_fehlende = sum(!is.na(muster)))
+```
+
+]
+.panel[.panel-name[Unterschied]
+
+* `str_subset()` gibt gesamte Zeichenkette aus, `str_extract()` nur das Muster
+
+```{r}
+tbl_babynames %>%
+  reframe(muster = str_extract(Vorname, pattern = "anna")) %>% 
+  filter(!is.na(muster)) %>% 
+  head(4)
+```
+]
+]
+
+
+
+???
+
+* Während `str_subset()` die gesamte Zeichenfolge ausgibt, die das Muster enthält...
+
+* ...gibt `str_extract()` nur die gesuchte Zeichenkette aus
+
+
+str_extract() ist ähnlich wie str_subset() in dem Sinne, dass es verwendet wird, um Zeichenfolgen zu extrahieren, die ein bestimmtes Muster erfüllen. Allerdings gibt es einen wesentlichen Unterschied:
+
+str_subset(): Gibt die gesamte Teilzeichenfolge zurück, die das Muster erfüllt.
+str_extract(): Gibt den ersten Teil der Zeichenfolge zurück, der das Muster erfüllt.
+
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Muster in Vornamen finden mit `str_detect()`
+
+
+.panelset[
+.panel[.panel-name[einfach]
+* Vornamen, die "tz" enthalten
+
+```{r}
+tbl_babynames  %>% 
+      filter(str_detect(Vorname, pattern = "tz")) 
+```
+
+]
+.panel[.panel-name[kombiniert]
+
+* Mädchennamen, die "sa" enthalten und mit "L" beginnen
+
+```{r}
+tbl_babynames %>%
+  filter(str_detect(Vorname, pattern = "sa")) %>%
+  mutate(muster = str_detect(Vorname, pattern = "L")) %>% 
+  head(5)
+
+```
+
+]
+]
+
+
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Zeichenketten aufteilen `str_split()`
+
+.panelset[
+.panel[.panel-name[Voller Name]
+```{r}
+tbl_tmp <- tbl_babynames %>%
+                mutate(Name = paste("Odermatt,", Vorname)) %>% 
+                select(Name,gender,year,rank,count)
+head(tbl_tmp)
+```
+
+]
+.panel[.panel-name[Aufsplitten]
+```{r}
+tbl_tmp %>%
+    mutate(Nachname = str_split(Name, pattern = ", ", n = 2) %>% map_chr(1),
+         Vorname = str_split(Name, pattern = ", ", n = 2) %>% map_chr(2)) %>% 
+    head()
+```
+]
+]
+
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Zeichenketten modifizieren `str_replace()`
+
+* (Sehr schmutzige) Alternative zu `str_split()`
+
+* "Überschreiben" der Zeichenkette "Odermatt, " mit leerer Zeichenfolge ("") 
+
+```{r}
+tbl_tmp %>%
+    mutate(Vorname = str_replace(Name, pattern = "Odermatt,", "") %>% str_trim()) %>% 
+  head()
+```
+???
+
+`str_trim()` muss verwendet werden, um führende und abschließende Leerzeichen zu entfernen, bevor die Daten ausgegeben werden können.
+
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Typische Anwendungen für `str_replace()`
+
+
+```{r}
+test_dates
+```
+
+```{r}
+test_dates %>% 
+      str_replace(pattern="-",".")
+```
+```{r}
+test_dates %>% 
+      str_replace_all(pattern="-",".")
+```
+
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Ausblick: Quantitative Textanalyse
+
+
+.panelset[
+.panel[.panel-name[Plot]
+```{r}
+#| echo: false
+#| out-width: '55%'
+#| fig-align: 'center'
+anfangsbuchstabe <- tbl_babynames %>%
+                        mutate(first_letter = substr(Vorname, 1, 1)) %>%
+                        group_by(year,gender, first_letter) %>%
+                        count()
+anfangsbuchstabe %>%
+  mutate(gender = factor(gender, levels = c("boys", "girls"))) %>%
+  group_by(gender,year) %>%
+  arrange(desc(n)) %>%
+  slice_max(n=10,order_by = n) %>%
+  ggplot(aes(x=first_letter,y=n,fill=fct_reorder(gender,n))) +
+     geom_col(position = 'dodge') +
+     facet_wrap(~fct_rev(year),scales = "free_x") +
+     scale_fill_discrete(labels = c("girls" = "Mädchen", "boys" = "Knaben")) +
+     labs(x='Anfangsbuchstabe',y='absolute Häufigkeit') + theme_light() +
+     theme(legend.position = "bottom", legend.title = element_blank())  
+```
+]
+.panel[.panel-name[Code]
+```{r}
+#| eval: false
+anfangsbuchstabe <- tbl_babynames %>%
+                        mutate(first_letter = substr(Vorname, 1, 1)) %>%
+                        group_by(year,gender, first_letter) %>%
+                        count()
+
+anfangsbuchstabe %>%
+  mutate(gender = factor(gender, levels = c("boys", "girls"))) %>%
+  group_by(gender,year) %>%
+  arrange(desc(n)) %>%
+  slice_max(n=10,order_by = n) %>%
+  ggplot(aes(x=first_letter,y=n,fill=fct_reorder(gender,n))) +
+     geom_col(position = 'dodge') +
+     facet_wrap(~fct_rev(year),scales = "free_x") +
+     scale_fill_discrete(labels = c("girls" = "Mädchen", "boys" = "Knaben")) +
+     labs(x='Anfangsbuchstabe',y='absolute Häufigkeit') + theme_light() +
+     theme(legend.position = "bottom", legend.title = element_blank())  
+```
+]
+
+]
+
+
 
 
 ---
