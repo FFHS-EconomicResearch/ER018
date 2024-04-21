@@ -6,6 +6,21 @@ ZH_listings <- fread('https://data.insideairbnb.com/switzerland/z%C3%BCrich/zuri
 
 
 # Cleaning Data -----
+
+## Nutzen von Unicode für Stern: ----
+tbl_listings <- ZH_listings %>%
+  mutate(rating = str_extract(name, "\u2605\\s*(\\d+\\.\\d+)")) %>%
+  mutate(rating = gsub("\u2605", "", rating),
+         priceUSD=parse_number(price)) %>%
+  mutate(rating = trimws(rating)) %>%
+  mutate(rating=as.numeric(rating)) %>%
+  rename(listing_id=id) %>%
+  select(listing_id,host_id,property_type,room_type,priceUSD,accommodates,rating) %>%
+  as_tibble()
+head(tbl_listings)
+
+## Nutzen von Stern-Symbol (direkt): ------
+
 tbl_listings <- ZH_listings %>%
                     mutate(rating = str_extract(name, "★\\s*(\\d+\\.\\d+)")) %>%
                     mutate(rating = gsub("★", "", rating),
@@ -16,6 +31,11 @@ tbl_listings <- ZH_listings %>%
                     select(listing_id,host_id,property_type,room_type,priceUSD,accommodates,rating) %>%
                     as_tibble()
 head(tbl_listings)
+
+
+
+
+
 
 ## more cleaning
 

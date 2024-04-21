@@ -22,7 +22,6 @@ output:
       highlightLines: true
       countIncrementalSlides: false
     seal: false
-    
 
     
 ---
@@ -164,7 +163,7 @@ class: inverse, center, middle
 
 .blockquote[strings verknüpfen]
 
-.blockquote[strings zerlegen]
+.blockquote[strings zerlegen (parsing)]
 
 
 ---
@@ -174,17 +173,24 @@ class: left
 
 ## Eingabe mit Anführungzeichen
 
+
+.pull-left[
 * Einfache Anführungszeichen
 
 ```{r}
 "hoi!"
 ```
-
+]
+--
+.pull-right[
 * Doppelte Anführungszeichen
 
 ```{r}
 'hoi!'
 ```
+]
+
+--
 
 * Problem: verschachtelte Anführungszeichen
 
@@ -305,8 +311,99 @@ paste("H","O","P","P", sep = "-")
 ```
 
 ```{r}
-paste(c("Hey","Ach","Mach"), "Du")
+library(glue)
+name <- c("Fred","Fritz","Franz")
+paste("Mein Freund heißt", name,".")
 ```
+
+
+---
+class: left
+
+.blockquote[strings verknüpfen]
+
+## `paste0()`-Funktion
+
+* Im Unterschied zur `paste()`-Funktion werden Zeichen ohne Leerzeichen verknüpft:
+
+```{r}
+paste0("H","O","P","P")
+
+```
+
+* Weiterer Unterschied:
+
+```{r}
+paste0("H","O","P","P", sep = "-")
+```
+
+---
+class: left
+
+.blockquote[strings verknüpfen]
+
+## Exkurs: **glue**-Paket
+
+.panelset[
+.panel[.panel-name[glue()-Funktion]
+
+* `glue()`-Funktion grundsätzlich ähnlich wie die `paste()` und `paste0()`-Funktionen, aber schlankere Syntax:
+
+```{r}
+library(glue)
+name <- c("Fred","Fritz","Franz")
+glue("Mein Freund heißt {name}.")
+```
+
+`r fa('circle-right')` Einbinden von Objekten mit geschweifter Klammer
+
+`r fa('circle-right')` Bessere Lesbarkeit, v.a. bei Verknüpfung vieler Objekte
+
+
+]
+.panel[.panel-name[glue_data()-Funktion]
+
+* Beispiel `mtcars`-Daten:
+```{r}
+#| echo: false
+library(magrittr)
+cars <- mtcars %>% 
+          tibble::rownames_to_column(var="Modell") 
+head(cars, 3)
+```
+
+```{r}
+cars %>% 
+  dplyr::slice_sample(n=3) %>% 
+  glue_data("Das Modell {Modell} hat {cyl} Zylinder und {hp} PS.")
+```
+]
+.panel[.panel-name[glue_collapse()_Funktion]
+
+* Möglichkeit zur Differenzierung der Separatoren mit der Option `last`
+
+```{r}
+clubs <- c("FCB", "BVB","B04","RB","VFB")
+glue_collapse({clubs[1:3]}, sep = ", ", last = ", und ")
+```
+
+]
+]
+
+
+
+???
+
+Erstes Beispiel: 
+* anders als paste, 
+  * wird die geschweifte Klammer für das Einbinden von Objekten genutzt
+    * erhöht die Lesbarkeit (Übersichtlicher als Zahlreiche Anführungszeichen und Kommas)
+  * außerdem: paste erzeugt eine Zeile, glue eine Zeile pro Vektorelement
+
+* gute Quelle: [A. Rohan](https://rohanalexander.github.io/doss_toolkit_book/paste-paste0-glue-and-stringr.html)
+
+
+
 ---
 class: left
 
@@ -350,10 +447,14 @@ old_mac("dog","wolf")
 ]
 
 
+
+
+
+
 ---
 class: left
 
-.blockquote[strings zerlegen]
+.blockquote[strings zerlegen (parsing)]
 
 ## `strsplit()`-Funktion
 
@@ -403,10 +504,45 @@ date_split[1]
 lubridate-Paket
 
 
+
+
+---
+class: left
+
+.blockquote[strings zerlegen (parsing)]
+
+## Exkurs: `parse()`-Funktion
+
+* Ausdrücke aus *string*-Variablen zur möglichen Auswertung extrahieren:
+
+```{r}
+x <- "7*7" # Ausdruck als string
+class(x)
+```
+--
+.pull-left[
+
+* Parsen des R-Ausdrucks
+
+```{r}
+y <- parse(text=x)
+y
+```
+]
+--
+.pull-right[
+* Auswerten des R-Ausdrucks
+
+```{r}
+eval(y)
+```
+]
+
 ---
 class: inverse, center, middle
 
 ## strings verarbeiten im tidyverse
+
 
 .blockquote[Exkurs: lubridate für Datumsangaben]
 
@@ -543,6 +679,31 @@ head(tbl_babynames,7)
 
 
 
+---
+class: left
+
+.blockquote[Beispiel: Vornamenhitparade CH]
+
+## Zeichenketten verknüpfen mit `str_glue()`
+
+* Das **stringr**-Paket enthält wrapper-Funktionen der Funktionen im **glue**-Paket:
+
+```{r}
+tbl_babynames <- tbl_babynames %>%
+                    mutate(Name = str_glue("Odermatt, {Vorname}")) 
+
+tbl_babynames %>% 
+         select(Name,gender,year,rank,count) %>%
+         head()
+```
+
+
+???
+
+
+* Als Alternative zur paste-Funktion
+
+* hier: `mutate(Name = paste("Odermatt,", Vorname))`
 
 
 
@@ -764,25 +925,13 @@ class: left
 
 ## Zeichenketten aufteilen `str_split()`
 
-.panelset[
-.panel[.panel-name[Voller Name]
-```{r}
-tbl_tmp <- tbl_babynames %>%
-                mutate(Name = paste("Odermatt,", Vorname)) %>% 
-                select(Name,gender,year,rank,count)
-head(tbl_tmp)
-```
 
-]
-.panel[.panel-name[Aufsplitten]
 ```{r}
-tbl_tmp %>%
+tbl_babynames %>%
     mutate(Nachname = str_split(Name, pattern = ", ", n = 2) %>% map_chr(1),
          Vorname = str_split(Name, pattern = ", ", n = 2) %>% map_chr(2)) %>% 
     head()
 ```
-]
-]
 
 
 
@@ -798,7 +947,7 @@ class: left
 * "Überschreiben" der Zeichenkette "Odermatt, " mit leerer Zeichenfolge ("") 
 
 ```{r}
-tbl_tmp %>%
+tbl_babynames %>%
     mutate(Vorname = str_replace(Name, pattern = "Odermatt,", "") %>% str_trim()) %>% 
   head()
 ```
@@ -940,6 +1089,9 @@ class: left
   * Wiederholungen
 
 
+???
+
+Quelle zu regex [Ozan Jaquette](https://anyone-can-cook.github.io/rclass2/lectures/strings_and_regex/strings_and_regex.html)
 
 ---
 class: left
@@ -974,11 +1126,13 @@ class: left
 
 .blockquote[Zeichenklassen (character classes)]
 
-## Identifikation von (definierten) Symbolen
+## Identifikation von Zeichen mit `char_class()` und `negated_char_class()`
 
 .pull-left[
+
+
 ```{r}
-char_class("Aa")
+char_class("Ff")
 ```
 
 
@@ -990,9 +1144,12 @@ str_view(c("Frankfurt","Freiheit","Effekt","Schifffahrt"),
 ]
 --
 .pull-right[
+
+
 ```{r}
 negated_char_class("Ff")
 ```
+
 
 ```{r}
 str_view(c("Frankfurt","Freiheit","Effekt","Schifffahrt"),
@@ -1051,7 +1208,6 @@ class: left
 
 ## Zeichenketten mit mehreren gleichartigen Symbolen/Mustern
 
-* Übersicht
 
 | Muster               | Regelmäßiger Ausdruck |   rebus    |
 |----------------------|:---------------------:|:----------:|
@@ -1300,6 +1456,8 @@ REF1
 REF2
 ```
 
+???
+
 
 
 ---
@@ -1307,7 +1465,79 @@ class: left
 
 .blockquote[Mustererkennung mit Unicode]
 
-## Unicode
+## Unicode als Text Encoding Standard
+
+```{r}
+#| echo: false
+knitr::include_url('https://www.unicode.org/charts/',height = '470px')
+```
+
+
+---
+class: left
+
+.blockquote[Mustererkennung mit Unicode]
+
+## Unicode in `r fa('r-project')`
+
+
+```{r}
+"\U1F643"
+```
+--
+```{r}
+"\U1F9E9"
+```
+
+--
+```{r}
+"\u2605"
+```
+
+--
+```{r}
+normal <- "Normal(\u03BC=0, \u03C3=1)"
+normal
+```
+
+
+???
+
+* Stern zu finden in [Unicode-Chart](https://www.unicode.org/charts/PDF/U2600.pdf)
+
+
+
+---
+class: left
+
+.blockquote[Mustererkennung mit Unicode]
+
+## Unicode auffinden
+
+.pull-left[
+* Einzelne Zeichen
+
+```{r}
+str_view(normal, pattern = "\u03BC",html=TRUE)
+```
+]
+--
+.pull-right[
+
+* Mehrere Zeichen einer "Gruppe"
+
+```{r}
+str_view(normal, rebus::greek_and_coptic(),html=TRUE)
+```
+]
+
+
+
+
+
+
+
+
 
 
 
