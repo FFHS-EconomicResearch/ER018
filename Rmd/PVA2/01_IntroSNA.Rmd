@@ -181,6 +181,21 @@ class B grey;
 widgetframe::frameWidget(l)
 ```
 
+---
+class: left
+
+## ungerichtet
+
+```{r}
+library(igraph)
+df <- read.table(sep=" ", header=TRUE, text="
+Col1 Col2
+Ego Alter")
+require(igraph)
+plot(graph.edgelist(as.matrix(df)))
+```
+
+
 
 ---
 class: left
