@@ -1,0 +1,450 @@
+---
+title: "Analyzing Business Relations & Documents"
+subtitle: "Spatial Statistics"
+author: "Prof. Dr. Jörg Schoder"
+institute: "FFHS" 
+date: "`r Sys.Date()`"
+bibliography: ../../lit/my_bib.bib
+reference-section-title: Quellenverzeichnis
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: 
+         - default
+         - ../../css/ffhs-theme_js.css
+         - xaringan-themer.css
+    includes:
+      after_body: ../../css/insert-logo.html
+    lib_dir: ../../libs
+    nature:
+      slideNumberFormat: "%current%/%total%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+    
+
+    
+---
+class: title-slide
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#d50006",inverse_text_color = "#FFFFFF",inverse_background_color = "#d50006", title_slide_background_color = "#d50006",header_background_color = "#d50006",header_color = "#FFFFFF",header_h1_font_size = "32px",
+  header_h2_font_size = "26px",link_color="#502479",
+  header_h3_font_size = "20px",text_slide_number_color = "#d50006",text_slide_number_font_size = "0.5em")
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#d50006", location = "bottom")
+xaringanExtra::use_xaringan_extra(c("tile_view","scribble","panelset","tachyons"))
+xaringanExtra::style_panelset_tabs(font_family = "inherit")
+#xaringanExtra::use_search(show_icon = TRUE)
+#weitere: "share_again","animate_css", "webcam","freezeframe","clipboard","fit_screen","extra-styles" 
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_freezeframe(trigger = "hover")
+``` 
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(latex2exp)
+library(fontawesome)
+library(emo)
+source(xfun::from_root("lit","helper.R"))
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+file.name <- system.file("Bib", 
+                         "my_bib.bib", 
+                         package = "RefManageR")
+bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+```
+
+# ER018 - Analyzing Business Relations & Documents
+
+## PVA3
+
+### Soziale Netzwerkanalyse
+
+ 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+### FS 2024
+<br>
+### Prof. Dr. Jörg Schoder
+.mycontacts[
+`r fa('github')` @FFHS-EconomicResearch
+`r fa('linkedin')` @jfschoder
+]
+
+
+---
+layout: true
+
+<div class="my-footer"></div>       
+
+<div style="position: absolute;left:400px;bottom:10px;font-size:9px">`r fa('creative-commons')``r rmarkdown::metadata$author`</div>
+
+
+---
+name: agenda
+class: left
+
+.blockquote[Agenda]
+
+## Einführung in die Netzwerkanalayse
+
+* Motivation und Einordnung
+
+* Vermessung von Netzwerken
+ 
+
+
+
+
+---
+class: left
+
+
+## Netzwerk als Konzept
+
+
+* Elemente:
+
+--
+
+  * Akteure (**engl. actors**) mit gewissen Eigenschaften
+
+--
+
+  * Beziehungen (**engl. relations**) mit bestimmten Eigenschaften
+  
+      * direkte Verbindungen
+      * indirekte Verbindungen
+
+--
+
+`r fa("exclamation-circle")` Indirekte Verbindungen als Stärke des Netzwerk-Konzepts: Erlaubt Verknüpfung eigentlich getrennter Teile eines Systems!
+
+--
+
+* **Soziale** Netzwerke: lebendige Akteure (statt lebloser Objekte).
+  * Individuen
+  * Kollektive
+
+
+
+???
+
+
+* Indirekte Verbindungen als Stärke des Netzwerk-Konzepts. Erlaubt die Verknüpfung eigentlich getrennter Teile eines Systems
+
+* Eigene Definition in Anlehnung an  `r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff): Ein Soziales Netzwerk ist durch eine Menge von Akteuren (**engl. actors**) gekennzeichnet, die ganz oder teilweise miteinander in Beziehung (**engl. relations** oder **ties**) stehen bzw. verbunden sind. Sowohl die Akteure als auch die Beziehungen sind dabei durch bestimmte Eigenschaften gekennzeichnet.
+
+
+---
+class: left
+
+
+## Akteuere und Beziehungen
+
+```{r}
+#| message: false
+library(tidyverse)
+#most popular babynames in CH 2022
+actors <- tibble(name=c("Emma","Mia","Sofia","Noah","Liam","Matteo"),
+                 sex=c("weiblich","weiblich","weiblich","männlich","männlich","männlich"))
+ties <- tibble(from=c("Noah","Noah","Noah","Noah","Noah"),
+                to=c("Emma","Mia","Sofia","Liam","Matteo"),
+                type=c("Partnerin","Kollegin","Kollegin","Freund","Freund"),
+               interaction=c(7,2,3,5,2))
+library(tidygraph)
+tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
+tg
+tg[[1]]
+tg[[4]]
+```
+
+
+---
+class: left
+
+## Darstellungsformen
+
+
+* Liste der Kanten (edge list)
+
+```{r}
+ties %>% select(from,to)
+```
+
+* Abhängigkeits-Matrix (adjancy matrix)
+
+``` {r}
+my_edgelist <- tg %>% 
+                activate(edges)  %>% 
+                select(from,to) %>% 
+                igraph::graph.data.frame()
+my_matrix <- igraph::get.adjacency(my_edgelist)
+class(my_matrix)
+my_matrix
+```
+
+* Netzwerkgraph
+
+```{r}
+library(ggraph)
+tg %>% ggraph(layout = "graphopt") + 
+            geom_node_point(size=10) +
+            geom_edge_link() +
+            theme_void()
+```
+
+
+
+---
+class: left
+
+```{r}
+tg %>% ggraph(layout = "graphopt") + 
+    geom_edge_link(aes(start_cap = label_rect(node1.name), 
+                       end_cap = label_rect(node2.name)), 
+                   arrow = arrow(type = "closed", 
+                                 length = unit(3, "mm"))) + 
+    geom_node_text(aes(color=sex,label = name))
+```
+
+
+
+---
+class:
+
+* `activate()`
+
+```{r}
+tg %>% 
+    activate(nodes) %>% 
+    mutate(degree = centrality_degree()) 
+
+tg %>%  activate(edges) %>% 
+    mutate(betweenness = centrality_edge_betweenness(), 
+         # .N() gets the nodes data from edge you're accessing
+         homo = (.N()$sex[from] == .N()$sex[to]))
+```
+
+
+---
+class: left
+
+```{r}
+gr1 <- create_notable('bull') %>% 
+        mutate(name = letters[1:5])
+gr1
+```
+
+```{r}
+gr1 %>% 
+    ggraph(layout = 'kk') + 
+    geom_edge_link() + 
+    geom_node_point(size = 8, colour = 'steelblue') +
+    geom_node_text(aes(label = name), colour = 'white', vjust = 0.4) +
+    theme_graph()
+
+```
+???
+
+[tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
+
+---
+class: left
+
+```{r}
+gr2 <- create_ring(5) %>% 
+    mutate(name = letters[4:8])
+
+# Plot
+gr1 %>% bind_graphs(gr2) %>% 
+    ggraph(layout = 'kk') + 
+    geom_edge_link() + 
+    geom_node_point(size = 8, colour = 'steelblue') +
+    geom_node_text(aes(label = name), colour = 'white', vjust = 0.4) + 
+    ggtitle('Binding graphs') + 
+    theme_graph()
+```
+???
+
+[tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
+
+
+---
+class: left
+
+## Durchmesser
+
+```{r}
+tg  %>%
+ mutate(Diameter = graph_diameter())
+```
+
+
+
+---
+class: left
+
+## Netzwerkanalyse
+
+* Ebenen der Analyse und :
+
+--
+
+  * Dyade (Ordnung $O(n^2)$)
+
+--
+
+  * Knoten (Ordnung $O(n^1)$)
+
+--
+
+  * Netzwerk (Ordnung $O(n^0)$)
+  
+  
+???
+
+At the dyad level of
+analysis, we study pairwise relations between actors and ask research questions like
+‘do pairs of actors with business ties tend to develop affective ties?’. The dyad level
+is the fundamental unit of network data collection, and is the unit with the greatest
+frequency.
+
+
+`r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff)
+
+
+
+
+
+---
+class: inverse, center, middle
+
+
+## Motivation und Einordnung
+
+---
+class: left
+
+.content-box-blue[
+test
+]
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Intro R-Objekte]
+
+## R als objektorientierte Sprache
+
+* Objekte lassen sich in Klassen einteilen
+  * tibbles, data.frames
+  * Vektoren
+  * Funktionen
+
+
+
+```{r}
+#| echo: false
+#| cache: true
+library(DiagrammeR)
+l=DiagrammeR::mermaid("
+graph LR;
+A((Orange)) --> B((Grey));
+
+classDef orange fill:#f96;
+classDef grey fill:#d3d3d3;
+class A orange;
+class B grey;
+")
+
+widgetframe::frameWidget(l)
+```
+
+---
+class: left
+
+## ungerichtet
+
+```{r}
+library(igraph)
+df <- read.table(sep=" ", header=TRUE, text="
+Col1 Col2
+Ego Alter")
+require(igraph)
+plot(graph.edgelist(as.matrix(df)))
+```
+
+
+
+---
+class: left
+
+.blockquot[]
+
+## Egonetzwerke
+
+```{r}
+library(DiagrammeR)
+l=DiagrammeR::mermaid("
+graph TB;
+A((Orange)) --> B((Grey));
+
+classDef orange fill:#f96;
+classDef grey fill:#d3d3d3;
+class A orange;
+class B grey;
+")
+
+widgetframe::frameWidget(l)
+```
+
+
+???
+
+* Fokus auf einer Entität bzw. einem Knoten ("Ego")
+
+---
+class: inverse,center,middle
+
+# Wir brauchen eine Pause.
+
+---
+
+background-image: url("http://bit.ly/cs631-donkey")
+background-size: 80%
+
+
+
+
+
+---
+class: left
+
+## Quellenverzeichnis
+
+.ref-slide[
+```{r, results='asis', echo=FALSE, warning=FALSE}
+PrintBibliography(bib)
+```
+]

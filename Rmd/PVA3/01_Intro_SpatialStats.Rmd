@@ -109,6 +109,23 @@ class: left
 
 
 
+
+
+
+
+[Beispiel](https://crd230.github.io/lab9.html)
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 class: left
 
@@ -123,21 +140,7 @@ class: left
 
 
 
-```{r}
-l=DiagrammeR::mermaid("
-graph LR;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
-```
-
-
+[sfnetworks](https://luukvdmeer.github.io/sfnetworks/) verbindet [sf](https://r-spatial.github.io/sf/) mit [tidygraph](https://tidygraph.data-imaginist.com/)
 
 
 ---

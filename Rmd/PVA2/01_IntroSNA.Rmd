@@ -66,7 +66,7 @@ bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
 
 ## PVA3
 
-### Räumliche Statistik
+### Soziale Netzwerkanalyse
 
  
 
@@ -109,16 +109,230 @@ class: left
 
 
 
+---
+class: left
+
+.blockquote[Einordnung und Motivation]
+
+## Das Jahrhundert der Komplexität (S. Hawking)
+
+```{r}
+#| echo: false
+#| out-width: '50%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","Taming_Complexity_(HBR_2020).png"))
+```
+
+--
+.blockquote["Managers may prefer simplicity over complexity, but the truth is that complexity is increasingly necessary for viability and competitiveness in today’s dynamic, unpredictable business environment."
+.tr[
+[`r Citet(bib, "reeves_taming_2020")`](https://hbr.org/2020/01/taming-complexity)
+]
+]
+
+
+???
+
+Aus dem Artikel:
+
+* Definition Complexity: "For our purposes, we’ll define it as a **large number of different elements** (such as specific technologies, raw materials, products, people, and organizational units) **that have many different connections to one another**. Both qualities can be a source of advantage or disadvantage, depending on how they’re managed."
+
+* Zitat: Managers may prefer simplicity over complexity, but the truth is that complexity is increasingly necessary for viability and competitiveness in today’s dynamic, unpredictable business environment. 
+  * **If your industry is prone to technological change and rapid obsolescence**, then the **package of resilience, adaptability, coordination, and inimitability** becomes **more attractive** than the **package of efficiency, understandability, manageability, and predictability**. 
+  * **Maintaining complexity within productive bounds**, however, is a **difficult task** involving **challenging trade-offs**. 
+  * Fortunately, we **can learn from** a handful of pioneering businesses - and from biological systems - how to harness complexity on a sustainable basis.
+
+
 
 ---
-class: inverse, center, middle
+class: left
+
+.blockquote[Einordnung und Motivation]
+
+## Komplexität und Netzwerke
+
+<br>
+<br>
+
+.blockquote[.huge[
+Indeed, behind each complex system there is an intricate network that encodes the interactions between the system’s components.]
+.tr[
+[`r Citet(bib, "barabasi_network_2016-1")`](http://networksciencebook.com/chapter/1#networks)
+]
+]
 
 
-## Motivation und Einordnung
+???
 
+* The network encoding the interactions between genes, proteins, and metabolites integrates these components into live cells. The very existence of this cellular network is a prerequisite of life.
+* The sum of all professional, friendship, and family ties, often called the social network, is the fabric of the society and determines the spread of knowledge, behavior and resources.
+* Communication networks, describing which communication devices interact with each other, through wired internet connections or wireless links, are at the heart of the modern communication system.
+* Trade networks maintain our ability to exchange goods and services, being responsible for the material prosperity that the world has enjoyed since WWII
+
+
+---
+class: left
+
+.blockquote[Motivation und Einordnung]
+
+## Netzwerk als interdisziplinäres Paradigma
+
+.blockquote[
+"[N]etwork science is an enabling platform, offering novel tools and perspectives for a wide range of scientific problems, from social networking to drug design."
+.tr[
+[`r Citet(bib, "barabasi_network_2016-1")`](http://networksciencebook.com/chapter/1#networks)
+]
+]
+
+--
+
+```{r}
+#| echo: false
+#| out-width: '70%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","Network_mindmap.png"))
+```
+
+.quelle[Eigene Darstellung.]
+
+
+
+
+???
+
+* Interaktionen:
+  * Handel mit Waren und Dienstleistungen, die meisten Märkte sind nicht zentralisiert
+  * Austausch von Informationen, Gefälligkeiten, Risiken
+  * Übertragung von Viren, Meinungen
+  * Zugang zu Informationen über Arbeitsplätze
+  * Verhaltensentscheidungen, Bildung
+  * politische Bündnisse, Handelsbündnisse
+  
+* Soziale Netzwerke beeinflussen das Verhalten
+  * Kriminalität, Beschäftigung, Humankapital, Wahlverhalten, Rauchen
+*    Netzwerke weisen Heterogenität auf, haben aber auch genügend zugrundeliegende Struktur zu modellieren
+  * Reines Interesse an sozialer/wirtschaftlicher Struktur
+  * Verständnis der Struktur sozialer/wirtschaftlicher Netzwerke
+
+
+
+---
+class: left
+
+.blockquote[]
+
+## Relationale Perspektive
+
+* Netzwerkanalyse mit antikategorialem Imperativ
+  * nicht Akteurseigenschaften, 
+  * sondern ihre Beziehungen sind relevant
+
+* Relationale Perspektive (`r Citet(bib, "wasserman_social_1994")`, S. 4):
+  * “Actors and their actions are viewed as interdependent rather than independent, autonomous units
+  * Relational ties between actors are channels for transfer or ‚flow‘ of resources
+  * Network models focusing on individuals view the network structural environment as providing opportunities for or constraints on individual action
+  * Network models conceptualize structure as lasting patterns of relations among actors” 
+
+
+---
+class: left
+
+.blockquote[]
+
+## Netzwerk als sozialwissenschaftliches Konzept
+
+
+.panelset[
+.panel[.panel-name[Coleman-Boot]
+
+]
+.panel[.panel-name[Mesosebene]
+* Netzwerke als Teil des Explanans (Makrophänomen I)
+Bsp. Einbettungskontext und Jobchancen (Granovetter)
+* Netzwerkstrukturen als Explanandum (Makrophänomen II)
+Bsp. Soziales Kapital einer Gesellschaft
+* Netzwerkstrukturen als Mesoebene in einer Makro-Mikro-Makro-Erklärung
+Bsp. Sozialversicherung
+
+`r fa('circle-right')`	Entscheidende theoretische Frage: sind Akteure in 	Netzwerken mehr als eine Verkörperung der Netzwerkstruktur?
+
+]
+]
+
+
+---
+class: left
+
+## Theorie und Empirie
+
+* Was soll mit der Netzwerkbetrachtung erreicht werden?
+
+  * Netzwerk als erklärende Variable? 
+
+  * Netzwerk als abhängige Variable?
+
+* Interdependenz!
+
+
+???
+
+* Was soll mit der Netzwerkbetrachtung erreicht werden?
+
+  * Netzwerk als erklärende Variable? (Bsp. Wie beeinflusst das Netzwerk individuelles Verhalten?)
+
+  * Netzwerk als abhängige Variable? (Bsp. Erklärung Beziehungsstruktur von Individuen, wie entstehen bestimmte Beziehungsmuster?)
+
+* Interdependenz! Bsp. Schüler und Rauchen
+
+
+---
+class: left
+
+
+
+
+---
+class: left
+
+.blockquote[]
+
+## Netzwerkanalyse
+
+.blockquote[
+"Die soziale Netzwerkanalyse untersucht Beziehungen zwischen Akteuren in einem Netzwerk. Sie ist ein interdisziplinär verwendeter Ansatz, der zur Untersuchung verschiedenster Netzwerke in unterschiedlichen Forschungsdisziplinen verwendet wird."
+.tr[
+`r Citet(bib, "baumol_soziale_2019")`
+]
+]
+
+
+
+---
+class: left
+
+## Geschichte der Netzwerkanalyse
+
+```{r}
+#| echo: false
+#| out-width: '65%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","Geschichte_Netzwerkanalyse_(Jansen_2003)_S38.png"))
+```
+
+
+.quelle[Bildquelle: `r Citet(bib, "jansen_einfuhrung_2003")`]
+
+
+???
+
+* Überblick über die Entwicklungslinien der Netzwerkanalyse in Anlehnung an 
+
+---
+class: left
 
 .blockquote[Statistische Einheiten und Beziehungen]
 
+## Netzwerkanalyse
 
 .blockquote[
 "Network analysis (NA) is a set of **integrated techniques to depict relations** among actors and to analyze the social structures that emerge from the recurrence of these relations. The basic assumption is that **better explanations of social phenomena** are yielded by analysis of the relations among entities. This analysis is conducted by collecting **relational data** organized in matrix form. If actors are depicted as nodes, and their relations as lines among pairs of nodes, the concept of social network changes from being a metaphor to an operative analytical tool which utilizes the mathematical language of graph theory and of matrix and relational algebra."
@@ -151,22 +365,337 @@ Network analysis (NA) is a set of integrated techniques to depict relations amon
 
 
 
+---
+class: left
+
+.blockquote[]
+
+## Königsberger Brückenproblem
+
+```{r}
+#| echo: false
+#| out-width: '30%'
+#| fig-align: 'center'
+knitr::include_graphics(c(xfun::from_root("img","PVA2","Konigsberg_bridges.png"),
+                          xfun::from_root("img","PVA2","7_bridges.svg"),
+                          xfun::from_root("img","PVA2","Konigsberg_graph.svg"))
+)
+```
+.quelle[Bildquelle: [wikipedia.org](https://de.wikipedia.org/wiki/K%C3%B6nigsberger_Br%C3%BCckenproblem)]
+
+???
+
+* Die Frage war, ob es einen Weg gibt, bei dem man alle sieben Brücken genau einmal überquert, und wenn ja, ob auch ein Rundweg möglich ist, bei dem man wieder zum Ausgangspunkt gelangt.
+
+* Leonhard Euler bewies 1736, dass ein solcher Weg bzw. „Eulerscher Weg“ in Königsberg nicht möglich war, da zu allen vier Ufergebieten bzw. Inseln eine ungerade Zahl von Brücken führte. Es dürfte maximal zwei Ufer (Knoten) mit einer ungeraden Zahl von angeschlossenen Brücken (Kanten) geben. Diese zwei Ufer könnten Ausgangs- bzw. Endpunkt sein. Die restlichen Ufer müssten eine gerade Anzahl von Brücken haben, um sie auch wieder auf einem neuen Weg verlassen zu können.
+
+* Das Brückenproblem ist kein klassisches geometrisches Problem, da es nicht auf die präzise Lage der Brücken ankommt, sondern nur darauf, welche Brücke welche Inseln miteinander verbindet.
+
+* Graph als Abstraktion: Topologie
+
+
+---
+class: left
+
+## Layout
+
+```{r}
+#| echo: false
+knitr::include_graphics('https://www.data-imaginist.com/post/2017-02-06-ggraph-introduction-layouts_files/figure-html/unnamed-chunk-12.gif')
+```
+
+---
+class: left
+
+## Layouts
+
+**ggraph** Option `layout` greift auf [layout-Optionen](https://igraph.org/c/doc/igraph-Layout.html) des **igraph**-Pakets zurück
+
+  * Kreisförmig ('circle')
+  * Sternförmig ('star')
+  * Rasterförmig ('grid')
+  * Zufall ('randomly')
+  * GraphOpt-Algorithmus ('graphopt')
+  * Distributed-Recursive-Layout ('drl')
+  * Kamada-Kawai-Algorithmus ('kk')
+  * Fruchterman-Reingold-Algorithmus ('fr')
+  * GEM-Algorithmus ('gem')
+  * Davidson-Harel-Algorithmus ('dh')
+  * Multidimensionale Skalierung ('mds')
+  * Large-Graphs-Layout-Algorithmus ('lgl')
+
+
+
+???
+
+1.1. igraph_layout_random — Places the vertices uniform randomly on a plane.
+1.2. igraph_layout_circle — Places the vertices uniformly on a circle in arbitrary order.
+1.3. igraph_layout_star — Generates a star-like layout.
+1.4. igraph_layout_grid — Places the vertices on a regular grid on the plane.
+1.5. igraph_layout_graphopt — Optimizes vertex layout via the graphopt algorithm.
+1.6. igraph_layout_bipartite — Simple layout for bipartite graphs.
+1.7. The DrL layout generator
+1.8. igraph_layout_fruchterman_reingold — Places the vertices on a plane according to the Fruchterman-Reingold algorithm.
+1.9. igraph_layout_kamada_kawai — Places the vertices on a plane according to the Kamada-Kawai algorithm.
+1.10. igraph_layout_gem — Layout graph according to GEM algorithm.
+1.11. igraph_layout_davidson_harel — Davidson-Harel layout algorithm.
+1.12. igraph_layout_mds — Place the vertices on a plane using multidimensional scaling.
+1.13. igraph_layout_lgl — Force based layout algorithm for large graphs.
+
+
+---
+class: left
+
+
+## Netzwerk als Konzept
+
+
+* Elemente:
+
+--
+
+  * Akteure (**engl. actors**) mit gewissen Eigenschaften
+
+--
+
+  * Beziehungen (**engl. relations**) mit bestimmten Eigenschaften
+  
+      * direkte Verbindungen
+      * indirekte Verbindungen
+
+--
+
+`r fa("exclamation-circle")` Indirekte Verbindungen als Stärke des Netzwerk-Konzepts: Erlaubt Verknüpfung eigentlich getrennter Teile eines Systems!
+
+--
+
+* **Soziale** Netzwerke: lebendige Akteure (statt lebloser Objekte).
+  * Individuen
+  * Kollektive
+
+
+
+???
+
+
+* Indirekte Verbindungen als Stärke des Netzwerk-Konzepts. Erlaubt die Verknüpfung eigentlich getrennter Teile eines Systems
+
+* Eigene Definition in Anlehnung an  `r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff): Ein Soziales Netzwerk ist durch eine Menge von Akteuren (**engl. actors**) gekennzeichnet, die ganz oder teilweise miteinander in Beziehung (**engl. relations** oder **ties**) stehen bzw. verbunden sind. Sowohl die Akteure als auch die Beziehungen sind dabei durch bestimmte Eigenschaften gekennzeichnet.
+
+
+---
+class: left
+
+
+## Akteuere und Beziehungen
+
+```{r}
+#| message: false
+library(tidyverse)
+#most popular babynames in CH 2022
+actors <- tibble(name=c("Emma","Mia","Sofia","Noah","Liam","Matteo"),
+                 sex=c("weiblich","weiblich","weiblich","männlich","männlich","männlich"))
+ties <- tibble(from=c("Noah","Noah","Noah","Noah","Noah"),
+                to=c("Emma","Mia","Sofia","Liam","Matteo"),
+                type=c("Partnerin","Kollegin","Kollegin","Freund","Freund"),
+               interaction=c(7,2,3,5,2))
+library(tidygraph)
+tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
+tg
+tg[[1]]
+tg[[4]]
+```
+
+
+---
+class: left
+
+## Darstellungsformen
+
+
+* Liste der Kanten (edge list)
+
+```{r}
+ties %>% select(from,to)
+```
+
+* Abhängigkeits-Matrix (adjancy matrix)
+
+``` {r}
+my_edgelist <- tg %>% 
+                activate(edges)  %>% 
+                select(from,to) %>% 
+                igraph::graph.data.frame()
+my_matrix <- igraph::get.adjacency(my_edgelist)
+class(my_matrix)
+my_matrix
+```
+
+* Netzwerkgraph
+
+```{r}
+library(ggraph)
+tg %>% ggraph(layout = "graphopt") + 
+            geom_node_point(size=10) +
+            geom_edge_link() +
+            theme_void()
+```
+
+
+???
+
+Ein Graph ist eine Sammlung von Knoten und Kanten.
+Knoten stellen Entitäten dar, und Kanten stellen Beziehungen
+zwischen Entitäten.
+Graphen sind grundlegend für die Netzwerkanalyse.
+Gerichtete vs. ungerichtete Graphen: Kanten mit Richtungen vs. ohne
+Richtungen.
+Gewichtete vs. ungewichtete Graphen: Kanten mit Gewichtung vs. ohne
+Gewichte.
+Graphen können durch Adjazenzlisten oder Matrizen dargestellt werden.
+
+
+---
+class: left
+
+## Notation
+
+* $N = 1, \dots, n$ Knoten, Scheitelpunkte, Spieler
+* $g \in {0, 1}_{nn}$ Adjazenzmatrix (ungewichtet vs. gerichtet)
+* $g_ij = 1$ bedeutet eine Verbindung, ein Band oder eine Kante zwischen $i$ und $j$
+* Alternative Schreibweise: $ij \in g$ eine Verbindung zwischen $i$ und $j$
+Netzwerk $(N, g)$
+
+
+---
+class: left
+
+## Small World
+
+```{r}
+#| echo: false
+#| cache: true
+play_smallworld(1, 100, 3, 0.05) %>% 
+    mutate(centrality = centrality_authority()) %>% 
+    ggraph(layout = 'kk') + 
+    geom_edge_link() + 
+    geom_node_point(aes(size = centrality, colour = centrality)) + 
+    scale_color_continuous(guide = 'legend') + 
+    theme_graph()
+
+```
+???
+
+[tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
+
+
+
+---
+class: left
+
+
+```{r}
+#| echo: false
+#| cache: true
+library(tidygraph)
+library(ggraph)
+play_forestfire(50, 0.5) %>% 
+  ggraph(layout="randomly") + 
+            geom_node_point() +
+            geom_edge_link() +
+            theme_void()
+```
+
+
+
+---
+class: left
+
+## Netzwerkanalyse
+
+* Ebenen der Analyse und :
+
+--
+
+  * Dyade (Ordnung $O(n^2)$)
+
+--
+
+  * Knoten (Ordnung $O(n^1)$)
+
+--
+
+  * Netzwerk (Ordnung $O(n^0)$)
+  
+  
+???
+
+At the dyad level of
+analysis, we study pairwise relations between actors and ask research questions like
+‘do pairs of actors with business ties tend to develop affective ties?’. The dyad level
+is the fundamental unit of network data collection, and is the unit with the greatest
+frequency.
+
+
+`r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff)
+
+
+
+---
+class: left
+
+.blockquote[]
+
+## Ebenen der Analyse
+
+* Globale Muster
+  * Grad-Verteilungen, 
+  * Pfadlängen
+* Segregationsmuster
+  * Knotentypen und 
+  * Homophilie
+* Lokale Muster
+  * Clustering,
+  * Transitivität, 
+  * Unterstützung
+* Positionen in Netzwerken
+  * Nachbarschaften, 
+  * Zentralität,
+  * Einfluss
+
+
+
+
+---
+class: inverse, center, middle
+
+
+## Motivation und Einordnung
+
+---
+class: left
+
+.content-box-blue[
+test
+]
+
+
+
+
+
 
 ---
 class: left
 
 .blockquote[Intro R-Objekte]
 
-## R als objektorientierte Sprache
-
-* Objekte lassen sich in Klassen einteilen
-  * tibbles, data.frames
-  * Vektoren
-  * Funktionen
+## R 
 
 
 
 ```{r}
+#| echo: false
+#| cache: true
 library(DiagrammeR)
 l=DiagrammeR::mermaid("
 graph LR;
