@@ -102,10 +102,168 @@ class: left
 
 ## Einführung in die Netzwerkanalayse
 
-* Motivation und Einordnung
+
+* Netzwerkdaten erzeugen und importieren
+
+* Netzwerkdaten visualisieren
 
 * Vermessung von Netzwerken
- 
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Netzwerkdaten erzeugen und importieren
+
+.blockquote[Elementare Netzwerkdaten]
+
+.blockquote[Netzwerkobjekte erzeugen]
+
+.blockquote[Netzwerkdaten importieren]
+
+.blockquote[Netzwerkdaten transformieren]
+
+---
+class: left
+
+.blockquote[Elementare Netzwerkdaten]
+
+## Akteure, Beziehungen und Eigenschaften
+
+* Knoten (mit Eigenschaften):
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+#most popular babynames in CH 2022
+actors <- tibble(name=c("Emma","Mia","Sofia","Noah","Liam","Matteo"),
+                 sex=c("weiblich","weiblich","weiblich","männlich","männlich","männlich"))
+```
+
+* Kanten (mit Eigenschaften):
+
+```{r}
+ties <- tibble(from=c("Noah","Noah","Noah","Noah","Noah"),
+                to=c("Emma","Mia","Sofia","Liam","Matteo"),
+                type=c("Partnerin","Kollegin","Kollegin","Freund","Freund"),
+               interaction=c(7,2,3,5,2))
+
+```
+
+
+---
+class: left
+
+.blockquote[Knoten und Kanten]
+
+## Aufgabe: Erzeuge Knoten und Kanten zum dargestellten Graphen:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+FFHSred <- "#d50006"
+FFHSpurp <- "#502479"
+library(ggraph)
+knoten <- tibble(name=c("A","B","C","D","E","F","G","H"),type=c("Alter","Alter","Alter","Alter","Alter","Alter","Alter","Ego"))
+kanten <- tibble(from=c("H","H","H","H","H","H","H","A","A","A","B","B","B","B","B","C","C","D","E","F","F","F","G","G","G","G"),
+                 to=c("A","B","C","D","E","F","G","B","G","H","A","C","F","G","H","B","H","H","H","B","G","H","A","B","F","H")
+)
+library(tidygraph)
+n_ges <- tbl_graph(nodes = knoten, edges = kanten, directed = FALSE)
+set.seed(4)
+n_ges %>% ggraph(layout = "graphopt") +
+  geom_node_point(aes(color=type),size=10,
+                  show.legend = FALSE) +
+  geom_node_text(aes(label = name),color=FFHSpurp) +
+  geom_edge_link(start_cap = ggraph::circle(4,'mm'),
+                 end_cap = ggraph::circle(4,'mm'),
+                 width=1,color=FFHSpurp) +
+  theme_void()
+```
+
+
+---
+class: left
+
+.blockquote[Netzwerkobjekte erzeugen]
+
+## Netzwerkobjekte mit igraph und tidygraph
+
+* igraph-Objekt erzeugen
+
+```{r}
+#| message: false
+library(igraph) # Paket laden
+ig <- graph_from_data_frame(ties, directed=FALSE, vertices=actors)
+class(ig)
+```
+
+* `tbl_graph()`-Objekt erzeugen
+
+```{r}
+#| message: false
+library(tidygraph) # Paket laden
+tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
+```
+
+
+---
+class: left
+
+.blockquote[Netzwerkdaten importieren]
+
+## Beispiel: Daten "Hochzeitsmarkt Florenz"
+
+* Daten im **network**-Paket enthalten
+
+```{r}
+#| message: false
+#| warning: false
+library(network) # ggf. Paket installieren
+data(flo)
+net_flo <- graph_from_adjacency_matrix(flo)
+tidy_flo <- as_tbl_graph(net_flo)
+```
+
+
+---
+class: left
+
+.blockquote[Netzwerkdaten importieren]
+
+## Beispiel: Datensatz "Media"-Example importieren
+
+
+* Knoten importieren
+
+```{r}
+#| message: false
+#| warning: false
+my_in_file <- "Dataset1-Media-Example-NODES.csv"
+nodes <- readr::read_csv(xfun::from_root("data","raw","PVA2",my_in_file))
+```
+
+--
+
+* Aufgabe: Kanten importieren:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+my_in_file <- "Dataset1-Media-Example-EDGES.csv"
+links <- readr::read_csv(xfun::from_root("data","raw","PVA2",my_in_file))
+```
+
+
+* Download-Links für die Datensätze:
+  * [Knoten](https://github.com/FFHS-EconomicResearch/ER018/blob/main/data/raw/PVA2/Dataset1-Media-Example-NODES.csv)
+  * [Kanten](https://github.com/FFHS-EconomicResearch/ER018/blob/main/data/raw/PVA2/Dataset1-Media-Example-EDGES.csv)
 
 
 
@@ -113,98 +271,105 @@ class: left
 ---
 class: left
 
+.blockquote[Netzwerkdaten transformieren]
 
-## Netzwerk als Konzept
+## Beispiel: Florentinische Familien
 
 
-* Elemente:
+.panelset[
+.panel[.panel-name[Transformation]
+* Nützliche **tidygraph**-Funktionen
+  * `activate()`
+  * `.E()`, `.N()`
 
---
+* Beispiel: Hinzufügen der Eigenschaft "direkter Zugang zu den Medici"
 
-  * Akteure (**engl. actors**) mit gewissen Eigenschaften
+```{r}
+flo_tidy <- tidy_flo %>% 
+              activate("edges") %>%  # Kanten aktivieren
+              mutate(to_medici=(.N()$name[from]=="Medici" |
+                                .N()$name[to]=="Medici"))
+```
+]
+.panel[.panel-name[Vorher]
+```{r}
+tidy_flo
+```
+]
+.panel[.panel-name[Vorher]
+```{r}
+flo_tidy
+``` 
+]
+]
 
---
 
-  * Beziehungen (**engl. relations**) mit bestimmten Eigenschaften
-  
-      * direkte Verbindungen
-      * indirekte Verbindungen
 
---
+---
+class: left
 
-`r fa("exclamation-circle")` Indirekte Verbindungen als Stärke des Netzwerk-Konzepts: Erlaubt Verknüpfung eigentlich getrennter Teile eines Systems!
+.blockquote[Netzwerkdaten transformieren]
 
---
+## Teilgruppen (Subgraph) extrahieren
 
-* **Soziale** Netzwerke: lebendige Akteure (statt lebloser Objekte).
-  * Individuen
-  * Kollektive
+```{r}
+medici_sub <- flo_tidy %>% 
+  activate("edges") %>% 
+  filter(to_medici)
+```
+
+---
+class: inverse, center, middle
+
+## Netzwerkdaten visualisieren
+
+
+.blockquote[Einfache plots mit igraph]
+
+.blockquote[Flexible plots mit ggraph]
+
 
 
 
 ???
 
+* ToDo Interaktive Plots mit visNetwork
 
-* Indirekte Verbindungen als Stärke des Netzwerk-Konzepts. Erlaubt die Verknüpfung eigentlich getrennter Teile eines Systems
 
-* Eigene Definition in Anlehnung an  `r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff): Ein Soziales Netzwerk ist durch eine Menge von Akteuren (**engl. actors**) gekennzeichnet, die ganz oder teilweise miteinander in Beziehung (**engl. relations** oder **ties**) stehen bzw. verbunden sind. Sowohl die Akteure als auch die Beziehungen sind dabei durch bestimmte Eigenschaften gekennzeichnet.
 
 
 ---
 class: left
 
+.blockquote[Plots mit igraph]
 
-## Akteuere und Beziehungen
+## Vom Netzwerkobjekt zum Graphen
 
 ```{r}
-#| message: false
-library(tidyverse)
-#most popular babynames in CH 2022
-actors <- tibble(name=c("Emma","Mia","Sofia","Noah","Liam","Matteo"),
-                 sex=c("weiblich","weiblich","weiblich","männlich","männlich","männlich"))
-ties <- tibble(from=c("Noah","Noah","Noah","Noah","Noah"),
-                to=c("Emma","Mia","Sofia","Liam","Matteo"),
-                type=c("Partnerin","Kollegin","Kollegin","Freund","Freund"),
-               interaction=c(7,2,3,5,2))
-library(tidygraph)
-tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
-tg
-tg[[1]]
-tg[[4]]
+#| out-width: 40%
+#| fig-align: 'center'
+plot(ig)
 ```
 
 
 ---
 class: left
 
-## Darstellungsformen
+.blockquote[Flexible Plots mit ggraph]
 
-
-* Liste der Kanten (edge list)
-
-```{r}
-ties %>% select(from,to)
-```
-
-* Abhängigkeits-Matrix (adjancy matrix)
-
-``` {r}
-my_edgelist <- tg %>% 
-                activate(edges)  %>% 
-                select(from,to) %>% 
-                igraph::graph.data.frame()
-my_matrix <- igraph::get.adjacency(my_edgelist)
-class(my_matrix)
-my_matrix
-```
-
-* Netzwerkgraph
+## Vom Netzwerkobjekt zum Graphen
 
 ```{r}
+#| out-width: 35%
+#| fig-align: 'center'
 library(ggraph)
 tg %>% ggraph(layout = "graphopt") + 
-            geom_node_point(size=10) +
-            geom_edge_link() +
+            geom_node_point(size=7,color=FFHSred) +
+            geom_node_text(aes(label = name,color=FFHSpurp), 
+                           vjust=1.55,hjust=1.2,show.legend = FALSE) +
+            geom_edge_link(color=FFHSpurp,width=1.1,
+                          start_cap = ggraph::circle(3,'mm'),
+                          end_cap = ggraph::circle(3,'mm')) +
             theme_void()
 ```
 
@@ -213,19 +378,73 @@ tg %>% ggraph(layout = "graphopt") +
 ---
 class: left
 
+.blockquote[Flexible Plots mit ggraph]
+
+## Aufgabe: Medici-Netzwerk
+
+.content-box-purple[
+.white[
+Erzeuge einen Graphen zum Medici-Netzwerk. Die Kanten von Familien mit "direktem Zugang" zu den Medici sollen dabei hervorgehoben werden.]
+]
+
+
 ```{r}
-tg %>% ggraph(layout = "graphopt") + 
-    geom_edge_link(aes(start_cap = label_rect(node1.name), 
-                       end_cap = label_rect(node2.name)), 
-                   arrow = arrow(type = "closed", 
-                                 length = unit(3, "mm"))) + 
-    geom_node_text(aes(color=sex,label = name))
+#| echo: false
+#| message: false
+#| warning: false
+ggraph(flo_tidy,"stress") + 
+  geom_edge_link0(aes(edge_color = to_medici))+
+  geom_node_point(shape = 21, size = 10, fill = "grey66")+
+  geom_node_text(aes(label = name))+
+  theme_graph()
 ```
+
+
+???
+
+geom_edge_link0(aes(edge_color = to_medici))+
+
+
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Vermessung von Netzwerken
+
+
+.blockquote[Zentralität]
+
+.blockquote[Dichte]
+
+.blockquote[Pfade und Distanzen]
+
+.blockquote[Verbundenheit]
+
+.blockquote[Clustering]
+
+
+
+???
+
+Gliederung nach Barabasi (2016)
+
+
+
+
 
 
 
 ---
 class:
+
+.blockquote[Zentralität]
+
+## Beispiel: Freundschaftsnetzwerk
 
 * `activate()`
 
@@ -244,48 +463,55 @@ tg %>%  activate(edges) %>%
 ---
 class: left
 
-```{r}
-gr1 <- create_notable('bull') %>% 
-        mutate(name = letters[1:5])
-gr1
-```
+.blockquote[Zentralität]
+
+## Beispiel: Florentinische Familien
+
+.content-box-purple[
+.white[
+Ermittle zwei Zentralitätsmaße für das florentinische Familiennetzwerk.]
+]
 
 ```{r}
-gr1 %>% 
-    ggraph(layout = 'kk') + 
-    geom_edge_link() + 
-    geom_node_point(size = 8, colour = 'steelblue') +
-    geom_node_text(aes(label = name), colour = 'white', vjust = 0.4) +
-    theme_graph()
-
+#| echo: false
+#| message: false
+#| warning: false
+flo_tidy %>% 
+  activate("nodes") %>% 
+  mutate(degree = centrality_degree(),
+         betweenness = centrality_betweenness())
 ```
-???
-
-[tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
 
 ---
 class: left
 
+.blockquote[Zentralität]
+
+## Grafische Darstellung der Zentralität am Beispiel "Medici"
+
 ```{r}
-gr2 <- create_ring(5) %>% 
-    mutate(name = letters[4:8])
-
-# Plot
-gr1 %>% bind_graphs(gr2) %>% 
-    ggraph(layout = 'kk') + 
-    geom_edge_link() + 
-    geom_node_point(size = 8, colour = 'steelblue') +
-    geom_node_text(aes(label = name), colour = 'white', vjust = 0.4) + 
-    ggtitle('Binding graphs') + 
-    theme_graph()
+#| echo: false
+#| message: false
+#| warning: false
+flo_tidy %>% 
+  activate("nodes") %>% 
+  mutate(degree = centrality_degree(),
+         betweenness = centrality_betweenness()) %>% 
+ggraph("stress",bbox=10) + 
+  geom_edge_link0(edge_color = "black")+
+  geom_node_point(shape = 21, aes(size=degree,fill=betweenness))+
+  geom_node_text(aes(label = name))+
+  scale_fill_gradient(low="#104E8B",high="#CD2626")+
+  scale_size(range = c(4,10))+
+  theme_graph()
 ```
-???
 
-[tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
 
 
 ---
 class: left
+
+.blockquote[Pfade und Distanzen]
 
 ## Durchmesser
 
@@ -296,128 +522,30 @@ tg  %>%
 
 
 
----
-class: left
-
-## Netzwerkanalyse
-
-* Ebenen der Analyse und :
-
---
-
-  * Dyade (Ordnung $O(n^2)$)
-
---
-
-  * Knoten (Ordnung $O(n^1)$)
-
---
-
-  * Netzwerk (Ordnung $O(n^0)$)
-  
-  
-???
-
-At the dyad level of
-analysis, we study pairwise relations between actors and ask research questions like
-‘do pairs of actors with business ties tend to develop affective ties?’. The dyad level
-is the fundamental unit of network data collection, and is the unit with the greatest
-frequency.
-
-
-`r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff)
-
-
-
-
-
----
-class: inverse, center, middle
-
-
-## Motivation und Einordnung
 
 ---
 class: left
 
-.content-box-blue[
-test
-]
+.blockquote[Clustering]
 
-
-
-
-
-
-
----
-class: left
-
-.blockquote[Intro R-Objekte]
-
-## R als objektorientierte Sprache
-
-* Objekte lassen sich in Klassen einteilen
-  * tibbles, data.frames
-  * Vektoren
-  * Funktionen
-
-
+## Beispiel mit Zufallsdaten
 
 ```{r}
-#| echo: false
-#| cache: true
-library(DiagrammeR)
-l=DiagrammeR::mermaid("
-graph LR;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
+#| message: false
+#| warning: false
+# create random graph with group structure (igraph equivalent is sample_islands())
+play_islands(4, 12, 0.8, 4) %>% 
+  mutate(community = as.factor(group_louvain())) %>% 
+  activate("edges") %>% 
+  mutate(community = as.factor(ifelse(.N()$community[from]==.N()$community[to],.N()$community[from],5))) %>% 
+  ggraph(layout = 'stress') + 
+  geom_edge_link0(aes(edge_colour=community),show.legend = FALSE) + 
+  geom_node_point(aes(fill = community), shape = 21, size = 6) + 
+  scale_fill_brewer(palette = "Set3")+
+  scale_edge_color_brewer(palette = "Set3")+
+  theme_graph(background = "grey88")
 ```
 
----
-class: left
-
-## ungerichtet
-
-```{r}
-library(igraph)
-df <- read.table(sep=" ", header=TRUE, text="
-Col1 Col2
-Ego Alter")
-require(igraph)
-plot(graph.edgelist(as.matrix(df)))
-```
-
-
-
----
-class: left
-
-.blockquot[]
-
-## Egonetzwerke
-
-```{r}
-library(DiagrammeR)
-l=DiagrammeR::mermaid("
-graph TB;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
-```
 
 
 ???

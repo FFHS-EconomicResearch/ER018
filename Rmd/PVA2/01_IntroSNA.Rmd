@@ -12,6 +12,7 @@ output:
     css: 
          - default
          - ../../css/ffhs-theme_js.css
+         - ../../css/ninjutsu.css
          - xaringan-themer.css
     includes:
       after_body: ../../css/insert-logo.html
@@ -104,8 +105,10 @@ class: left
 
 * Motivation und Einordnung
 
-* Vermessung von Netzwerken
+* Grundlegende Konzepte der Netzwerkwissenschaften
  
+
+
 
 
 
@@ -155,7 +158,7 @@ class: left
 <br>
 
 .blockquote[.huge[
-Indeed, behind each complex system there is an intricate network that encodes the interactions between the system’s components.]
+"Indeed, behind each complex system there is an intricate network that encodes the interactions between the system’s components."]
 .tr[
 [`r Citet(bib, "barabasi_network_2016-1")`](http://networksciencebook.com/chapter/1#networks)
 ]
@@ -200,6 +203,8 @@ knitr::include_graphics(xfun::from_root("img","PVA2","Network_mindmap.png"))
 
 ???
 
+* universalistische "theory of everything" oder doch nur Metapher?
+
 * Interaktionen:
   * Handel mit Waren und Dienstleistungen, die meisten Märkte sind nicht zentralisiert
   * Austausch von Informationen, Gefälligkeiten, Risiken
@@ -215,173 +220,279 @@ knitr::include_graphics(xfun::from_root("img","PVA2","Network_mindmap.png"))
   * Verständnis der Struktur sozialer/wirtschaftlicher Netzwerke
 
 
-
 ---
 class: left
 
-.blockquote[]
+.blockquote[Einordnung und Motivation]
 
-## Relationale Perspektive
-
-* Netzwerkanalyse mit antikategorialem Imperativ
-  * nicht Akteurseigenschaften, 
-  * sondern ihre Beziehungen sind relevant
-
-* Relationale Perspektive (`r Citet(bib, "wasserman_social_1994")`, S. 4):
-  * “Actors and their actions are viewed as interdependent rather than independent, autonomous units
-  * Relational ties between actors are channels for transfer or ‚flow‘ of resources
-  * Network models focusing on individuals view the network structural environment as providing opportunities for or constraints on individual action
-  * Network models conceptualize structure as lasting patterns of relations among actors” 
-
-
----
-class: left
-
-.blockquote[]
-
-## Netzwerk als sozialwissenschaftliches Konzept
-
-
-.panelset[
-.panel[.panel-name[Coleman-Boot]
-
-]
-.panel[.panel-name[Mesosebene]
-* Netzwerke als Teil des Explanans (Makrophänomen I)
-Bsp. Einbettungskontext und Jobchancen (Granovetter)
-* Netzwerkstrukturen als Explanandum (Makrophänomen II)
-Bsp. Soziales Kapital einer Gesellschaft
-* Netzwerkstrukturen als Mesoebene in einer Makro-Mikro-Makro-Erklärung
-Bsp. Sozialversicherung
-
-`r fa('circle-right')`	Entscheidende theoretische Frage: sind Akteure in 	Netzwerken mehr als eine Verkörperung der Netzwerkstruktur?
-
-]
-]
-
-
----
-class: left
-
-## Theorie und Empirie
-
-* Was soll mit der Netzwerkbetrachtung erreicht werden?
-
-  * Netzwerk als erklärende Variable? 
-
-  * Netzwerk als abhängige Variable?
-
-* Interdependenz!
-
-
-???
-
-* Was soll mit der Netzwerkbetrachtung erreicht werden?
-
-  * Netzwerk als erklärende Variable? (Bsp. Wie beeinflusst das Netzwerk individuelles Verhalten?)
-
-  * Netzwerk als abhängige Variable? (Bsp. Erklärung Beziehungsstruktur von Individuen, wie entstehen bestimmte Beziehungsmuster?)
-
-* Interdependenz! Bsp. Schüler und Rauchen
-
-
----
-class: left
-
-
-
-
----
-class: left
-
-.blockquote[]
-
-## Netzwerkanalyse
-
-.blockquote[
-"Die soziale Netzwerkanalyse untersucht Beziehungen zwischen Akteuren in einem Netzwerk. Sie ist ein interdisziplinär verwendeter Ansatz, der zur Untersuchung verschiedenster Netzwerke in unterschiedlichen Forschungsdisziplinen verwendet wird."
-.tr[
-`r Citet(bib, "baumol_soziale_2019")`
-]
-]
-
-
-
----
-class: left
-
-## Geschichte der Netzwerkanalyse
+## Netzwerk: Karriere eines Begriffs
 
 ```{r}
 #| echo: false
-#| out-width: '65%'
+#| out-width: '100%'
 #| fig-align: 'center'
-knitr::include_graphics(xfun::from_root("img","PVA2","Geschichte_Netzwerkanalyse_(Jansen_2003)_S38.png"))
+knitr::include_graphics(xfun::from_root("img","PVA2","figure-1-12_(Barabasi_2016).jpg"))
 ```
 
+.quelle[Bildquelle: [`r Citet(bib, "barabasi_network_2016-1")`.](http://networksciencebook.com/chapter/1#networks)]
 
-.quelle[Bildquelle: `r Citet(bib, "jansen_einfuhrung_2003")`]
+???
+
+* Infrastrukturelle Netzwerke/Technische Netzwerke: Glasfaser, Wärmenetze...
+
+* Regionale Netzwerke (EURegio, Graubünden Tourismus..)
+
+* Unternehmensnetzwerke (Stellantis-Konzern, Star-Alliance, Supply-Chains...)
+
+* Soziale Netzwerke (Instagram, X, aber auch allgemein, Freunde, Kollegen....)
+
+* Politiknetzwerke
+
+* Zitationsnetzwerke (Wissenschaftler zitieren sich gegenseitig oder nicht, oftmals auch Karrieregründe)
+
+* Forschungsnetzwerke
+
+* Neuronale Netzwerke
+
+* Biologische Netzwerke
+
+
+
+---
+class: left
+
+.blockquote[Motivation und Einordnung]
+
+## Merkmale der Netzwerkforschung
+
+<br>
+
+.center[.huge[Interdisziplinär]]
+
+--
+
+.center[.huge[Quantitativ-mathematisch]]
+
+--
+
+.center[.huge[Empirisch]]
+
+
+--
+
+.center[.huge[Computergestützt]]
+
+
+
+.quelle[Vgl. [`r Citet(bib, "barabasi_network_2016-1")`](http://networksciencebook.com/chapter/1#networks)]
 
 
 ???
 
-* Überblick über die Entwicklungslinien der Netzwerkanalyse in Anlehnung an 
+* Interdisciplinary nature: **Network science offers a language through which different disciplines can seamlessly interact** with each other. 
+  * Indeed, cell biologists and computer **scientists alike are faced with the task of characterizing the wiring diagram behind their system**, extracting information from incomplete and noisy datasets, and the need to understand their systems’ robustness to failures or deliberate attacks.
+  * To be sure, **each discipline brings along a different set of technical details and challenges**, which are important on their own. Yet, the **common character of the many issues various fields struggle with have led to a cross-disciplinary fertilization of tools and ideas**. 
+  * For **example**, the **concept of betweenness centrality** that **emerged in the social network literature in the 1970s**, **today plays a key role in identifying high traffic nodes on the Internet**; algorithms developed by computer scientists for graph partitioning have found novel applications in cell biology. 
+
+* Quantitative and mathematical nature: 
+  * The **tools** of network science **have their roots in graph theory**, a fertile field of mathematics. 
+  * To contribute to the development of network science, it is essential to master the mathematical tools behind it. The tools of network science borrowed the formalism to deal with graphs from **graph theory and the conceptual framework to deal with randomness and seek universal organizing principles from statistical physics**. Lately, the field is benefiting from concepts borrowed from engineering, control and information theory, statistics and data mining, helping us ex- tract information from incomplete and noisy datasets. 
+
+
+* **Empirical, data driven nature**: 
+  
+  * Anders als graph theory sind die Netzwerkwissenschaften aber empirical nature, i.e. its focus on data and utility. As we will see in the coming chapters, we will never be satisfied with developing the abstract mathematical tools to describe a certain network property. **Each tool we develop will be tested on real data** and its value will be judged by the insights it offers about a system’s structure or evolution. 
+
+* **Computational nature**: 
+  * Finally, **given the size of many of the networks** we explore, and the exceptional amount of data behind them, network science offers a series of formidable **computational challenges**. 
+  * Hence, the field has a **strong computational character, actively borrowing from algorithms, database management and data mining**. A series of software tools help practitioners with diverse computational skills analyze networks. 
+
+
+
+
+
 
 ---
 class: left
 
-.blockquote[Statistische Einheiten und Beziehungen]
+.blockquote[Motivation und Einordnung]
 
-## Netzwerkanalyse
+## Beispiel: Netzwerkmodelle zur Vorhersage von Covid19-Fällen
+
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","covid-forecasting_(Achterberg_etal_2022).png"))
+```
+]
+--
+.pull-right[
+
+<br>
+<br>
 
 .blockquote[
-"Network analysis (NA) is a set of **integrated techniques to depict relations** among actors and to analyze the social structures that emerge from the recurrence of these relations. The basic assumption is that **better explanations of social phenomena** are yielded by analysis of the relations among entities. This analysis is conducted by collecting **relational data** organized in matrix form. If actors are depicted as nodes, and their relations as lines among pairs of nodes, the concept of social network changes from being a metaphor to an operative analytical tool which utilizes the mathematical language of graph theory and of matrix and relational algebra."
+"In particular, we show that network-based forecasting is superior to any other forecasting algorithm."
 .tr[
-`r Citet(bib, "chiesi_network_2001")`
-
+[`r Citet(bib,"achterberg_comparing_2022")`](https://doi.org/10.1016/j.ijforecast.2020.10.001)
 ]
 ]
-
+]
 
 
 ---
 class: left
 
+.blockquote[Motivation und Einordnung]
 
-## Netzwerkanalyse
-
-.blockquote[
-"NA can be regarded as a set of techniques with a shared methodological perspective, rather than as a new paradigm in the social sciences. NA techniques allow researchers to specify empirical indicators and to control field hypotheses through the definition and measurement of traditional catch-all concepts like social structure and cohesion."
-.tr[
-`r Citet(bib, "chiesi_network_2001")`
-
-]
-]
-
-
-???
-
-Network analysis (NA) is a set of integrated techniques to depict relations among actors and to analyze the social structures that emerge from the recurrence of these relations. The basic assumption is that better explanations of social phenomena are yielded by analysis of the relations among entities. This analysis is conducted by collecting relational data organized in matrix form. If actors are depicted as nodes, and their relations as lines among pairs of nodes, the concept of social network changes from being a metaphor to an operative analytical tool which utilizes the mathematical language of graph theory and of matrix and relational algebra. Although deterministic approaches usually emphasise that NA enables study of how the social structure of relationships around a person, group, or organization affects behaviors and attitudes, structurally bounded purposive actions may affect the social structure and vice versa. NA can be regarded as a set of techniques with a shared methodological perspective, rather than as a new paradigm in the social sciences. NA techniques allow researchers to specify empirical indicators and to control field hypotheses through the definition and measurement of traditional catch-all concepts like social structure and cohesion.
-
-
-
----
-class: left
-
-.blockquote[]
-
-## Königsberger Brückenproblem
+## Ausblick: Räumliche Netzwerke
 
 ```{r}
 #| echo: false
-#| out-width: '30%'
+#| out-width: '80%'
 #| fig-align: 'center'
-knitr::include_graphics(c(xfun::from_root("img","PVA2","Konigsberg_bridges.png"),
-                          xfun::from_root("img","PVA2","7_bridges.svg"),
-                          xfun::from_root("img","PVA2","Konigsberg_graph.svg"))
-)
+knitr::include_graphics(xfun::from_root("img","PVA2","SocialNetworks_Covid_(Kuchler_etal_2020).png"))
 ```
+
+.quelle[Bildquelle: [`r Citet(bib, "kuchler_geographic_2020")`.](https://pages.stern.nyu.edu/~jstroebe/PDF/KRS_SCI_and_COVID.pdf)]
+
+???
+
+Ausblick PVA3, räumliche Netzwerke
+
+* Panel (a) shows the **social connectedness** to Lodi for Italian provinces. 
+* Panel (b) shows the number of confirmed COVID-19 cases by Italian province on March 30, 2020. 
+
+* Panels (c) and (d) show binscatter plots with provinces more than 50 kilometers from Lodi as the unit of observation. 
+  * To generate the plot in Panel (c) we group log(SCI) into 30 equal-sized bins and plot the average against the corresponding average
+case density. 
+  * Panel (d) is constructed in a similar manner. However, we first regress log(SCI) and cases per 10,000 residents on a set of control variables and plot the residualized values on each axis. Red lines show quadratic fit regressions. The **controls for Panel (d) are 20 dummies for quantiles of the province’s
+geographic distance** to Lodi; **GDP per inhabitant**; and **population density**
+
+
+
+---
+class: left
+
+.blockquote[Motivation und Einordnung]
+
+## Beispiel: Netzwerkmodelle in der Management-Forschung
+
+```{r}
+#| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","figure-1-7_(Barabasi_2016).jpg"))
+```
+
+.quelle[Bildquelle: [`r Citet(bib, "barabasi_network_2016-1")`.](http://networksciencebook.com/chapter/1#networks)]
+
+???
+
+Management: **Uncovering the Internal Structure of an Organization**
+While management tends to rely on the official chain of command, it is increasingly evident that the informal network, capturing who really communicates with whom, plays the most important role in the success of an organization. Accurate maps of such organizational networks can expose the potential lack of interactions between key units, help identify individuals who play an important role in bringing different departments and products together, and help higher management diagnose diverse organizational issues. Furthermore, there is increasing evidence in the management literature that the productivity of an employee is determined by his/her position in this informal organizational network [17].
+
+Therefore, numerous companies, like Maven 7, Activate Networks or Orgnet, offer tools and methodologies to map out the true structure of an organization. These companies offer a host of services, from identifying opinion leaders to reducing employee churn, optimizing knowledge and product diffusion and designing teams with the diversity, size and expertise to be the most effective for specific tasks (Image 1.8). Established firms, from IBM to SAP, have added social networking capabilities to their business. Overall, network science tools are indispensable in management and business, enhancing productivity and boosting innovation within an organization.
+
+**Mapping Organizations**
+Employees of a Hungarian company with three main locations (purple, yellow and blue). The management realized that information reaching the workers about the intentions of the higher management often had nothing do to with their real plans. Seeking to enhance information flow within the company, they turned to Maven 7, a company that applies network science in organizational setting.
+Maven 7 developed an online platform to ask each employee to whom do they turn to for advice when it comes to decisions impacting the company. This platform provided the map shown in (b), where two individuals are connected if one nominated the other as his/her source of information on organizational and professional issues. The map identifies several highly influential individuals, appearing as large hubs.
+The position of the leadership within the company’s informal network, nodes being colored based on their rank within the company. Note that none of the directors, shown in red, are hubs. Nor are the top managers, shown in blue. The hubs come from lower ranks: they are managers, group leaders and associates. The biggest hub, hence the most influential individual, is an ordinary employee, appearing as a gray node in the center.
+
+The links of the largest hub (red) and those two links away from this hub (orange), demonstrate that a significant fraction of employees are at most two links from this hub. But who is this hub? He is the employee in charge of safety and environmental issues. Hence he regularly visits each location and talks with the employees. He is connected to everyone except the top management. With little knowledge of the true intentions of the management, he passes on information that he collects along his trail, effectively running a gossip center.
+Should they fire or promote the biggest hub? What is the best solution to this problem?
+
+
+
+
+
+---
+class: inverse, center, middle
+
+
+## Grundlegende Konzepte der Netzwerkwissenschaften
+
+.blockquote[Komplexe Systeme]
+
+.blockquote[Einführung Soziale Netzwerkanalyse]
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+
+---
+class: left
+
+.blockquote[Komplexe Systeme]
+
+## Bausteine komplexer Systeme
+
+
+<br>
+
+.center[.huge[**Komponenten**]]
+
+.center[Knoten (Nodes, Vertices)]
+.center[(N)]
+--
+
+.center[.huge[**Interaktionen**]]
+
+.center[Verbindungen (links, ties), Kanten (edges)]
+.center[(L)]
+
+--
+
+.center[.huge[**System**]]
+
+.center[Netzwerk, Graph]
+.center[(N,L)]
+
+
+
+---
+class: left
+
+.blockquote[Komplexe Systeme]
+
+## Graphentheorie und das Königsberger Brückenproblem
+
+<br>
+
+```{r}
+#| echo: false
+#| warning: false
+#| fig-show: 'hold'
+#| fig-align: 'center'
+#| out-width: '100%'
+#library(patchwork)
+#library(magick)
+#pic1 <- image_read(xfun::from_root("img","PVA2","Konigsberg_bridges.png"))
+#pic2 <- image_read_svg(xfun::from_root("img","PVA2","7_bridges.svg"), width = 300)
+#pic3 <- image_read_svg(xfun::from_root("img","PVA2","Konigsberg_graph.svg"), width = 300)
+#pic1 <- image_resize(pic1,"300")
+#pic2 <- image_resize(pic2,"300")
+#pic3 <- image_resize(pic3,"300")
+#pic1 <- image_border(image_background(pic1, "#fff"), "#fff", "20x10")
+#pic2 <- image_border(image_background(pic2, "#fff"), "#fff", "20x10")
+#pic3 <- image_border(image_background(pic3, "#fff"), "#fff", "20x10")
+
+#bridges <- image_append(image_scale(c(pic1,pic2,pic3), "300"))
+#image_write(bridges,xfun::from_root("img","PVA2","bridges.png"), format = "png")
+#bridges_anim <- image_scale(c(pic1,pic2,pic3), "1000x470")
+#bridges_anim <- image_animate(image_morph(bridges_anim, 20))
+#image_write(bridges_anim,xfun::from_root("img","PVA2","bridges.gif"))
+knitr::include_graphics(xfun::from_root("img","PVA2","bridges.png"))
+```
+
+
+
+`r fa('exclamation-circle')` Graph als Abstraktion mit Fokus auf die **Topologie**
+
+
 .quelle[Bildquelle: [wikipedia.org](https://de.wikipedia.org/wiki/K%C3%B6nigsberger_Br%C3%BCckenproblem)]
+
 
 ???
 
@@ -397,58 +508,95 @@ knitr::include_graphics(c(xfun::from_root("img","PVA2","Konigsberg_bridges.png")
 ---
 class: left
 
-## Layout
+.blockquote[Komplexe Systeme]
+
+## Unterschiedliche Netzwerke, identischer Graph
 
 ```{r}
 #| echo: false
-knitr::include_graphics('https://www.data-imaginist.com/post/2017-02-06-ggraph-introduction-layouts_files/figure-html/unnamed-chunk-12.gif')
+#| out-width: '45%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","different_networks_same_graph_(Barabasi_2016).jpg"))
 ```
 
----
-class: left
-
-## Layouts
-
-**ggraph** Option `layout` greift auf [layout-Optionen](https://igraph.org/c/doc/igraph-Layout.html) des **igraph**-Pakets zurück
-
-  * Kreisförmig ('circle')
-  * Sternförmig ('star')
-  * Rasterförmig ('grid')
-  * Zufall ('randomly')
-  * GraphOpt-Algorithmus ('graphopt')
-  * Distributed-Recursive-Layout ('drl')
-  * Kamada-Kawai-Algorithmus ('kk')
-  * Fruchterman-Reingold-Algorithmus ('fr')
-  * GEM-Algorithmus ('gem')
-  * Davidson-Harel-Algorithmus ('dh')
-  * Multidimensionale Skalierung ('mds')
-  * Large-Graphs-Layout-Algorithmus ('lgl')
-
+.quelle[Bildquelle: [`r Citet(bib, "barabasi_network_2016-1")`.](http://networksciencebook.com/chapter/1#networks)]
 
 
 ???
 
-1.1. igraph_layout_random — Places the vertices uniform randomly on a plane.
-1.2. igraph_layout_circle — Places the vertices uniformly on a circle in arbitrary order.
-1.3. igraph_layout_star — Generates a star-like layout.
-1.4. igraph_layout_grid — Places the vertices on a regular grid on the plane.
-1.5. igraph_layout_graphopt — Optimizes vertex layout via the graphopt algorithm.
-1.6. igraph_layout_bipartite — Simple layout for bipartite graphs.
-1.7. The DrL layout generator
-1.8. igraph_layout_fruchterman_reingold — Places the vertices on a plane according to the Fruchterman-Reingold algorithm.
-1.9. igraph_layout_kamada_kawai — Places the vertices on a plane according to the Kamada-Kawai algorithm.
-1.10. igraph_layout_gem — Layout graph according to GEM algorithm.
-1.11. igraph_layout_davidson_harel — Davidson-Harel layout algorithm.
-1.12. igraph_layout_mds — Place the vertices on a plane using multidimensional scaling.
-1.13. igraph_layout_lgl — Force based layout algorithm for large graphs.
+Topologie
+
 
 
 ---
 class: left
 
+.blockquote[Komplexe Systeme]
+
+## Netzwerkwissenschaft und Graphentheorie
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| out-width: "30%"
+#| fig-align: "center"
+library(tidyverse)
+knoten <- tibble(name=c("A","B","C","D","E","F","G","H"))
+kanten <- tibble(from=c("A","B","B","C","D","D","E","E"),
+                 to=  c("B","C","D","D","F","E","G","H"))
+FFHSred <- "#d50006"
+FFHSpurp <- "#502479"
+tg_barabasi <- tidygraph::tbl_graph(nodes = knoten, edges = kanten, directed = FALSE)
+set.seed(1)
+tg_barabasi %>% ggraph::ggraph(layout = "graphopt") + 
+                     ggraph::geom_node_point(size=10,color=FFHSred) +
+                     ggraph::geom_node_text(aes(label = name,color="white"),
+                           show.legend = FALSE) +
+                     ggraph::geom_edge_link(start_cap = ggraph::circle(4,'mm'),
+                                            end_cap = ggraph::circle(4,'mm'),
+                                            width=1,color=FFHSpurp) +
+                     theme_void()
+```
+
+--
+
+| Netzwerkwissenschaft             | Graphentheorie        |
+|----------------------------------|-----------------------|
+| Netzwerk                         | Graph                 |
+| Knoten (engl. node)              | Knoten (engl. vertex) |
+| Verbindung(en) (engl. link, tie) | Kante(n) (engl. edge) |
+
+--
+
+`r fa('exclamation-circle')` Begriffe werden meist synonym verwendet!
+
+
+???
+
+* network often refers to real systems
+  * www
+  * soziales Netzwerk
+  
+* graph as mathematical representation of a network
+  * web graph
+  * social graph
+
+* Wann immer es angebracht ist, werden wir versuchen, diese Unterscheidung zu treffen, **aber in den meisten Fällen werden wir die beiden Begriffe synonym verwenden**.
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Komplexe Systeme]
 
 ## Netzwerk als Konzept
-
 
 * Elemente:
 
@@ -483,12 +631,347 @@ class: left
 * Eigene Definition in Anlehnung an  `r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff): Ein Soziales Netzwerk ist durch eine Menge von Akteuren (**engl. actors**) gekennzeichnet, die ganz oder teilweise miteinander in Beziehung (**engl. relations** oder **ties**) stehen bzw. verbunden sind. Sowohl die Akteure als auch die Beziehungen sind dabei durch bestimmte Eigenschaften gekennzeichnet.
 
 
+
+
 ---
 class: left
 
+.blockquote[Einführung Soziale Netzwerkanalyse]
 
-## Akteuere und Beziehungen
+## Netzwerkanalyse
 
+.blockquote[
+"Die soziale Netzwerkanalyse untersucht Beziehungen zwischen Akteuren in einem Netzwerk. Sie ist ein interdisziplinär verwendeter Ansatz, der zur Untersuchung verschiedenster Netzwerke in unterschiedlichen Forschungsdisziplinen verwendet wird."
+.tr[
+`r Citet(bib, "baumol_soziale_2019")`
+]
+]
+--
+.blockquote[
+"NA can be regarded as a set of techniques with a shared methodological perspective, rather than as a new paradigm in the social sciences. NA techniques allow researchers to specify empirical indicators and to control field hypotheses through the definition and measurement of traditional catch-all concepts like social structure and cohesion."
+.tr[
+`r Citet(bib, "chiesi_network_2001")`
+
+]
+]
+
+
+???
+
+Network analysis (NA) is a set of integrated techniques to depict relations among actors and to analyze the social structures that emerge from the recurrence of these relations. The basic assumption is that better explanations of social phenomena are yielded by analysis of the relations among entities. This analysis is conducted by collecting relational data organized in matrix form. If actors are depicted as nodes, and their relations as lines among pairs of nodes, the concept of social network changes from being a metaphor to an operative analytical tool which utilizes the mathematical language of graph theory and of matrix and relational algebra. Although deterministic approaches usually emphasise that NA enables study of how the social structure of relationships around a person, group, or organization affects behaviors and attitudes, structurally bounded purposive actions may affect the social structure and vice versa. NA can be regarded as a set of techniques with a shared methodological perspective, rather than as a new paradigm in the social sciences. NA techniques allow researchers to specify empirical indicators and to control field hypotheses through the definition and measurement of traditional catch-all concepts like social structure and cohesion.
+
+
+
+
+---
+class: left
+
+.blockquote[Einführung Soziale Netzwerkanalyse]
+
+## Relationale Perspektive der Netzwerkforschung
+
+* `r Citet(bib, "wasserman_social_1994")`, S. 4:
+
+  * "Actors and their actions are viewed as interdependent rather than independent, autonomous units
+
+--
+
+  * Relational ties between actors are channels for transfer or "flow" of resources
+
+--
+
+  * Network models focusing on individuals view the network structural environment as providing opportunities for or constraints on individual action
+
+--
+
+  * Network models conceptualize structure as lasting patterns of relations among actors" 
+  
+* Relationale Perspektive:
+  * nicht Akteurseigenschaften, 
+  * sondern ihre Beziehungen sind relevant
+
+
+---
+class: left
+
+.blockquote[Einführung Soziale Netzwerkanalyse]
+
+## Netzwerkanalyse als analytisches Tool zur Analyse komplexer Systeme
+
+.blockquote[
+"Network analysis (NA) is a set of **integrated techniques to depict relations** among actors and to analyze the social structures that emerge from the recurrence of these relations. The basic assumption is that **better explanations of social phenomena** are yielded by analysis of the relations among entities. This analysis is conducted by collecting **relational data** organized in matrix form. If actors are depicted as nodes, and their relations as lines among pairs of nodes, the **concept of social network changes from being a metaphor to an operative analytical tool** which utilizes the mathematical language of graph theory and of matrix and relational algebra."
+.tr[
+`r Citet(bib, "chiesi_network_2001")`
+]
+]
+
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Überblick zur Entwicklung der Netzwerkforschung
+
+```{r}
+#| echo: false
+#| out-width: '55%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","Geschichte_Netzwerkanalyse_(Jansen_2003)_S38.png"))
+```
+
+
+.quelle[Bildquelle: `r Citet(bib, "jansen_einfuhrung_2003")`]
+
+
+???
+
+* Überblick über die Entwicklungslinien der Netzwerkanalyse in Anlehnung an 
+
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Anthropologische Entwicklungslinie (Manchester Gruppe) 
+
+* Barnes, Bott, Gluckman (1950er)
+
+  * Alternative zum Strukturfunktionalismus (Parsons) `r fa('circle-right')` Sozialisation primär, Handeln sekundär
+
+  * Interesse für konkretes Verhalten und konkrete Beziehungen
+
+  * Ego-zentrierte Netzwerke
+  
+* Mitchell, Barnes (1960er)
+  
+.blockquote[
+"A specific **set of linkages** among a defined **set of persons**, with the additional property that the *characteristics of these linkages* as a whole *may be used to interpret the social behavior* of the persons involved"
+]  
+
+
+
+???
+
+Mitchell, C.J. 1969: Social Network: "A specific set of linkages among a defined **set of persons**, with the additional property that the **characteristics of these linkages as a whole may be used to interpret the social behaviour** of the persons involved"
+
+* Set of Persons (Akteure): Personen, Organisation, Institutionen, etc.
+* Set of linkages (Beziehungen): Freundschaft, Vertrauen, Information, Güter, Kapital, Rang
+
+
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Anthropologische Entwicklungslinie (Strukturalismus) 
+
+* Strukturalistische Perspektive: Netzwerke als nicht-zufällige Kombinationen bestimmter Elemente
+
+* Identifikation ähnlicher Struktureigenschaften in selbst-organisierenden Formationen (soziale, biolog., chem. Strukturen)
+
+* Blockmodelle `r fa('circle-right')` von dyadischen Beziehungen zu gesellschaftlichen Strukturen (Bedeutung von Positionen, Rollen)
+
+* Netzwerkanalyse als Methode und als (phänomenologische) Theorie sozialer Strukturen
+
+
+???
+
+[Quelle: UZH](http://www.ipz.uzh.ch/forschung/publikationen/ZuerchpolEva/SNA_03.pdf)
+
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Embededdness (Granovetter, 1985) 
+
+* Rollen- oder sozialisationstheoret. Ansätze als übersozialisiertes Konzept sozialen Handelns 
+
+* Ökonomische Ansätze als untersozialisiertes Konzept sozialen Handelns
+
+--
+
+.blockquote[
+"Actors do not behave or decide as atoms outside a social context nor 	do they adhere slavishly to a script written for them by the particular 	intersection of social categories that they happen to occupy. Their attempts at purposive action are instead embedded in concrete, ongoing 	systems of social relations.
+.tr[
+(`r Citet(bib,"granovetter_economic_1985-1")`, S. 487).
+]
+]
+
+--
+* relationale Embeddedness: Dyadische Beziehungen und Vertrauen
+
+* strukturelle Embeddedness: Triadische Beziehungen und Reputation
+
+???
+
+* Verhältnis Individuum - soziale Beziehungen - Normen
+* relationale Embeddedness: dyadische Beziehung `r fa('circle-right')` Vertrauen
+* strukturelle Embeddedness: gesamtes Beziehungsnetzwerk ("Triaden") `r fa('circle-right')` Struktur der Beziehungen und Konsequenzen einer Handlung ("Ruf")
+
+* Relationale Embeddedness
+Die relationale Embeddedness kennzeichnet die Qualität der Beziehungen zwischen zwei Unternehmern. Die wirtschaftlichen Beziehungen der Unternehmer beruhen dabei nicht alleine auf dem rationalen Handeln (Handeln nach Zweckmäßigkeit, mit dem Ziel der Gewinnmaximierung bzw. Aufwandsminimierung). Die Beziehungen tendieren stattdessen dazu sich zu festigen und bilden damit die Grundlage für Vertrauen. Dieses basiert auf positiven Erfahrungen im Umgang miteinander. Gegenseitiges Vertrauen bewirkt somit einen Rückgang von Handlungsunsicherheiten und macht eigennütziges, den Geschäftspartner schädigendes Handeln unwahrscheinlicher. Somit ist Vertrauen Grundlage für ökonomisches Handeln zwischen Unternehmern. Durch die Entstehung dieser Vertrauensbasis können Unternehmer auch Zugang zu Ressourcen erhalten, die ihnen ohne das entgegengebrachte Vertrauen wahrscheinlich vorenthalten geblieben wären. Es können auch economies of time (Steigerung des Zeitvorteils) durch die Vertrauensbeziehung erzielt werden, z. B. durch schnellere kooperative Problemlösungen, gemeinsame Lernprozesse, Verzicht auf zeitraubende Verhandlungen über Regeln bei Vertragsabschlüssen. Dies kann Unternehmern einen schnelleren Marktzugang ermöglichen und raschere Reaktionen auf Veränderungen der Umwelt nach sich ziehen.
+
+* Strukturelle Embeddedness
+Die strukturelle Embeddedness kennzeichnet die Qualität der Strukturen zwischen einer Anzahl am Markt handelnder Unternehmer. Dabei wird die strukturelle Perspektive des Handelns unter der Annahme betrachtet, dass das Handeln von zwei Unternehmern von ihren Beziehungen mit anderen dritten Unternehmern abhängig ist. Strukturelle Embeddedness ist also darauf bezogen, dass wirtschaftliches Handeln in die Strukturen sozialer und kultureller Beziehungen eingebettet ist. Wird das entgegengebrachte Vertrauen missbraucht, können die Konsequenzen aus struktureller Perspektive gravierender sein, als aus der relationalen Perspektive und damit der zweiseitigen Ebene. Kommt es zur betrügerischen Ausnutzung einer Vertrauensbeziehung zwischen zwei Unternehmern ohne Auswirkung auf andere umgebende Unternehmer, aber gemeinsam verbundene Dritte erfahren von dem betrügerischen Verhalten eines Unternehmers, verliert dieser sein Vertrauen gegenüber dem betrogenen Unternehmer aber auch gegenüber den Dritten die hiervon erfahren haben.
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Mikro-Makro-Erklärungen in den Sozialwissenschaften
+
+
+.panelset[
+.panel[.panel-name[Coleman-Boot]
+```{r}
+#| echo: false
+#| out-width: '80%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","coleman_boot_(Opp_2014)_S157.png"))
+```
+.quellePanURL[Bildquelle: `r Citet(bib,"opp_aggregationsproblem_2014")`, S. 157.]
+]
+.panel[.panel-name[Mesosebene]
+* Netzwerke als Teil des Explanans (Makrophänomen I)
+Bsp. Einbettungskontext und Jobchancen (Granovetter)
+* Netzwerkstrukturen als Explanandum (Makrophänomen II)
+Bsp. Soziales Kapital einer Gesellschaft
+* Netzwerkstrukturen als Mesoebene in einer Makro-Mikro-Makro-Erklärung
+Bsp. Sozialversicherung
+
+`r fa('circle-right')`	Entscheidende theoretische Frage: sind Akteure in 	Netzwerken mehr als eine Verkörperung der Netzwerkstruktur?
+
+]
+]
+
+
+---
+class: left
+
+## Theorie und Empirie
+
+* Was soll mit der Netzwerkbetrachtung erreicht werden?
+  * Netzwerk als erklärende Variable? 
+  * Netzwerk als abhängige Variable?
+
+* Interdependenz!
+
+* SNA als Etikett für primär empirische Forschung
+  * Entwicklungen teils parallel mit Theoriebildung aber vielfach eklektisch
+  * Kernfragen der SNA:
+
+      * Systematische Datenerhebung
+      * Charakterisierung von Netzwerken anhand quantitativer Konzepte (Dichte, Zentralität etc.)
+      * Verstehen von Netzwerkkonfigurationen (qualitative Analyse)
+      * Graphische Darstellung und Visualisierung (Rückgriff auf Graphentheorie)
+      * Simulationsanalysen zur Entwicklung von Netzwerken
+
+???
+
+* Was soll mit der Netzwerkbetrachtung erreicht werden?
+
+  * Netzwerk als erklärende Variable? (Bsp. Wie beeinflusst das Netzwerk individuelles Verhalten?)
+
+  * Netzwerk als abhängige Variable? (Bsp. Erklärung Beziehungsstruktur von Individuen, wie entstehen bestimmte Beziehungsmuster?)
+
+* Interdependenz! Bsp. Schüler und Rauchen
+
+
+---
+class: left
+
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
+## Netzwerkanalyse als Ergänzung/Erweiterung der klass. Statistik
+
+<br>
+.center[.huge["Social network analysis is focused on uncovering the patterning of people's interaction. [..] Many believe, moreover, that the success or failure of societies and organizations often depends on the patterning of their internal structure."
+]
+.tr[
+`r Citet(bib,"insnaorg_international_nodate")`
+]
+]
+
+
+<br>
+--
+
+`r fa('exclamation-circle')` Fokus auf konkrete soziale Einheiten und deren Beziehungen statt auf in Attribute zerlegte Untersuchungseinheiten (klass. Statistik)
+
+
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Netzwerke: Typen, Darstellungsformen und Analyse
+
+.blockquote[Darstellungsformen]
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+.blockquote[Analyseebenen]
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Alternative Darstellungsformen von Netzwerkdaten
+
+.center[.huge[**Liste**]]
+
+--
+
+.center[.huge[**Matrix**]]
+
+--
+
+.center[.huge[**Graph**]]
+
+
+
+
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Netzwerk: Akteuere, Beziehungen und Eigenschaften
+
+* Wiederholung: Elemente eines Netzwerks
+
+--
+  * Akteure (**engl. actors**) mit gewissen Eigenschaften
+--
+
+  * Beziehungen (**engl. relations**) mit bestimmten Eigenschaften
+
+--
+
+* Erzeugung von `tibble()`-Objekten für Akteure und Beziehungen
 ```{r}
 #| message: false
 library(tidyverse)
@@ -498,82 +981,805 @@ actors <- tibble(name=c("Emma","Mia","Sofia","Noah","Liam","Matteo"),
 ties <- tibble(from=c("Noah","Noah","Noah","Noah","Noah"),
                 to=c("Emma","Mia","Sofia","Liam","Matteo"),
                 type=c("Partnerin","Kollegin","Kollegin","Freund","Freund"),
-               interaction=c(7,2,3,5,2))
-library(tidygraph)
-tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
-tg
-tg[[1]]
-tg[[4]]
+                intensity=c(7,2,3,5,2))
 ```
 
 
 ---
 class: left
 
-## Darstellungsformen
+.blockquote[Darstellungsformen]
 
-
-* Liste der Kanten (edge list)
+## Netzwerkdaten als Liste der Kanten (edge list)
 
 ```{r}
 ties %>% select(from,to)
 ```
 
-* Abhängigkeits-Matrix (adjancy matrix)
+---
+class: left
 
-``` {r}
-my_edgelist <- tg %>% 
-                activate(edges)  %>% 
-                select(from,to) %>% 
-                igraph::graph.data.frame()
-my_matrix <- igraph::get.adjacency(my_edgelist)
-class(my_matrix)
-my_matrix
-```
+.blockquote[Darstellungsformen]
 
-* Netzwerkgraph
+## Exkurs: Netzwerk-Objekte in `r fa('r-project')`
+
+* Diverse Pakete für die Netzwerkanalyse
+  * tidygraph
+  * ggraph
+  * igraph
+  * networks
+  * sna
+  * ergm
+  * ...
+
+* Im folgenden **igraph** und **tidygraph**/**ggraph**
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Exkurs: Netzwerk-Objekte in `r fa('r-project')`
+
+* Erzeugung eines `igraph`-Objekts
 
 ```{r}
+#| message: false
+library(igraph) # Paket laden
+ig <- graph_from_data_frame(ties, directed=FALSE, vertices=actors)
+class(ig)
+```
+
+
+* Erzeugung eines `tidygraph`-Objekts
+
+``` {r}
+#| message: false
+library(tidygraph) # Paket laden
+tg <- tbl_graph(nodes = actors, edges = ties, directed = FALSE)
+class(tg)
+```
+
+`r fa('exclamation-circle')` **tidygraph**-Paket als "tidy-Variante" des **igraph**-Pakets (wrapper-Funktionen)
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Exkurs: Netzwerk-Objekte in `r fa('r-project')`
+
+* Struktur von `igraph`-Objekten
+
+```{r}
+ig
+```
+
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Exkurs: Netzwerk-Objekte in `r fa('r-project')`
+
+* Struktur von `tidygraph`-Objekten
+
+.pull-left[
+
+```{r}
+tg
+```
+]
+
+--
+
+.pull-right[
+```{r}
+tg %>% 
+  activate(edges) %>% data.frame()
+```
+]
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Netzwerkdaten als Abhängigkeits-Matrix (adjancy matrix)
+
+* Nutzung der `as_adjacency_matrix()`-Funktion (**igraph**-Paket)
+
+```{r}
+#| message: false
+a_mat <- as_adjacency_matrix(ig)
+as.matrix(a_mat)
+```
+`r fa('question-circle')` Bildet die Adjazenz-Matrix einen (un-)gerichteten Graphen ab?
+
+
+
+
+---
+class:
+
+.blockquote[Darstellungsformen]
+
+## Netzwerkdaten als Graph
+
+* Einfacher Plot des `igraph`-Objekts
+
+```{r}
+#| out-width: '60%'
+#| fig-algin: 'center'
+plot(ig)
+```
+
+???
+
+* Graph als Tupel $(A, K)$ einer Menge von Akteuren/Knoten $A$ und Kanten (edges) $K$.
+  * Eine Kante $k\in K$ verbindet zwei Knoten $A_i\in A$ (wobei $i=1,...,a$) die Zahl der Akteure angibt
+  * Die Nachbarschaftsmenge $N(a)$ gibt die Menge der mit $a$ verbundenen Akteure/Knoten an:
+
+$$N(a)={u\in A|u\neq a,(u,a)\in K}$$
+
+* Ursprung: MORENO (1933) "before the innovation of sociometry no one really knew what the interpersonal structure of a group 'precisely' looked like"
+
+* Ein Graph ist eine Sammlung von Knoten und Kanten.
+  * Knoten stellen Entitäten dar, und 
+  * Kanten stellen Beziehungen zwischen Entitäten.
+* Graphen sind grundlegend für die Netzwerkanalyse (siehe Zitat zu Moreno).
+  * Gerichtete vs. ungerichtete Graphen: Kanten mit Richtungen vs. ohne
+Richtungen.
+  * Gewichtete vs. ungewichtete Graphen: Kanten mit Gewichtung vs. ohne
+Gewichte.
+
+
+---
+class:
+
+.blockquote[Darstellungsformen]
+
+## Netzwerkdaten als Graph mit ggraph
+
+.pull-left[
+* Angelehnt an das **ggplot2**-Paket 
+
+```{r}
+#| message: false
+#| warning: false
+#| out-width: '40%'
+#| fig-align: 'center'
 library(ggraph)
 tg %>% ggraph(layout = "graphopt") + 
-            geom_node_point(size=10) +
-            geom_edge_link() +
+          geom_node_point() + 
+          geom_edge_link() + theme_void()
+  
+```
+]
+--
+.pull-right[
+* Vorteil: große Flexibilität
+```{r}
+#| out-width: 40%
+#| fig-align: 'center'
+tg %>% ggraph(layout = "graphopt") + 
+            geom_node_point(size=7,color=FFHSred) +
+            geom_node_text(aes(label = name,color=FFHSpurp), 
+                           vjust=1.55,hjust=1.2,show.legend = FALSE) +
+            geom_edge_link(color=FFHSpurp,width=1.1,
+                          start_cap = ggraph::circle(3,'mm'),
+                          end_cap = ggraph::circle(3,'mm')) +
             theme_void()
+```
+]
+
+
+???
+
+
+
+
+???
+
+* $N = 1, \dots, n$ Knoten, Scheitelpunkte, Spieler
+* $g \in {0, 1}_{nn}$ Adjazenzmatrix (ungewichtet vs. gerichtet)
+* $g_{ij} = 1$ bedeutet eine Verbindung, ein Band oder eine Kante zwischen $i$ und $j$
+* Alternative Schreibweise: $ij \in g$ eine Verbindung zwischen $i$ und $j$
+Netzwerk $(N, g)$
+
+
+
+
+```{r}
+#| include: false
+knoten <- tibble(name=c("A","B"))
+kanten <- tibble(from=c("A"),to=c("B"))
+
+d1 <- tbl_graph(nodes = knoten, edges = kanten, directed = TRUE)
+
+
+p <- d1 %>% ggraph(layout = "grid") + 
+                geom_node_point(size=10,color=FFHSred) +
+                geom_node_text(aes(label = name,color="white"),
+                               show.legend = FALSE) +
+                theme_void(base_size = 22) +
+                labs(title=expression(paste("Null Dyade, ", D[ij],"=(0,0)",sep="")))
+p
+
+
+p1 <- d1 %>% ggraph(layout = "grid") + 
+                  geom_node_point(size=10,color=FFHSred) +
+                  geom_node_text(aes(label = name,color="white"),
+                         show.legend = FALSE) +
+                  geom_edge_link(arrow = arrow(),
+                         start_cap = ggraph::circle(4,'mm'),
+                         end_cap = ggraph::circle(4,'mm'),
+                         width=1,color=FFHSpurp) +
+                  theme_void(base_size = 22) +
+                  labs(title=expression(paste("Asymmetrische Dyade, ", D[ij],"=(1,0)",sep="")))
+p1
+kanten <- tibble(from=c("B"),to=c("A"))
+
+d1b <- tbl_graph(nodes = knoten, edges = kanten, directed = TRUE)
+p2 <- d1b %>% ggraph(layout = "grid") + 
+                  geom_node_point(size=10,color=FFHSred) +
+                  geom_node_text(aes(label = name,color="white"),
+                         show.legend = FALSE) +
+                  geom_edge_link(arrow = arrow(),
+                         start_cap = ggraph::circle(4,'mm'),
+                         end_cap = ggraph::circle(4,'mm'),
+                         width=1,color=FFHSpurp) +
+                  theme_void(base_size = 22) +
+                  labs(title=expression(paste("Asymmetrische Dyade, ", D[ij],"=(0,1)",sep="")))
+p2
+
+kanten <- tibble(from=c("A","B"),to=c("B","A"))
+d2 <- tbl_graph(nodes = knoten, edges = kanten, directed = TRUE)
+p3 <- d2 %>% ggraph(layout = "grid") + 
+                geom_node_point(size=10,color=FFHSred) +
+                geom_node_text(aes(label = name,color="white"),
+                               show.legend = FALSE) +
+                geom_edge_link(strength=1,arrow = arrow(),
+                            start_cap = ggraph::circle(4,'mm'),
+                            end_cap = ggraph::circle(4,'mm'),
+                            width=1,color=FFHSpurp) + 
+                theme_void(base_size = 22) +
+                labs(title=expression(paste("Reziprozität, ", D[ij],"=(1,1)",sep="")))
+p3
+```
+
+
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## (Ge-)richtete und (ge-)wichtete Graphen
+
+* Ungerichtet (ungewichtet)
+
+```{r}
+#| include: false
+#| warning: false
+knoten <- tibble(name=c("Ego","Alter"))
+kanten <- tibble(from=c("Ego"),to=c("Alter"))
+
+tg1 <- tbl_graph(nodes = knoten, edges = kanten, directed = FALSE)
+set.seed(7)
+pundir <- tg1 %>% ggraph(layout = "grid") + 
+            geom_node_point(size=7,color=FFHSred) +
+            geom_node_text(aes(label = name,color=FFHSpurp),vjust=-2,hjust=.5,show.legend = FALSE) +
+            geom_edge_link(start_cap = ggraph::circle(3,'mm'),
+                            end_cap = ggraph::circle(3,'mm'),
+                            width=1,color=FFHSpurp) +
+            theme_void()
+#ggsave(xfun::from_root("img","PVA2","graph_undir.svg"),pundir)
+#library(magick)
+#g_undir = image_read_svg(xfun::from_root("img","PVA2","graph_undir.svg"))
+#g_undir = image_trim(g_undir)
+#g_undir <- image_border(image_background(g_undir, "#fff"), "#fff", "20x10") #adds a border of 20px left+right and 10px #top+bottom
+#image_write(g_undir,xfun::from_root("img","PVA2","g_undir_cropped.svg"), format = "svg")
+```
+
+```{r}
+#| echo: false
+#| out-width: '50%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","g_undir_cropped.svg"))
+```
+
+
+* Gerichtet (ungewichtet)
+
+```{r}
+#| include: false
+#| warning: false
+tg2 <- tbl_graph(nodes = knoten, edges = kanten, directed = TRUE)
+set.seed(7)
+pdir <- tg2 %>% ggraph(layout = "grid") + 
+            geom_node_point(size=7,color=FFHSred) +
+            geom_node_text(aes(label = name,color=FFHSpurp),vjust=-2,hjust=.5,show.legend = FALSE) +
+            geom_edge_link(strength=1,arrow = arrow(),
+                            start_cap = ggraph::circle(3,'mm'),
+                            end_cap = ggraph::circle(3,'mm'),
+                            width=1,color=FFHSpurp) +
+            theme_void() + theme()
+#ggsave(xfun::from_root("img","PVA2","graph_dir.svg"),pdir)
+#library(magick)
+#g_dir = image_read_svg(xfun::from_root("img","PVA2","graph_dir.svg"))
+#g_dir = image_trim(g_dir)
+#g_dir <- image_border(image_background(g_dir, "#fff"), "#fff", "20x10") #adds a border of 20px left+right and 10px #top+bottom
+#image_write(g_dir,xfun::from_root("img","PVA2","g_dir_cropped.svg"), format = "svg")
+```
+
+
+```{r}
+#| echo: false
+#| out-width: '50%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","g_dir_cropped.svg"))
+```
+
+
+* Gerichtet und gewichtet
+
+
+```{r}
+#| include: false
+#| warning: false
+knoten <- tibble(name=c("Ego","Alter"))
+kanten <- tibble(from=c("Ego","Alter"),to=c("Alter","Ego"),weight=c(5,6))
+
+tg3 <- tbl_graph(nodes = knoten, edges = kanten, directed = TRUE)
+set.seed(7)
+pw <- tg3 %>% ggraph(layout = "grid") + 
+            geom_node_point(size=7,color=FFHSred) +
+            geom_node_text(aes(label = name,color=FFHSpurp),vjust=-1,hjust=c(-.7,1.2),show.legend = FALSE) +
+            geom_edge_arc(aes(width=weight), arrow=arrow(),
+                          start_cap = ggraph::circle(3,'mm'),
+                          end_cap = ggraph::circle(3,'mm'),
+                          color=FFHSpurp,show.legend = FALSE) +
+            theme_void()
+#pw
+#ggsave(xfun::from_root("img","PVA2","graph_w.svg"),pw)
+#library(magick)
+#g_w = image_read_svg(xfun::from_root("img","PVA2","graph_w.svg"))
+#g_w = image_trim(g_w)
+#g_w <- image_border(image_background(g_w, "#fff"), "#fff", "20x10") #adds a border of 20px left+right and 10px #top+bottom
+#image_write(g_w,xfun::from_root("img","PVA2","g_weighted.svg"), format = "svg")
+```
+
+```{r}
+#| echo: false
+#| out-width: '50%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","g_weighted.svg"))
+```
+
+
+
+
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Layout-Optionen im ggraph-Paket
+
+**ggraph** Option `layout` greift auf [layout-Optionen](https://igraph.org/c/doc/igraph-Layout.html) des **igraph**-Pakets zurück
+
+  * Kreisförmig ('circle')
+  * Sternförmig ('star')
+  * Rasterförmig ('grid')
+  * Zufall ('randomly')
+  * GraphOpt-Algorithmus ('graphopt')
+  * Distributed-Recursive-Layout ('drl')
+  * Kamada-Kawai-Algorithmus ('kk')
+  * Fruchterman-Reingold-Algorithmus ('fr')
+  * GEM-Algorithmus ('gem')
+  * Davidson-Harel-Algorithmus ('dh')
+  * Multidimensionale Skalierung ('mds')
+  * Large-Graphs-Layout-Algorithmus ('lgl')
+
+* Grafischer Vergleich alternativer Layouts: [Thomas Lin Pedersen](https://www.data-imaginist.com/post/2017-02-06-ggraph-introduction-layouts_files/figure-html/unnamed-chunk-12.gif)
+
+???
+1.1. igraph_layout_random — Places the vertices uniform randomly on a plane.
+1.2. igraph_layout_circle — Places the vertices uniformly on a circle in arbitrary order.
+1.3. igraph_layout_star — Generates a star-like layout.
+1.4. igraph_layout_grid — Places the vertices on a regular grid on the plane.
+1.5. igraph_layout_graphopt — Optimizes vertex layout via the graphopt algorithm.
+1.6. igraph_layout_bipartite — Simple layout for bipartite graphs.
+1.7. The DrL layout generator
+1.8. igraph_layout_fruchterman_reingold — Places the vertices on a plane according to the Fruchterman-Reingold algorithm.
+1.9. igraph_layout_kamada_kawai — Places the vertices on a plane according to the Kamada-Kawai algorithm.
+1.10. igraph_layout_gem — Layout graph according to GEM algorithm.
+1.11. igraph_layout_davidson_harel — Davidson-Harel layout algorithm.
+1.12. igraph_layout_mds — Place the vertices on a plane using multidimensional scaling.
+1.13. igraph_layout_lgl — Force based layout algorithm for large graphs.
+
+
+---
+class: left
+
+## Beispiel: Layout-Optionen
+
+
+.pull-left[
+```{r}
+#| out-width: "100%"
+tg %>% ggraph(layout = "fr") + 
+            geom_node_point() +
+            geom_edge_link() + theme_void()
+```
+]
+--
+.pull-right[
+```{r}
+#| out-width: "100%"
+tg %>% ggraph(layout = "circle") + 
+            geom_node_point() +
+            geom_edge_link() + theme_void()
+```
+]
+
+---
+class: left
+
+.blockquote[Darstellungsformen]
+
+## Beispiel: Interaktive Darstellungsformen
+
+
+```{r}
+#| echo: false
+#| out-width: '100%'
+knitr::include_url('https://theyrule.net/',height="450px")
 ```
 
 
 ???
 
-Ein Graph ist eine Sammlung von Knoten und Kanten.
-Knoten stellen Entitäten dar, und Kanten stellen Beziehungen
-zwischen Entitäten.
-Graphen sind grundlegend für die Netzwerkanalyse.
-Gerichtete vs. ungerichtete Graphen: Kanten mit Richtungen vs. ohne
-Richtungen.
-Gewichtete vs. ungewichtete Graphen: Kanten mit Gewichtung vs. ohne
-Gewichte.
-Graphen können durch Adjazenzlisten oder Matrizen dargestellt werden.
+Generell: Graph sollte möglichst wenig Kanten aufweisen, die sich schneiden
+
+* wird bei größeren Datensätzen natürlich fast unmöglich, selbst bei 3D
+
+
+
+
 
 
 ---
 class: left
 
-## Notation
+.blockquote[Empirische vs. Stochastische Netzwerke]
 
-* $N = 1, \dots, n$ Knoten, Scheitelpunkte, Spieler
-* $g \in {0, 1}_{nn}$ Adjazenzmatrix (ungewichtet vs. gerichtet)
-* $g_ij = 1$ bedeutet eine Verbindung, ein Band oder eine Kante zwischen $i$ und $j$
-* Alternative Schreibweise: $ij \in g$ eine Verbindung zwischen $i$ und $j$
-Netzwerk $(N, g)$
-
-
----
-class: left
-
-## Small World
+## Untersuchungsgegenstand
 
 ```{r}
 #| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","Gesamt-Egozentriert-Netzwerk.svg"))
+```
+
+
+
+???
+
+* Festlegung auf bestimmte Menge von Akteuren und
+bestimmte Arten von Beziehungen; 
+
+* Unterschiede in
+Datenerhebung und Datenauswertung
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Gesamtnetzwerke vs. Ego-zentrierte Netzwerke
+
+.pull-left[
+Welche Arten von Beziehungen unterhält jeder Akteur einer bestimmten Untersuchungsmenge von Akteuren mit jedem anderen Akteur dieser
+Menge?
+
+`r fa('circle-right')` Fokus auf Strukturen und Interdependenzen 
+]
+--
+.pull-right[
+Welche Arten von Beziehungen unterhält jeder Akteur einer bestimmten Untersuchungsmenge von Akteuren mit welchen anderen Akteuren,
+unabhängig ob zur (Ausgangs-)Menge gehörig oder nicht?
+
+`r fa('circle-right')` Fokus auf Individuen und Ihre Embeddedness
+
+]
+
+
+`r fa('exclamation-circle')` Problem fehlender Werte wiegt in der SNA noch schwerer als in der allg. Statistik.
+
+???
+
+* Häufiges Problem bei Gesamtnetzwerken: Festlegung Grundgesamtheit
+
+* Problem bei Egozentrierten Netzwerken: Stichprobendaten nicht für alle Messkonzepte sinnvoll einsetzbar
+
+
+ 
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## One-Mode- vs. Two-Mode-Netzwerke
+
+
+```{r}
+#| echo: false
+#| out-width: '90%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","one-mode-two-mode.png"))
+```
+
+.quelle[Bildquelle: [Vasques (2020).](https://twitter.com/demivasques)]
+
+???
+
+* Anzahl der Akteursmengen
+
+"Two-mode data (often referred to as "actor-by-event" or "affiliation" in social network analysis) offer some interesting possibilities for gaining insights into macro-micro or agent-structure relations. With two-mode data, we can examine how macro-structures (events) pattern the interactions among agents (or not); we can also examine how the actors define and create macro structures by their patterns of affiliation with them. In addition, we can attempt to describe patterns of relations between actors and structures simultaneously." (Hanneman, 2001)
+
+* Allerdings: analytisches Instrumentarium (noch) weniger umfangreich als für Analyse von one-mode-Netzwerken
+* Häufig: Transformation in gewichtete ungerichtete Graphen durch sog. Projektionen
+* Projektion: $A^{row}=BB^T$ oder $A^{col}=B^TB$
+* vgl. Brandes et al. (2013), S. 110f
+
+
+
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Egozentrierte Netzwerke
+
+
+```{r}
+#| echo: false
+#| out-width: '45%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA2','Ego-Pers_Netzwerk.svg'))
+```
+
+.content-box-purple[
+.white[
+Ego-Netzwerke bestehen aus einem Fokalknoten (Ego) und den Knoten, mit denen Ego direkt verbunden ist (diese werden "Alter" genannt), sowie den Verbindungen zwischen den Alteri, falls vorhanden.]
+]
+
+
+???
+
+
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Beispiel: Egozentrierte vs. persönliche Netzwerke
+
+.pull-left[
+
+```{r}
+#| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knoten <- tibble(name=c(0:13),type=c("Ego","Alter","Alter","Alter","Alter",
+                                     "Alter","Alter","Alter","Alter",
+                                     "Alter","Alter","Alter","Alter",
+                                     "Alter"))
+
+kanten <- tibble(from=c(0,0,0,0,0,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,5,5,5,
+                        6,6,7,7,8,9,9,9,10,11,11,12,12,13),
+                 to=  c(1,2,3,4,5,0,2,5,6,0,1,3,11,12,0,2,4,5,8,0,3,7,0,1,3,6,7,
+                        1,5,4,5,3,3,10,11,9,9,2,2,13,12))
+kanten <- kanten %>%
+            mutate(from=from+1,to=to+1)
+
+n_ges <- tbl_graph(nodes = knoten, edges = kanten)
+n_ges <- n_ges %>%
+            activate("edges") %>%
+            mutate(dir_ego=(.N()$name[from]=="0" | .N()$name[to]=="0")) 
+
+n_ges %>% ggraph(layout = "graphopt") +
+  geom_node_point(aes(color=type),size=10,
+                  show.legend = FALSE) +
+  geom_node_text(aes(label = name),color=FFHSpurp) +
+  geom_edge_link(aes(edge_color=dir_ego),
+                 start_cap = ggraph::circle(4,'mm'),
+                 end_cap = ggraph::circle(4,'mm'),
+                 width=1,show.legend = FALSE) +
+  theme_void()
+```
+]
+--
+.pull-right[
+```{r}
+#| echo: false
+#| out-width: '100%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA2','Ego_Network_subgraph_(Akabane_etal_2018).jpg'))
+```
+
+
+.quelle[Bildquelle: `r Citet(bib, "akabane_distributed_2018")`]
+]
+
+
+???
+
+* Fokus auf einer Entität bzw. einem Knoten ("Ego")
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Typen Sozialer Beziehungen
+
+* Rollenbasiert
+  * Verwandtschaft (Mutter, Tochter)
+  * Hierarchie (Vorgesetzter, Mentor, Freund)
+  * ...
+
+--
+* Kognitiv-affektiv
+  * Sympathie
+  * Bewunderung
+  * Bekanntschaft
+  * ...
+
+--
+* Handlungen
+  * Gesprächspartner
+  * Handelspartner (Käufer, Verkäufer)
+  * Unterstützer
+  * ...
+
+
+
+???
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Ego-Netzwerke: Datenbeschaffung 
+
+.pull-left[
+.huge[.center[**Personen-basiert**]]
+
+* Beginn mit Namens-Generator
+
+* meist ohne Beschränkung bzgl. Beziehungstyp
+
+* Angabe des Beziehungstyps
+
+* Angaben zum Ego (meist: soziodemografisch)
+]
+
+.pull-right[
+.huge[.center[**Beziehungs-basiert**]]
+
+* Beginn mit interessierendem Beziehungstyp
+
+* Bsp. "Wer bietet Ihnen emotionale Unterstützung"
+
+* Angaben zur Beziehung (Dauer, Häufigkeit, Intensität...)
+
+* Ggf. Angaben zu den Alteri
+]
+
+
+`r fa('exclamation-circle')` Aufgrund der Unvollständigkeit von Ego-Netzwerken sind nicht alle Maßzahlen (vgl. Teil 2) sinnvoll zu ermitteln. Bspw. Pfadlänge.
+
+???
+
+* Personenbasiert:
+  * Namens-Generator: offene Frage im Fragebogen. Nennen Sie x Freunde...
+  * keine Beschränkung: Freunde, Kollegen, Verwandte, ...
+
+
+* Beziehungsbasiert:
+  * Beginn mit interessierendem Beziehungstyp (bspw. bei wem bekommen Sie emotionale Unterstützug?)
+   
+* Ego-Netzwerke als zufällige Auswahl von Egos aus einer großen Population, in der Regel kein Gesamtnetzwerk: Es ist wahrscheinlich, dass kein Ego ein Alter erwähnt, das ein anderes Ego oder ein Alter eines anderen Egos ist. Daher können **bestimmte Netzwerkmaße nicht aus Ego-Netzwerkdaten gewonnen** werden, wie z. B. die Anzahl der Verbindungen, die Personen voneinander trennen.
+
+
+* Typical measures:
+  * homophily
+  * size
+  * average strength of ties
+  * heterogeneity
+  * density
+  * composition (e.g., pct women, pct whites, etc.)
+  * range:
+      i. substantively defined as potential access to social resources
+      ii. often defined as diversity of alters
+      iii. based on weak ties argument, density is thought of as inverse measure of range
+      iv. size and heterogeneity also seen as measures of range
+
+
+
+---
+class: left
+
+.blockquote[Empirische vs. Stochastische Netzwerke]
+
+## Stochastische Netzwerke und Small-World-Experiment
+
+```{r}
+#| echo: false
+#| out-width: '80%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root('img','PVA2','small_world.png'))
+```
+
+.quelle[Bildquelle: [`r Citet(bib,"catasta_measuring_2019")`](https://snap-stanford.github.io/cs224w-notes/preliminaries/measuring-networks-random-graphs)]
+
+--
+
+`r fa('exclamation-circle')` Stochastische Netzwerke als Referenz zur Beurteilung von Eigenschaften empirischer Netzwerke!
+
+
+
+
+
+???
+
+
+* Milgram-Experiment: Versuchspersonen (insgesamt 60) aus dem mittleren Westen der USA sollen eine Nachricht an einen Börsenmakler in Boston übermitteln.
+
+* Nicht direkt, sondern durch Übergabe an mit Vornamen bekannten Personen (per DU), welche die Zielperson mit höherer Wahrscheinlichkeit kannten.
+
+* Ergebnis: Median Pfadlänge, also 5 Mittelsmänner
+
+* Six Degrees of Separation
+
+* Ähnliches Experiment: Emails (Dodds, Muhamad, Watts, 
+Science 301, 2003)
+  * 18 Ziele in 13 verschiedenen Ländern
+  * 60.000+ Teilnehmer
+  * 24.163 Nachrichtenketten
+  * 384 mal angekommen, Durchschnittliche Pfadlänge 4,0
+
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
 #| cache: true
 play_smallworld(1, 100, 3, 0.05) %>% 
     mutate(centrality = centrality_authority()) %>% 
@@ -588,14 +1794,13 @@ play_smallworld(1, 100, 3, 0.05) %>%
 
 [tidygraph](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/)
 
-
-
----
-class: left
+Duncan Watts und Steven Strogatz
 
 
 ```{r}
 #| echo: false
+#| message: false
+#| warning: false
 #| cache: true
 library(tidygraph)
 library(ggraph)
@@ -608,33 +1813,45 @@ play_forestfire(50, 0.5) %>%
 
 
 
+
+
+
+
 ---
 class: left
 
-## Netzwerkanalyse
+.blockquote[Analyseebenen]
 
-* Ebenen der Analyse und :
+## Einheiten der Netzwerkanalyse
 
---
-
-  * Dyade (Ordnung $O(n^2)$)
+.center[.huge[**Netzwerk**]]
 
 --
 
-  * Knoten (Ordnung $O(n^1)$)
+.center[.huge[**Knoten**]]
 
 --
 
-  * Netzwerk (Ordnung $O(n^0)$)
-  
+.center[.huge[**Dyade**]]
+
+--
+
+.center[.huge[**Triade**]]
+
   
 ???
 
-At the dyad level of
-analysis, we study pairwise relations between actors and ask research questions like
-‘do pairs of actors with business ties tend to develop affective ties?’. The dyad level
-is the fundamental unit of network data collection, and is the unit with the greatest
-frequency.
+* Netzwerk (Ordnung $O(n^0)$)
+
+* Knoten (Ordnung $O(n^1)$) 
+
+* Dyade (Ordnung $O(n^2)$)
+
+* Triade  (Ordnung $O(n^3)$)
+
+* At the dyad level of analysis, we study pairwise relations between actors and ask research questions like "do pairs of actors with business ties tend to develop affective ties?". 
+
+* The **dyad level** is the **fundamental unit of network data collection**, and is the **unit with the greatest frequency**.
 
 
 `r Citet(bib, "borgatti_analyzing_2013")` (S. 1ff)
@@ -644,9 +1861,71 @@ frequency.
 ---
 class: left
 
-.blockquote[]
+.blockquote[Analyseebenen]
 
-## Ebenen der Analyse
+## Dyadenzensus
+
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: '70%'
+#| fig-align: 'center'
+p
+```
+]
+--
+.pull-right[
+```{r}
+#| echo: false
+#| out-width: '70%'
+#| fig-align: 'center'
+p3
+```
+]
+--
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: '70%'
+#| fig-align: 'center'
+p1
+```
+]
+.pull-right[
+```{r}
+#| echo: false
+#| out-width: '70%'
+#| fig-align: 'center'
+p2
+```
+]
+
+.quelle[Eigene Darstellung.]
+
+
+---
+class: left
+
+.blockquote[Analyseebenen]
+
+## Triadenzensus und MAN-Schema
+
+```{r}
+#| echo: false
+#| out-width: '55%'
+#| fig-align: 'center'
+knitr::include_graphics(xfun::from_root("img","PVA2","MAN_Triad_census_(Felmlee_etal_2021).png"))
+```
+
+.quelle[Bildquelle: [`r Citet(bib,"felmlee_dyads_2021")`](https://appliednetsci.springeropen.com/articles/10.1007/s41109-021-00403-5/figures/3)]
+
+
+---
+class: left
+
+.blockquote[Analyseebenen]
+
+## Kennzahlen der Netzwerkanalyse
 
 * Globale Muster
   * Grad-Verteilungen, 
@@ -666,92 +1945,17 @@ class: left
 
 
 
----
-class: inverse, center, middle
-
-
-## Motivation und Einordnung
-
----
-class: left
-
-.content-box-blue[
-test
-]
 
 
 
 
 
 
----
-class: left
-
-.blockquote[Intro R-Objekte]
-
-## R 
 
 
 
-```{r}
-#| echo: false
-#| cache: true
-library(DiagrammeR)
-l=DiagrammeR::mermaid("
-graph LR;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
-```
-
----
-class: left
-
-## ungerichtet
-
-```{r}
-library(igraph)
-df <- read.table(sep=" ", header=TRUE, text="
-Col1 Col2
-Ego Alter")
-require(igraph)
-plot(graph.edgelist(as.matrix(df)))
-```
 
 
-
----
-class: left
-
-.blockquot[]
-
-## Egonetzwerke
-
-```{r}
-library(DiagrammeR)
-l=DiagrammeR::mermaid("
-graph TB;
-A((Orange)) --> B((Grey));
-
-classDef orange fill:#f96;
-classDef grey fill:#d3d3d3;
-class A orange;
-class B grey;
-")
-
-widgetframe::frameWidget(l)
-```
-
-
-???
-
-* Fokus auf einer Entität bzw. einem Knoten ("Ego")
 
 ---
 class: inverse,center,middle
@@ -777,3 +1981,7 @@ class: left
 PrintBibliography(bib)
 ```
 ]
+
+
+
+
