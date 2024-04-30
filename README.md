@@ -13,7 +13,7 @@ Materialien zum Modul ER018 - Analyzing Business Relations & Documents
 
 * Teil 4: Textmining und NLP ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA1/03_Intro_TextminingNLP.html))
 
-## PVA1
+## PVA2
 
 * Teil 1: Grundlagen Netzwerkanalyse ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/01_IntroSNA.html))
 * Teil 1: Grundlagen Netzwerkanalyse ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/02_tidyNA.html))
