@@ -65,9 +65,9 @@ bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
 
 # ER018 - Analyzing Business Relations & Documents
 
-## PVA3
+## PVA2
 
-### Soziale Netzwerkanalyse
+### Teil 1: Einführung Netzwerkwissenschaften und Netzwerkanalyse
 
  
 
@@ -859,18 +859,18 @@ Bsp. Sozialversicherung
 ---
 class: left
 
+.blockquote[Entwicklungslinien der Sozialen Netzwerkforschung]
+
 ## Theorie und Empirie
 
 * Was soll mit der Netzwerkbetrachtung erreicht werden?
   * Netzwerk als erklärende Variable? 
   * Netzwerk als abhängige Variable?
-
-* Interdependenz!
+  * Interdependenz (!)
 
 * SNA als Etikett für primär empirische Forschung
   * Entwicklungen teils parallel mit Theoriebildung aber vielfach eklektisch
   * Kernfragen der SNA:
-
       * Systematische Datenerhebung
       * Charakterisierung von Netzwerken anhand quantitativer Konzepte (Dichte, Zentralität etc.)
       * Verstehen von Netzwerkkonfigurationen (qualitative Analyse)
@@ -1014,6 +1014,9 @@ class: left
 
 * Im folgenden **igraph** und **tidygraph**/**ggraph**
 
+
+
+
 ---
 class: left
 
@@ -1080,6 +1083,8 @@ tg %>%
   activate(edges) %>% data.frame()
 ```
 ]
+
+
 
 ---
 class: left
@@ -1402,11 +1407,13 @@ class: left
 1.13. igraph_layout_lgl — Force based layout algorithm for large graphs.
 
 
+
 ---
 class: left
 
-## Beispiel: Layout-Optionen
+.blockquote[Darstellungsformen]
 
+## Beispiel: Layout-Optionen
 
 .pull-left[
 ```{r}

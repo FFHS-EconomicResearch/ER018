@@ -64,9 +64,9 @@ bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
 
 # ER018 - Analyzing Business Relations & Documents
 
-## PVA3
+## PVA2
 
-### Soziale Netzwerkanalyse
+### Teil 2: Netzwerkanalyse in R
 
  
 
@@ -169,10 +169,15 @@ class: left
 FFHSred <- "#d50006"
 FFHSpurp <- "#502479"
 library(ggraph)
-knoten <- tibble(name=c("A","B","C","D","E","F","G","H"),type=c("Alter","Alter","Alter","Alter","Alter","Alter","Alter","Ego"))
+knoten <- tibble(name=c("A","B","C","D","E","F","G","H"),
+                 type=c("Alter","Alter","Alter","Alter","Alter","Alter","Alter","Ego"))
+
 kanten <- tibble(from=c("H","H","H","H","H","H","H","A","A","A","B","B","B","B","B","C","C","D","E","F","F","F","G","G","G","G"),
-                 to=c("A","B","C","D","E","F","G","B","G","H","A","C","F","G","H","B","H","H","H","B","G","H","A","B","F","H")
+                   to=c("A","B","C","D","E","F","G","B","G","H","A","C","F","G","H","B","H","H","H","B","G","H","A","B","F","H")
 )
+
+
+
 library(tidygraph)
 n_ges <- tbl_graph(nodes = knoten, edges = kanten, directed = FALSE)
 set.seed(4)
@@ -392,11 +397,12 @@ Erzeuge einen Graphen zum Medici-Netzwerk. Die Kanten von Familien mit "direktem
 #| echo: false
 #| message: false
 #| warning: false
-ggraph(flo_tidy,"stress") + 
-  geom_edge_link0(aes(edge_color = to_medici))+
-  geom_node_point(shape = 21, size = 10, fill = "grey66")+
-  geom_node_text(aes(label = name))+
-  theme_graph()
+#| out-width: '45%'
+#| fig-align: 'center'
+flo_tidy %>% ggraph("stress") + 
+                geom_edge_link0(aes(edge_color = to_medici)) +
+                geom_node_point(shape = 21, size = 10, fill = "grey66") +
+                geom_node_text(aes(label = name)) + theme_graph()
 ```
 
 
@@ -444,19 +450,31 @@ class:
 
 .blockquote[Zentralität]
 
-## Beispiel: Freundschaftsnetzwerk
+## Beispiel: "Freundschaftsnetzwerk"
 
-* `activate()`
+* Degree-Zentralität
 
 ```{r}
 tg %>% 
-    activate(nodes) %>% 
-    mutate(degree = centrality_degree()) 
+    activate(nodes) %>%   #Knoten aktivieren
+    mutate(degree = centrality_degree()) # Grad-Zentralität berechnen&speichern
+```
 
-tg %>%  activate(edges) %>% 
-    mutate(betweenness = centrality_edge_betweenness(), 
-         # .N() gets the nodes data from edge you're accessing
-         homo = (.N()$sex[from] == .N()$sex[to]))
+
+---
+class:
+
+.blockquote[Zentralität]
+
+## Beispiel: "Freundschaftsnetzwerk"
+
+* Betweenness-Zentralität und Homophilie
+
+```{r}
+tg %>% activate(edges) %>% # Kanten aktivieren
+              mutate(betweenness = centrality_edge_betweenness(), 
+                     homo = (.N()$sex[from] == .N()$sex[to])) 
+# Obs! .N() verwendet Daten der an die aktivierten Kanten "grenzenden" Knoten 
 ```
 
 
@@ -477,7 +495,7 @@ Ermittle zwei Zentralitätsmaße für das florentinische Familiennetzwerk.]
 #| message: false
 #| warning: false
 flo_tidy %>% 
-  activate("nodes") %>% 
+  activate("nodes") %>%  #Knoten aktivieren
   mutate(degree = centrality_degree(),
          betweenness = centrality_betweenness())
 ```
@@ -489,10 +507,30 @@ class: left
 
 ## Grafische Darstellung der Zentralität am Beispiel "Medici"
 
+.panelset[
+.panel[.panel-name[Plot]
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+#| out-width: '60%'
+#| fig-align: 'center'
+flo_tidy %>% 
+  activate("nodes") %>% 
+  mutate(degree = centrality_degree(),
+         betweenness = centrality_betweenness()) %>% 
+  ggraph("stress",bbox=10) + 
+    geom_edge_link0(edge_color = "black") +
+    geom_node_point(shape = 21, aes(size=degree,fill=betweenness)) +
+    geom_node_text(aes(label = name)) +
+    scale_fill_gradient(low="#104E8B",high="#CD2626") +
+    scale_size(range = c(4,10)) + theme_graph()
+```
+
+]
+.panel[.panel-name[Code]
+```{r}
+#| eval: false
 flo_tidy %>% 
   activate("nodes") %>% 
   mutate(degree = centrality_degree(),
@@ -506,6 +544,10 @@ ggraph("stress",bbox=10) +
   theme_graph()
 ```
 
+]
+]
+
+
 
 
 ---
@@ -513,7 +555,7 @@ class: left
 
 .blockquote[Pfade und Distanzen]
 
-## Durchmesser
+## Durchmesser am Beispiel "Freundschaftsnetzwerk"
 
 ```{r}
 tg  %>%
@@ -530,8 +572,29 @@ class: left
 
 ## Beispiel mit Zufallsdaten
 
+.panelset[
+.panel[.panel-name[Plot]
 ```{r}
+#| echo: false
 #| message: false
+#| warning: false
+#| out-width: '50%'
+#| fig-align: 'center'
+# create random graph with group structure (igraph equivalent is sample_islands())
+play_islands(4, 12, 0.8, 4) %>% 
+  mutate(community = as.factor(group_louvain())) %>% 
+  activate("edges") %>% 
+  mutate(community = as.factor(ifelse(.N()$community[from]==.N()$community[to],.N()$community[from],5))) %>% 
+  ggraph(layout = 'stress') + 
+  geom_edge_link0(aes(edge_colour=community),show.legend = FALSE) + 
+  geom_node_point(aes(fill = community), shape = 21, size = 6) + 
+  scale_fill_brewer(palette = "Set3")+
+  scale_edge_color_brewer(palette = "Set3") 
+```
+]
+.panel[.panel-name[Code]
+```{r}
+#| eval: false
 #| warning: false
 # create random graph with group structure (igraph equivalent is sample_islands())
 play_islands(4, 12, 0.8, 4) %>% 
@@ -542,9 +605,12 @@ play_islands(4, 12, 0.8, 4) %>%
   geom_edge_link0(aes(edge_colour=community),show.legend = FALSE) + 
   geom_node_point(aes(fill = community), shape = 21, size = 6) + 
   scale_fill_brewer(palette = "Set3")+
-  scale_edge_color_brewer(palette = "Set3")+
-  theme_graph(background = "grey88")
+  scale_edge_color_brewer(palette = "Set3") 
 ```
+]
+
+]
+
 
 
 
