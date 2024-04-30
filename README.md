@@ -16,5 +16,5 @@ Materialien zum Modul ER018 - Analyzing Business Relations & Documents
 ## PVA2
 
 * Teil 1: Grundlagen Netzwerkanalyse ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/01_IntroSNA.html))
-* Teil 1: Grundlagen Netzwerkanalyse ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/02_tidyNA.html))
+* Teil 2: Netzwerkanalyse in R ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/02_tidyNA.html))
 
