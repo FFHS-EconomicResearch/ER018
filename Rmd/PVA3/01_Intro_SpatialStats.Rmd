@@ -60,13 +60,14 @@ file.name <- system.file("Bib",
                          "my_bib.bib", 
                          package = "RefManageR")
 bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+library(tidyverse)
 ```
 
 # ER018 - Analyzing Business Relations & Documents
 
 ## PVA3
 
-### Räumliche Statistik
+### Räumliche Statistik und Geostatistik
 
  
 
@@ -100,20 +101,217 @@ class: left
 
 .blockquote[Agenda]
 
-## Einführung Geostatistik
+## Einführung Räumliche Statistik und Geostatistik
+
+
+* Einführung und Motivation
 
 * Autokorrelation
 
-* Räumliche Statistik in R
+* Räumliche Daten
+
+* Räumliche Statistik und Geostatistik
  
 
 
 
-
+???
 
 
 
 [Beispiel](https://crd230.github.io/lab9.html)
+
+
+
+
+[Scott](https://www.esri.com/news/arcwatch/0410/lauren-scott.html)
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Einführung und Motivation]
+
+## Räumliche Analysen und Datenkombination
+
+
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: "50%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","spatial_analytics_(pwc_2021).png"))
+```
+
+
+]
+.pull-right[
+.blockquote[
+Ultimately, location, easily represented by a map, becomes the organizing relational framework - the glue - that binds together and makes sense of all the data available to us today. Suddenly, economic data, workforce data and migration data all become more meaningful and interpretable, rather than overwhelming. Adding "where" will help you answer "why," "how" and "when."
+.tr[
+[pwc (2021)](https://www.pwc.com/us/en/tech-effect/ai-analytics/what-spatial-analytics-means-for-your-business.html)
+]
+]
+
+]
+
+
+
+???
+
+.quelle[Bildquelle: [pwc (2021)](https://www.pwc.com/us/en/tech-effect/ai-analytics/what-spatial-analytics-means-for-your-business.html).]
+
+* Mit der Covid-Pandemie Beschleunigung des virtuellen Lebens: We’re creating **oceans of data** which, when **viewed through geographic information systems** technology, **become a powerful new lens** that enables us to see life on the ground. The result is an **emerging field of business intelligence - spatial analytics** - that is likely to become a defining capability
+
+* **Better, faster decisions** come from **knitting together location data with the universe of proprietary and public sources** that track millions of phenomena and entities. This **aggregation of information allows** any imaginable data set — pandemic cases, household incomes, shipping routes and firm-specific data — to be harnessed in a way that reveals **new insights**. 
+
+* **The spatial layer provides an organizing and clarifying lens** that allows you to zoom in on specific data.
+
+
+* Beispiele:
+  * A parts **distributor** seeks to **optimize its network of warehouses** for faster distribution of products, taking into account existing customer locations, service centers, consumer patterns and national consumer data. **Relocating its facilities in new locations** could increase customer access, growing the top line, while decreasing operating costs and increasing profitability.
+  * A **private equity investor** wants to maximize the value of its **investments in restaurant chains and supermarkets** and needs to analyze thousands of consumer markets, layering in household income, foot traffic, local tastes and seasonality. Adjustments to locations can allow the firm to improve return on investments across its portfolio companies.
+  * Immombilien:
+    * An investor wants to **manage risk exposure in a recently acquired chain of hospitality properties** in the Pacific Northwest, and specifically to understand the **potential exposure to earthquakes as well as extreme weather events** (KLIMAWANDEL).
+    * Moreover, the investor would like to understand how to **better connect with future clientele. How do the new properties fit with local attractions and amenities?** What do weekenders arriving from the major regional metro areas typically like to do? The answers are found by layering data to interrelate hazards, attractions and the investor’s portfolio.
+
+*  return-to-work strategies
+
+
+---
+class: left
+
+.blockquote[Einführung und Motivation]
+
+## Räumliche Netzwerke 
+
+```{r}
+#| include: false
+#| cache: true
+library(geojsonsf)
+#sf <- geojson_sf("https://data.sbb.ch/api/explore/v2.1/catalog/datasets/linie-mit-polygon/exports/geojson")
+sf <- geojson_sf(xfun::from_root("data","raw","PVA3","linie-mit-polygon.geojson"))
+```
+
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+sf %>% ggplot() + geom_sf() + theme_void()
+```
+
+.quelle[Eigene Darstellung. Datenbasis: [SBB Infrastruktur](https://data.sbb.ch/explore/dataset/linie-mit-polygon/export/).]
+
+
+
+
+
+---
+class: left
+
+.blockquote[]
+
+## Lieferketten
+
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Supplychain_USCars_(Han_etal_2021).png"))
+```
+
+.quelle[Quelle: `r Citet(bib,"han_visualizing_2021")`]
+
+???
+
+* This article presents a spatial supply network model for estimating and visualizing spatial commodity flows that used data on firm location and employment, an input–output table of inter-industry transactions, and material balance-type equations.
+
+* The resulting visualizations may be helpful for better understanding supply chain geographies, as well as business interconnections and interdependencies, and to anticipate and potentially address vulnerabilities to different types of shocks
+
+
+---
+class: left
+
+.blockquote[]
+
+## Zunehmende Bedeutung räumlicher Analysen
+
+```{r}
+#| echo: false
+knitr::include_url(xfun::from_root("img","PVA3","Forbes_2017.png"),height="470px")
+```
+
+
+---
+class: left
+
+.blockquote[]
+
+## Räumliche Abhängigkeiten
+
+.panelset[
+.panel[.panel-name[Permutation]
+```{r}
+#| echo: false
+#| out-width: "90%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
+```
+.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
+]
+.panel[.panel-name[Cartogram]
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
+```
+.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
+
+]
+]
+
+
+---
+class: left
+
+.blockquote[]
+
+## Räumliche Abhängigkeiten
+
+```{r}
+#| echo: false
+#| out-width: "50%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021).jpeg"))
+```
+
+.quelle[Quelle: [Anders Sundell (2021)](https://x.com/i/flow/login?redirect_after_login=%2Fsundellviz)]
+
+
+---
+class: left
+
+.blockquote[]
+
+## Räumliche Abhängigkeiten
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Bildpuzzle_(slidingtiles.com).png"))
+```
+
+.quelle[Bildquelle: [slidingtiles.com](https://slidingtiles.com/en/puzzle/play/landscapes/6615-switzerland#7x7)]
+
+
+
 
 
 
@@ -129,18 +327,355 @@ class: left
 ---
 class: left
 
-.blockquote[Intro R-Objekte]
+.blockquote[Einführung und Motivation]
 
-## R als objektorientierte Sprache
+## Tobler's Gesetz
 
-* Objekte lassen sich in Klassen einteilen
-  * tibbles, data.frames
-  * Vektoren
-  * Funktionen
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: "90%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Tobler-Waldo_(UMich).jpg"))
+
+```
+]
+.pull-right[
+<br>
+.blockquote["Everything is related to everything
+else, but near things are more related than distant things."
+]
+.tr[
+`r Citet(bib,"tobler_computer_1970")`
+]
+]
+
+???
+
+Einfaches, aber wirkungsvolles Konzept
+- Muster existieren überall im Raum
+- Bildet die Grundlage für Konzepte in Bezug auf die räumliche Abhängigkeit
 
 
 
-[sfnetworks](https://luukvdmeer.github.io/sfnetworks/) verbindet [sf](https://r-spatial.github.io/sf/) mit [tidygraph](https://tidygraph.data-imaginist.com/)
+
+---
+class: left
+
+.blockquote[Einführung und Motivation]
+
+## Räumliche Autokorrelation
+
+* Annahme unabhängiger Beobachtungen für statistische Tests und Regressionsanalyse 
+
+* Verletzung der Annahme, verzerrte Schätzer und fehlerhafte p-Werte
+
+* Typische Fälle abhängiger Beobachtungen
+
+  * Netzwerkdaten
+  * Zeitreihendaten
+  * Räumliche Daten
+  
+
+
+???
+
+A sizeable mathematical statistical theory literature exists about independent observations. This section addresses the remaining divisions of the proposed correlated data classification scheme: (2) matched k-tuples, k ≥ 2; (3) time series autocorrelation; (4) spatial series autocorrelation; (5) space-time series autocorrelation; and, (6) network series autocorrelation. One common pragmatic objective is a parsimonious parametrization of the correlation structure that optimizes the efficiency of parameter estimation
+
+[Griffith](https://www.mdpi.com/2571-905X/3/3/14)
+
+
+
+---
+class: inverse, center, middle
+
+## Räumliche Autokorrelation
+
+
+
+.blockquote[Räumliche Nachbarschaft]
+
+.blockquote[Räumliche Autokorrelation]
+
+
+???
+
+[Kap. 8 und 9](https://www.paulamoraga.com/book-spatial/spatial-autocorrelation.html)
+
+
+
+---
+class: inverse, center, middle
+
+## Räumliche Daten
+
+
+.blockquote[Raster- vs. Vektordaten]
+
+.blockquote[Koordinatensysteme]
+
+
+
+???
+
+[Kap. 1-4](https://www.paulamoraga.com/book-spatial/spatial-autocorrelation.html)
+
+[Kap. 2](https://r.geocompx.org/spatial-class)
+
+
+
+
+---
+class: left
+
+.blockquote[Raster- vs. Vektordaten]
+
+## Datentypen und Geometrien
+
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","RasterVektor_(opengeoedu.de).png"))
+```
+
+.quelle[Quelle: [opengeoedu.de](https://learn.opengeoedu.de/monitoring/landschaftstrukturmasse/datengrundlage/vergleich-vektordaten-rasterdaten).]
+
+
+???
+
+* rs: remote sensing, gis: geographic information system
+
+* Geometrien (Vektordaten)
+  * Punkte
+  * Linien
+  * Polygone
+  
+* Zusammengefasst sind Vektordaten, insbesondere im kleineren Maßstab, als genauer anzusehen (vgl. dazu Abb. 11). Jedoch sind diese häufig nicht vorhanden oder können lückenhaft sein. Rasterdaten sind in der Regel vollständig, sie sind jedoch abhängig von ihrer Pixelgröße. Ist diese zu hoch, muss mit Abweichungen bzw. Fehlern in den Ergebnissen gerechnet werden.
+  
+  
+* Vektordaten
+  * Darstellung mit Punkt(en), Linie(n) und Polygon(en)
+  * Relativ geringe Dateigröße (kleines Datenvolumen)
+  * Hervorragende Darstellung von Netzwerken.
+  * Möglichkeit zur Verknüpfung mit weiteren Attributen (Informationsdichte) und deren Nutzung zur Erstellung thematischer Karten
+  * Erstellung, Bereinigung und Aktualisierung von Daten ist zeit- und arbeitsaufwändiger
+  * Einfachere Durchführung topologie-basierter Analysen und Operationen (z.B. Netzwerkanalysen)  
+  * Zuweisung von Projektionen und Transformationen ist weniger zeitaufwändig und verbraucht weniger Speicherplatz im Computersystem.
+  * Vergleichsweise komplexe Datenstrukturen aufgrund der Topologie
+
+* Rasterdaten
+  * Darstellung von Punkte(n), Linie(n) und Polygone(n) in Form von Pixeln
+  * Im Vergleich zu Vektordaten größere Dateien
+  * Darstellung von Netzwerken vergleichsweise schlecht
+  * Ein Pixel je Rasterzelle
+  * Verallgemeinerung von Merkmalen (wie Grenzen) kann Genauigkeit verringern
+  * Simulationen und Modellierung sind einfacher (räumliche Analyse, Geländemodellierung usw.)
+  * Einfachere Pflege
+  * Transformationen des Koordinatensystems zeit- und speicherintensiver
+  * einfachere Datenstruktur durch Rasterzellen oder Pixel
+
+
+
+---
+class: left
+
+## Vergleich
+
+|                  |                                       Vektordaten                                        |                                               Rasterdaten                                                |
+|------------------|:----------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
+| Kleinste Einheit |                         Punkte (meist 2D, d.h. x,y-Koordinaten)                          |                          Rasterzelle/Pixel (u.a. regular, rotated, curvilinear)                          |
+| Datenmodell      | Geometrien (Punkte, Linien, Polygone) in Verbindung mit Koordinatenreferenzsystem (CRS)  | Raster-Kopfzeile (enthält Definition CRS) in Verbindung mit Matrix gleichmäßig verteilter Zellen (Pixel) |
+| Datenstruktur    |                                      meist komplex                                       |                                           in der Regel einfach                                           |
+| Eigenschaften    |                  grundsätzlich hohe Genauigkeit, aber häufig lückenhaft                  |            mit zunehmender Pixelgröße abnehmende Genauigkeit, in der Regel dafür vollständig             |
+| Speicherbedarf   |                                       meist gering                                       |                                                meist groß                                                |
+
+
+
+
+
+---
+class: left
+
+.blockquote[]
+
+## Simple Features und sf-Paket
+
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","02-sfdiagram.png"))
+```
+
+Elemente von sf-Objekten:
+
+* sfg
+
+* sfc
+
+
+---
+class: inverse, center, middle
+
+## Räumliche Statistik vs. Geostatistik
+
+
+
+.blockquote[]
+
+.blockquote[]
+
+
+
+
+---
+class: left
+
+
+## Entwicklungslinien der Analyse Räumlicher Daten
+
+.pull-left[
+.center[**Räumliche Statistik**]
+* Kontext: Entwicklung der multivariaten Statistik (19. Jahrhundert)
+
+* Feststellung Laplace in den 1880er Jahren: Autokorrelation in Zeitreihendaten wirkt sich auf Varianzberechnung aus.
+
+* Übertragung auf Autokorrelation in Räumlichen Daten
+
+* Nutzung der Eigenschaft räumlicher Autokorrelation zur Imputation fehlender Werte
+
+]
+--
+.pull-right[
+.center[**Geostatistik**]
+* Kontex: Praxisfragen im Zusammenhang mit der Exploration natürlicher Ressourcen (Gold, Öl etc.)
+
+* Abschätzung der Rohstoffausbeute von Standorten auf Basis von Probebohrungen
+
+* Nutzung der Eigenschaft räumlicher Autokorrelation zur **Interpolation**
+]
+
+--
+`r fa('exclamation-circle')` Räumliche Autokorrelation als gemeinsame konzeptionelle Basis.
+
+???
+
+vgl. `r Citet(bib,"griffith_spatial_2017")`
+
+
+
+---
+class: left
+
+## Konzeptionelle Grundlagen der Räumlichen Statistik und Geostatistik
+
+* "Konzept Karte" liefert multivariates statistisches Konzept: 
+  * eine Stichprobe der Größe $1$ mit 
+  * $n$ Variablen
+
+* "Konzept Korrelierte Stichproben" liefert Auto- bzw. Selbskorrelation:
+  * mehrere Stichproben zu
+  * einer einzigen Variablen
+
+* Verwandte Konzepte:
+  * Quantifizierung
+  * statistische Verteilungstheorie
+  * mathematische Beschreibung
+  * Visualisierung
+  * Interpretation.
+
+
+???
+
+Konzept Korrelierter Stichproben: Korrelation zwischen Beobachtungen einer einzigen Variable
+vgl. `r Citet(bib,"griffith_spatial_2017")`, S. 2087
+
+
+
+---
+class: left
+
+## Räumliche Autokorrelation
+
+
+
+---
+class: left
+
+## Quantifizierung räumlicher Autokorrelation
+
+
+
+---
+class: left
+
+## Statistische Verteilungstheorie für räumliche Autokorrelation
+
+
+
+---
+class: left
+
+## Mathematische Beschreibung räumlicher Autokorrelation (I): Autoregression
+
+
+
+---
+class: left
+
+## Mathematische Beschreibung räumlicher Autokorrelation (II): Geostatistik
+
+
+
+
+
+
+---
+class: left
+
+## Visualisierung räumlicher Autokorrelation (I): Autoregression
+
+
+
+
+---
+class: left
+
+## Visualisierung räumlicher Autokorrelation (II): Geostatistik
+
+
+---
+class: left
+
+## Interpretation räumlicher Autokorrelation
+
+
+
+---
+class: left
+
+## Zentrale Anwendungsgebiete
+
+
+
+
+
+
+---
+class: left
+
+
+## Zusammenfassung
+
+```{r}
+#| echo: false
+#| out-width: "50%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_Sxxi.png"))
+```
+
+.quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
 
 
 ---

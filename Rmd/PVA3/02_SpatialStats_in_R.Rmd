@@ -1,0 +1,410 @@
+---
+title: "Analyzing Business Relations & Documents"
+subtitle: "Spatial Statistics"
+author: "Prof. Dr. Jörg Schoder"
+institute: "FFHS" 
+date: "`r Sys.Date()`"
+bibliography: ../../lit/my_bib.bib
+reference-section-title: Quellenverzeichnis
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    css: 
+         - default
+         - ../../css/ffhs-theme_js.css
+         - xaringan-themer.css
+    includes:
+      after_body: ../../css/insert-logo.html
+    lib_dir: ../../libs
+    nature:
+      slideNumberFormat: "%current%/%total%"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: false
+    
+
+    
+---
+class: title-slide
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+style_xaringan(text_color = "#d50006",inverse_text_color = "#FFFFFF",inverse_background_color = "#d50006", title_slide_background_color = "#d50006",header_background_color = "#d50006",header_color = "#FFFFFF",header_h1_font_size = "32px",
+  header_h2_font_size = "26px",link_color="#502479",
+  header_h3_font_size = "20px",text_slide_number_color = "#d50006",text_slide_number_font_size = "0.5em")
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#d50006", location = "bottom")
+xaringanExtra::use_xaringan_extra(c("tile_view","scribble","panelset","tachyons"))
+xaringanExtra::style_panelset_tabs(font_family = "inherit")
+#xaringanExtra::use_search(show_icon = TRUE)
+#weitere: "share_again","animate_css", "webcam","freezeframe","clipboard","fit_screen","extra-styles" 
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_freezeframe(trigger = "hover")
+``` 
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(latex2exp)
+library(fontawesome)
+library(emo)
+source(xfun::from_root("lit","helper.R"))
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           style = "markdown",
+           dashed = TRUE)
+file.name <- system.file("Bib", 
+                         "my_bib.bib", 
+                         package = "RefManageR")
+bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
+```
+
+# ER018 - Analyzing Business Relations & Documents
+
+## PVA3
+
+### Analyse Räumlicher Daten in R
+
+ 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+### FS 2024
+<br>
+### Prof. Dr. Jörg Schoder
+.mycontacts[
+`r fa('github')` @FFHS-EconomicResearch
+`r fa('linkedin')` @jfschoder
+]
+
+
+---
+layout: true
+
+<div class="my-footer"></div>       
+
+<div style="position: absolute;left:400px;bottom:10px;font-size:9px">`r fa('creative-commons')``r rmarkdown::metadata$author`</div>
+
+
+---
+name: agenda
+class: left
+
+.blockquote[Agenda]
+
+## Analyse Räumlicher Daten in R
+
+
+* Überblick Bibliotheken
+
+* Karten erstellen
+
+* Räumliche Regression
+
+* Räumliche Netzwerke
+ 
+
+
+
+???
+
+
+
+[Beispiel](https://crd230.github.io/lab9.html)
+
+
+
+
+[Scott](https://www.esri.com/news/arcwatch/0410/lauren-scott.html)
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Kartenerstellung in R
+
+
+
+.blockquote[Vektordaten und shapefiles]
+
+.blockquote[simple features und das sf-Paket]
+
+.blockquote[Schweizer Geodaten]
+
+.blockquote[Kartierung mit ggplot]
+
+.blockquote[Interaktive Karten mit Leaflet]
+
+
+
+
+---
+class: left
+
+.blockquote[sf-Paket]
+
+## Warum das sf-Paket?
+
+* Schnelles Lesen und Schreiben von Daten
+--
+* Verbesserte Leistung beim Plotten
+--
+* Verwendung von `sf`-Objekten (in der Regel) wie `data.frame`- oder `tibble-Objekte`
+--
+* konsistente und intuitive Verben als Funktionsnamen (beginnen mit `st_`)
+--
+* Kompatibilität mit tidyverse-Synatax und Verwendung mit Pipes
+
+
+
+
+
+
+---
+class: left
+
+## Simple Karte
+
+
+.panelset[
+.panel[.panel-name[Top5 CH-Städte]
+```{r}
+library(tidyverse)
+my_in_file <- "CitiesCH_(simplemaps.com).csv"
+tbl_citiesCH <- read_csv(xfun::from_root("data","raw","PVA3",my_in_file))
+
+tbl_citiesCH5 <- tbl_citiesCH %>% 
+                          arrange(desc(population)) %>% 
+                          slice_head(n=5)
+tbl_citiesCH
+```
+]
+.panel[.panel-name[Einfache Abbildung]
+```{r}
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point()
+```
+]
+.panel[.panel-name[Labels ergänzen]
+```{r}
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point() + 
+      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
+      scale_x_continuous(limits = c(5.5,9))
+```
+]
+.panel[.panel-name[Gewichtung]
+```{r}
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point(aes(size=population)) + 
+      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
+      scale_x_continuous(limits = c(5.5,9))
+```
+]
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Kartenerstellung]
+
+## Schweiz
+
+```{r}
+library(ggswissmaps)
+ggswissmaps::maps2
+
+```
+
+
+```{r}
+#| echo: false
+#| cache: true
+library(geojsonsf)
+#sf <- geojson_sf("https://data.sbb.ch/api/explore/v2.1/catalog/datasets/linie-mit-polygon/exports/geojson")
+sf <- geojson_sf(xfun::from_root("data","raw","PVA3","linie-mit-polygon.geojson"))
+sf %>% ggplot2::ggplot() + geom_sf() + theme_void()
+```
+
+
+???
+
+[swissgd](https://github.com/zumbov2/swissgd)
+
+[bfsMaps](https://cran.r-project.org/web/packages/bfsMaps/bfsMaps.pdf)
+
+[RSwissMaps](https://github.com/zumbov2/RSwissMaps) aktuell noch nicht verfügbar für R4.4.0
+
+
+
+---
+class: left
+
+```{r}
+library(geojsonsf)
+#sf <- geojson_sf("https://data.sbb.ch/api/explore/v2.1/catalog/datasets/linie-mit-polygon/exports/geojson")
+sf_london <- geojson_sf(xfun::from_root("data","raw","PVA3","london_421.geojson"))
+sf_zh <- geojson_sf(xfun::from_root("data","raw","PVA3","zurich-small_.geojson"))
+p_zh <- sf_zh %>% ggplot2::ggplot() + geom_sf() + theme_void()
+p_ld <- sf_london %>% ggplot2::ggplot() + geom_sf() + theme_void()
+library(patchwork)
+p_zh+p_ld
+```
+
+???
+
+Quelle: [](https://cartographyvectors.com/map/421-london#google_vignette)
+
+
+
+
+
+---
+class: left
+
+## Starbucks Zürich
+
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+tbl_starbucks <- read_csv(xfun::from_root("data","raw","PVA3","starbucks_(kaggle).zip"))
+starbucks_zh <- tbl_starbucks %>% 
+                        filter(City=="Zurich"&Country=="CH")
+```
+
+
+
+
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Räumliche Autokorrelation]
+
+## Kennzahlen Räumliche Autokorrelation
+
+* Moran
+  
+
+
+???
+
+Griffith, Enzyklopädie GIS
+
+---
+class: inverse, center, middle
+
+## Räumliche Autokorrelation
+
+
+
+.blockquote[]
+
+.blockquote[]
+
+
+
+
+???
+
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+## Räumliche Statistik vs. Geostatistik
+
+
+
+.blockquote[]
+
+.blockquote[]
+
+
+
+
+
+
+
+
+
+
+---
+class: left
+
+
+## Zusammenfassung
+
+```{r}
+#| echo: false
+#| out-width: "50%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_Sxxi.png"))
+```
+
+.quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
+
+
+---
+class: inverse,center,middle
+
+# Wir brauchen eine Pause.
+
+---
+
+background-image: url("http://bit.ly/cs631-donkey")
+background-size: 80%
+
+
+
+
+
+---
+class: left
+
+## Quellenverzeichnis
+
+.ref-slide[
+```{r, results='asis', echo=FALSE, warning=FALSE}
+PrintBibliography(bib)
+```
+]

@@ -1,0 +1,39 @@
+# Zeitreihen Autokorrelation
+
+```{r}
+library(tidyverse)
+library(timetk)
+bike_sharing_daily %>% 
+   select(dteday, cnt)  %>%
+ # Change the columns name
+    set_names(c("date", "value")) %>% 
+  plot_time_series(date,value, .interactive = FALSE)
+```
+
+
+```{r}
+library(tidyverse)
+library(timetk)
+bike_sharing_daily %>% 
+   select(dteday, cnt)  %>%
+ # Change the columns name
+    set_names(c("date", "value")) %>% 
+  plot_acf_diagnostics(date,value, .interactive = FALSE)
+```
+
+
+
+
+# Spatial Neighborhood
+
+```{r}
+library(spData)
+library(sf)
+library(spdep)
+library(ggplot2)
+map <- st_read(system.file("shapes/columbus.shp",
+               package = "spData"), quiet = TRUE)
+nb <- spdep::poly2nb(map, queen = TRUE)
+head(nb)
+plot(map)
+```

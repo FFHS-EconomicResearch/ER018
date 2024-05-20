@@ -1926,6 +1926,20 @@ knitr::include_graphics(xfun::from_root("img","PVA2","MAN_Triad_census_(Felmlee_
 
 .quelle[Bildquelle: [`r Citet(bib,"felmlee_dyads_2021")`](https://appliednetsci.springeropen.com/articles/10.1007/s41109-021-00403-5/figures/3)]
 
+???
+
+* Typische/Häufige/Charakteristische Konfigurationen (Motifs) von Teilgraphen 
+
+* Einfache Analyse: Absolute und relative Häufigkeiten der Konfigurationen im MAN-Schema
+  * M: Mutual
+  * A: Asymmetric
+    * U: Up
+    * D: Down
+    * T: Transitive
+  * N: Null
+  
+
+
 
 ---
 class: left

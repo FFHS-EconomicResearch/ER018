@@ -110,7 +110,12 @@ class: left
 * Vermessung von Netzwerken
 
 
+???
 
+ToDo [NA in tidyverse](https://pine.do/R/network-analysis-in-the-Tidyverse.html)
+
+
+ToDo Random Networks in der Organisationsforschung [Phil Chapman](https://chapmandu2.github.io/orgsurveyr_docs/articles/organisations_with_ggraph.html)
 
 
 ---
