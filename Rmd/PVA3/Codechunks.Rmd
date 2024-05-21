@@ -37,3 +37,9 @@ nb <- spdep::poly2nb(map, queen = TRUE)
 head(nb)
 plot(map)
 ```
+
+
+
+
+
+

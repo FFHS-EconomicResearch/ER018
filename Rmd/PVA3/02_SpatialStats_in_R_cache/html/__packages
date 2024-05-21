@@ -15,3 +15,6 @@ forcats
 lubridate
 ggswissmaps
 geojsonsf
+sf
+viridisLite
+viridis

@@ -103,8 +103,6 @@ class: left
 ## Analyse Räumlicher Daten in R
 
 
-* Überblick Bibliotheken
-
 * Karten erstellen
 
 * Räumliche Regression
@@ -134,18 +132,94 @@ class: inverse, center, middle
 
 ## Kartenerstellung in R
 
-
-
-.blockquote[Vektordaten und shapefiles]
+.blockquote[Einfache Kartierung mit ggplot]
 
 .blockquote[simple features und das sf-Paket]
 
-.blockquote[Schweizer Geodaten]
-
-.blockquote[Kartierung mit ggplot]
 
 .blockquote[Interaktive Karten mit Leaflet]
 
+.blockquote[Schweizer Geodaten]
+
+
+
+
+---
+class: left
+
+.blockquote[Einfache Kartierung mit ggplot]
+
+## Simple Karte
+
+
+.panelset[
+.panel[.panel-name[Top5 CH-Städte]
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+my_in_file <- "CitiesCH_(simplemaps.com).csv"
+tbl_citiesCH <- read_csv(xfun::from_root("data","raw","PVA3",my_in_file))
+tbl_citiesCH5 <- tbl_citiesCH %>% 
+                          arrange(desc(population)) %>% slice_head(n=5)
+tbl_citiesCH5
+```
+]
+.panel[.panel-name[Einfache Abbildung]
+```{r}
+#| out-width: "50%"
+#| fig-align: "center"
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point()
+```
+]
+.panel[.panel-name[Labels ergänzen]
+```{r}
+#| out-width: "50%"
+#| fig-align: "center"
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point() + 
+      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
+      scale_x_continuous(limits = c(5.5,9))
+```
+]
+.panel[.panel-name[Gewichtung]
+```{r}
+#| out-width: "50%"
+#| fig-align: "center"
+tbl_citiesCH5 %>% 
+    ggplot(aes(x = lng, y = lat)) + geom_point(aes(size=population)) + 
+      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
+      scale_x_continuous(limits = c(5.5,9))
+```
+]
+]
+
+
+---
+class: left
+
+.blockquote[Einfache Kartierung mit ggplot]
+
+## Arten räumlicher Daten
+
+```{r}
+#| echo: false
+knitr::include_url("https://www.paulamoraga.com/book-spatial/types-of-spatial-data.html", height = "480px")
+```
+
+
+???
+
+* Flächenbezogene Daten (bspw. Kanton und Bevölkerungsanzahl)
+
+* Geodaten (mit Koordinaten) - bekannte Orte
+
+* Punktmuster (mit Koordinaten) - unbekannte/zufällige Orte, bspw´. Waldbrand
+
+* Raum-Zeit-Daten. Entwicklung über die Zeit, bspw. Luftverschmutzung, Kaufkraft...
+
+* Mobilitätsdaten
 
 
 
@@ -154,7 +228,7 @@ class: inverse, center, middle
 ---
 class: left
 
-.blockquote[]
+.blockquote[simple features und das sf-Paket]
 
 ## Dateiformate für räumliche Daten
 
@@ -184,86 +258,52 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Rasterdaten_Dateiformate_(
 
 
 
-
-
-
 ---
 class: left
 
-.blockquote[sf-Paket]
+.blockquote[simple features und das sf-Paket]
 
 ## Warum das sf-Paket?
 
 * Schnelles Lesen und Schreiben von Daten
+
 --
+
 * Verbesserte Leistung beim Plotten
+
 --
+
 * Verwendung von `sf`-Objekten (in der Regel) wie `data.frame`- oder `tibble-Objekte`
+
 --
+
 * konsistente und intuitive Verben als Funktionsnamen (beginnen mit `st_`)
+
 --
+
 * Kompatibilität mit tidyverse-Synatax und Verwendung mit Pipes
-
-
-
 
 
 
 ---
 class: left
 
-## Simple Karte
+.blockquote[simple features und das sf-Paket]
 
+## Simple Features und sf-Paket
 
-.panelset[
-.panel[.panel-name[Top5 CH-Städte]
 ```{r}
-#| message: false
-#| warning: false
-library(tidyverse)
-my_in_file <- "CitiesCH_(simplemaps.com).csv"
-tbl_citiesCH <- read_csv(xfun::from_root("data","raw","PVA3",my_in_file))
-
-tbl_citiesCH5 <- tbl_citiesCH %>% 
-                          arrange(desc(population)) %>% 
-                          slice_head(n=5)
-tbl_citiesCH
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","02-sfdiagram.png"))
 ```
-]
-.panel[.panel-name[Einfache Abbildung]
-```{r}
-tbl_citiesCH5 %>% 
-    ggplot(aes(x = lng, y = lat)) + geom_point()
-```
-]
-.panel[.panel-name[Labels ergänzen]
-```{r}
-tbl_citiesCH5 %>% 
-    ggplot(aes(x = lng, y = lat)) + geom_point() + 
-      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
-      scale_x_continuous(limits = c(5.5,9))
-```
-]
-.panel[.panel-name[Gewichtung]
-```{r}
-tbl_citiesCH5 %>% 
-    ggplot(aes(x = lng, y = lat)) + geom_point(aes(size=population)) + 
-      geom_text(aes(label=city),hjust=1, vjust=-0.5) + 
-      scale_x_continuous(limits = c(5.5,9))
-```
-]
-]
 
+Elemente von sf-Objekten:
 
+* sfg
 
-
-
-
-
-
-
-
-
+* sfc
 
 
 
@@ -275,13 +315,80 @@ class: left
 
 .blockquote[Kartenerstellung]
 
-## Schweiz
+## Kartenerstellung mit `geom_sf()` in ggplot2
+
+```{r}
+#| echo: false
+knitr::include_url("https://www.paulamoraga.com/book-spatial/making-maps-with-r.html",height = "480px")
+```
+
+
+
+---
+class: left
+
+## Kartogramme als alternative Darstellungsform
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
+```
+
+.quellePan[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Schweizer Geodaten]
+
+## Landesgrenze Schweiz
 
 ```{r}
 library(ggswissmaps)
-ggswissmaps::maps2$g1b15
+ggswissmaps::maps2$g1l15
 ```
 
+
+---
+class: left
+
+.blockquote[Schweizer Geodaten]
+
+## Aufgabe
+
+1. Verwende das **ggswissmaps**-Paket und suche aus dem Objekt `maps2` den Plot der Schweiz, der neben der Landesgrenze auch die Kantone abbildet.
+
+2. Verwende das **ggswissmaps**-Paket und suche aus dem Objekt `maps2` den Plot der die Gewässer abbildet.
+
+--
+
+
+
+```{r}
+#| eval: false
+ggswissmaps::maps2$g1k15
+```
+```{r}
+#| eval: false
+ggswissmaps::maps2$g1s15
+```
+
+
+
+---
+class: left
+
+.blockquote[Schweizer Geodaten]
+
+## SBB-Liniennetz
 
 ```{r}
 #| echo: false
@@ -323,40 +430,86 @@ Quelle: [](https://cartographyvectors.com/map/421-london#google_vignette)
 
 
 
+
 ---
 class: left
 
-.blockquote[]
 
-## Simple Features und sf-Paket
+## Aufgabe
+
+* Suche eine geojson-Datei mit Geoinformationen zu Zürich und speichere die .geojson-Datei im Ordner "data/raw"
+
+* Lade die Datei als sf-Objekt
+
+* Stelle die Umrisse der Stadt Zürich mit Hilfe des `geom_sf()` aus dem **ggplot2**-Paket
+
+
+???
+
 
 ```{r}
-#| echo: false
-#| out-width: "80%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","02-sfdiagram.png"))
+library(geojsonsf)
+#sf <- geojson_sf("https://data.sbb.ch/api/explore/v2.1/catalog/datasets/linie-mit-polygon/exports/geojson")
+sf_london <- geojson_sf(xfun::from_root("data","raw","PVA3","london_421.geojson"))
+sf_zh <- geojson_sf(xfun::from_root("data","raw","PVA3","zurich-small_.geojson"))
+p_zh <- sf_zh %>% ggplot2::ggplot() + geom_sf() + theme_void()
+p_ld <- sf_london %>% ggplot2::ggplot() + geom_sf() + theme_void()
+library(patchwork)
+p_zh+p_ld
 ```
 
-Elemente von sf-Objekten:
 
-* sfg
-
-* sfc
+Quelle: [](https://cartographyvectors.com/map/421-london#google_vignette)
 
 
 
+```{r}
+#| include: false
+#| label: get-data
+#http://insideairbnb.com/get-the-data/
+library(data.table)
+ZH_listings <- fread('http://data.insideairbnb.com/switzerland/z%C3%BCrich/zurich/2023-09-24/data/listings.csv.gz')
 
+ZH_locations <- geojsonsf::geojson_sf("http://data.insideairbnb.com/switzerland/z%C3%BCrich/zurich/2023-09-24/visualisations/neighbourhoods.geojson")
 
-
-
-
-
-
+```
 
 ---
 class: left
 
-## Starbucks Zürich
+## Airbnb Zürich
+
+.panelset[
+.panel[.panel-name[Bezirke]
+```{r}
+#| label: create-map
+library(leaflet)
+ZH_locations$geometry %>% leaflet() %>% 
+  addTiles() %>%  addPolygons(label = paste0("Kreis ", 
+                            tidyr::extract_numeric(ZH_locations$neighbourhood_group),
+                            ", ", ZH_locations$neighbourhood))
+```
+
+]
+.panel[.panel-name[Angebote]
+```{r}
+#| label: plot-offers
+ZH_listings %>% 
+  select(latitude,longitude) %>% 
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers()
+```
+
+]
+]
+
+
+
+
+
+???
+
 
 
 ```{r}
@@ -376,39 +529,32 @@ starbucks_zh <- tbl_starbucks %>%
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ---
 class: left
 
-
-## Zusammenfassung
+## Permutation
 
 ```{r}
 #| echo: false
-#| out-width: "50%"
+#| out-width: "90%"
 #| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_Sxxi.png"))
+knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
 ```
 
-.quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
+.quelle[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
+
+
+
+
+
+
+
 
 
 ---
 class: inverse,center,middle
 
-# Wir brauchen eine Pause.
+# Vielen Dank für die Aufmerksamkeit!
 
 ---
 
