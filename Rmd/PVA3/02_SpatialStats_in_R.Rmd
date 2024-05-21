@@ -149,6 +149,44 @@ class: inverse, center, middle
 
 
 
+
+
+---
+class: left
+
+.blockquote[]
+
+## Dateiformate für räumliche Daten
+
+<br>
+
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Vektordaten_Dateiformate_(SurveyGyaan_2022)_medium.PNG"))
+```
+]
+--
+.pull-right[
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Rasterdaten_Dateiformate_(SurveyGyaan_2022)_medium.PNG"))
+```
+]
+
+
+.quelle[Quelle: `r Citet(bib,"surveygyaan_vector_2022")`, `r Citet(bib,"surveygyaan_raster_2022")`.]
+
+
+
+
+
+
+
 ---
 class: left
 

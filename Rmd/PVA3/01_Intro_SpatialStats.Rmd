@@ -129,6 +129,59 @@ class: left
 
 
 
+---
+class: left
+
+.blockquote[Einführung und Motivation]
+
+## Zunehmende Bedeutung räumlicher Analysen
+
+```{r}
+#| echo: false
+knitr::include_url(xfun::from_root("img","PVA3","Forbes2017.PNG"),height="470px")
+```
+
+---
+class: left
+
+.blockquote[Einführung und Motivation]
+
+## Räumliche Datenanalyse für Unternehmen
+
+.pull-left[
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","geoIQ.png"))
+```
+
+]
+.pull-right[
+.blockquote[
+Spatial data analytics 
+[..] goes beyond traditional data analysis by incorporating location information, enabling businesses to gain valuable insights into their operations, customers, and markets, and incorporating data science methods. By visualizing data on maps or using spatial analysis, businesses can uncover hidden patterns, make more accurate predictions, and optimize decision-making processes.
+.tr[
+[geoIQ.ai](https://geoiq.ai/blog/what-is-spatial-analytics-what-does-it-mean-to-your-business/)
+]
+]
+
+]
+
+
+
+???
+
+* Handel - Groß- und Einzelhandel
+
+* Logistik, Lieferketten
+
+* Umweltanalysen
+
+* Versicherungen und Risikomanagement
+
+* Stadtplanung
+
 
 
 ---
@@ -142,7 +195,7 @@ class: left
 .pull-left[
 ```{r}
 #| echo: false
-#| out-width: "50%"
+#| out-width: "100%"
 #| fig-align: "center"
 knitr::include_graphics(xfun::from_root("img","PVA3","spatial_analytics_(pwc_2021).png"))
 ```
@@ -182,12 +235,17 @@ Ultimately, location, easily represented by a map, becomes the organizing relati
 *  return-to-work strategies
 
 
+
+
+
+
+
 ---
 class: left
 
 .blockquote[Einführung und Motivation]
 
-## Räumliche Netzwerke 
+## Räumliche Netzwerke: Beispiel SBB-Liniennetz
 
 ```{r}
 #| include: false
@@ -195,13 +253,17 @@ class: left
 library(geojsonsf)
 #sf <- geojson_sf("https://data.sbb.ch/api/explore/v2.1/catalog/datasets/linie-mit-polygon/exports/geojson")
 sf <- geojson_sf(xfun::from_root("data","raw","PVA3","linie-mit-polygon.geojson"))
+p <- sf %>% ggplot() + geom_sf() + theme_void()
+my_fig <- "Swissrail.svg"
+ggsave(xfun::from_root("figs","PVA3",my_fig),width=800,height=450,units="px")
 ```
+
 
 ```{r}
 #| echo: false
-#| out-width: "80%"
+#| out-width: "100%"
 #| fig-align: "center"
-sf %>% ggplot() + geom_sf() + theme_void()
+knitr::include_graphics(xfun::from_root("figs","PVA3","Swissrail.svg"))
 ```
 
 .quelle[Eigene Darstellung. Datenbasis: [SBB Infrastruktur](https://data.sbb.ch/explore/dataset/linie-mit-polygon/export/).]
@@ -213,9 +275,9 @@ sf %>% ggplot() + geom_sf() + theme_void()
 ---
 class: left
 
-.blockquote[]
+.blockquote[Einführung und Motivation]
 
-## Lieferketten
+## Räumliche Netzwerke: Beispiel Lieferketten 
 
 
 ```{r}
@@ -234,53 +296,33 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Supplychain_USCars_(Han_et
 * The resulting visualizations may be helpful for better understanding supply chain geographies, as well as business interconnections and interdependencies, and to anticipate and potentially address vulnerabilities to different types of shocks
 
 
----
-class: left
 
-.blockquote[]
 
-## Zunehmende Bedeutung räumlicher Analysen
 
-```{r}
-#| echo: false
-knitr::include_url(xfun::from_root("img","PVA3","Forbes_2017.png"),height="470px")
-```
 
 
 ---
-class: left
+class: inverse, center, middle
 
-.blockquote[]
+## Räumliche Autokorrelation
 
-## Räumliche Abhängigkeiten
 
-.panelset[
-.panel[.panel-name[Permutation]
-```{r}
-#| echo: false
-#| out-width: "90%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
-```
-.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
-]
-.panel[.panel-name[Cartogram]
-```{r}
-#| echo: false
-#| out-width: "100%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
-```
-.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
+.blockquote[Räumliche Nachbarschaft]
 
-]
-]
+.blockquote[Räumliche Autokorrelation]
+
+
+???
+
+[Kap. 8 und 9](https://www.paulamoraga.com/book-spatial/spatial-autocorrelation.html)
+
+
 
 
 ---
 class: left
 
-.blockquote[]
+.blockquote[Räumliche Nachbarschaft]
 
 ## Räumliche Abhängigkeiten
 
@@ -297,37 +339,6 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021
 ---
 class: left
 
-.blockquote[]
-
-## Räumliche Abhängigkeiten
-
-```{r}
-#| echo: false
-#| out-width: "100%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Bildpuzzle_(slidingtiles.com).png"))
-```
-
-.quelle[Bildquelle: [slidingtiles.com](https://slidingtiles.com/en/puzzle/play/landscapes/6615-switzerland#7x7)]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-class: left
-
-.blockquote[Einführung und Motivation]
 
 ## Tobler's Gesetz
 
@@ -362,13 +373,159 @@ Einfaches, aber wirkungsvolles Konzept
 ---
 class: left
 
-.blockquote[Einführung und Motivation]
+.blockquote[Räumliche Autokorrelation]
 
-## Räumliche Autokorrelation
+## Räumliche Abhängigkeiten
 
-* Annahme unabhängiger Beobachtungen für statistische Tests und Regressionsanalyse 
+.panelset[
+.panel[.panel-name[Permutation]
+```{r}
+#| echo: false
+#| out-width: "90%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
+```
+.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
+]
+.panel[.panel-name[Cartogram]
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
+```
+.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
 
-* Verletzung der Annahme, verzerrte Schätzer und fehlerhafte p-Werte
+]
+]
+
+
+---
+class: left
+
+.blockquote[Räumliche Autokorrelation]
+
+## Räumliche Abhängigkeiten
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Bildpuzzle_(slidingtiles.com).png"))
+```
+
+.quelle[Bildquelle: [slidingtiles.com](https://slidingtiles.com/en/puzzle/play/landscapes/6615-switzerland#7x7)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+class: left
+
+.blockquote[Räumliche Nachbarschaft]
+
+## Räumliche Abhängigkeiten
+
+```{r}
+#| echo: false
+#| out-width: "50%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021).jpeg"))
+```
+
+.quelle[Quelle: [Anders Sundell (2021)](https://x.com/i/flow/login?redirect_after_login=%2Fsundellviz)]
+
+
+
+
+
+---
+class: left
+
+.blockquote[Räumliche Autokorrelation]
+
+## Exkurs: Regressionsanalyse und Gauss-Markov-Theorem
+
+
+.panelset[
+.panel[.panel-name[A-Annahmen]
+
+* Ausgangspunkt: Linearer Wirkungszusammenhang
+
+$$y=X\beta+\varepsilon$$
+
+* Schätzfunktion: 
+
+$$y=X\hat{\beta}+e$$
+
+
+
+* Annahmen zur funktionalen Spezifikation
+
+ * a1: keine fehlenden bzw. irrelevanten Regressoren
+ 
+ * a2: Wahrer Zusammenhang zwischen $X$ und $Y$ ist linear
+ 
+ * a3: konstante Parameter $\beta$
+
+]
+.panel[.panel-name[B-Annahmen]
+Annahmen zur Störgröße $e$
+
+  * b1: $E(e_i)=0,~\forall i=1,\dots,N$
+  
+  * b2: Homoskedastizität: $var(e_i)=\sigma^2~\forall i=1,\dots,N$
+  
+  * b3: Unkorreliertheit: $cov(e_i,e_j)=0,~\forall i=1,\dots,N$
+  
+  * b4: Normalverteilung: $e_i\sim N(E(e_i),var(e_i)),~\forall i=1,\dots,N$
+
+]
+.panel[.panel-name[C-Annahmen]
+
+Annahmen zur Variablen-Spezifikation
+
+  * c1: Kein Zusammenhang zwischen $X$ und $e$
+  
+  * c2: X nicht konstant $(s_{XX}>0)$
+]
+.panel[.panel-name[Theorem]
+
+Unter den getroffenen Annahmen (ohne b4) sind die nach der Methode der kleinsten Quadrate (Ordinary Least Squares, OLS) ermittelten Schätzer $\hat{\beta}$ innerhalb der Klasse der unverzerrten linearen Schätzer effizient.
+
+`r fa('circle-right')` BLUE-Eigenschaft: Best Linear Unbiased Estimator
+
+]
+]
+
+.quelle[Vgl. ausführlich `r Citet(bib, "von_auer_okonometrie_2023")`]
+
+
+
+---
+class: left
+
+.blockquote[Räumliche Autokorrelation]
+
+## Verletzung der Gauss-Markov-Annahmen
+
+* Annahme unabhängiger Beobachtungen für Regressionsanalyse (und stat. Tests) 
+
+* Verletzung der Annahme `r fa('cirlce-right')` verzerrte Schätzer und fehlerhafte p-Werte
 
 * Typische Fälle abhängiger Beobachtungen
 
@@ -386,21 +543,14 @@ A sizeable mathematical statistical theory literature exists about independent o
 
 
 
----
-class: inverse, center, middle
-
-## Räumliche Autokorrelation
 
 
 
-.blockquote[Räumliche Nachbarschaft]
-
-.blockquote[Räumliche Autokorrelation]
 
 
-???
 
-[Kap. 8 und 9](https://www.paulamoraga.com/book-spatial/spatial-autocorrelation.html)
+
+
 
 
 
