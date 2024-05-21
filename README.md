@@ -19,3 +19,10 @@ Materialien zum Modul ER018 - Analyzing Business Relations & Documents
 
 * Teil 2: Netzwerkanalyse in R ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA2/02_tidyNA.html))
 
+
+
+## PVA3
+
+* Teil 1: Räumliche Statistik und Geostatistik ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA3/01_Intro_SpatialStats.html))
+
+* Teil 2: Analyse Räumlicher Daten in R ([Folien](https://ffhs-economicresearch.github.io/ER018/Rmd/PVA3/02_SpatialStats_in_R.html))

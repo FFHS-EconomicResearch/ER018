@@ -66,7 +66,7 @@ bib <- ReadBib(xfun::from_root("lit","my_bib.bib"))
 
 ## PVA3
 
-### Analyse Räumlicher Daten in R
+### Teil 2: Analyse Räumlicher Daten in R
 
  
 
@@ -218,6 +218,8 @@ class: left
 .panelset[
 .panel[.panel-name[Top5 CH-Städte]
 ```{r}
+#| message: false
+#| warning: false
 library(tidyverse)
 my_in_file <- "CitiesCH_(simplemaps.com).csv"
 tbl_citiesCH <- read_csv(xfun::from_root("data","raw","PVA3",my_in_file))
@@ -277,8 +279,7 @@ class: left
 
 ```{r}
 library(ggswissmaps)
-ggswissmaps::maps2
-
+ggswissmaps::maps2$g1b15
 ```
 
 
@@ -322,6 +323,34 @@ Quelle: [](https://cartographyvectors.com/map/421-london#google_vignette)
 
 
 
+---
+class: left
+
+.blockquote[]
+
+## Simple Features und sf-Paket
+
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","02-sfdiagram.png"))
+```
+
+Elemente von sf-Objekten:
+
+* sfg
+
+* sfc
+
+
+
+
+
+
+
+
+
 
 
 ---
@@ -349,53 +378,7 @@ starbucks_zh <- tbl_starbucks %>%
 
 
 
----
-class: left
 
-.blockquote[Räumliche Autokorrelation]
-
-## Kennzahlen Räumliche Autokorrelation
-
-* Moran
-  
-
-
-???
-
-Griffith, Enzyklopädie GIS
-
----
-class: inverse, center, middle
-
-## Räumliche Autokorrelation
-
-
-
-.blockquote[]
-
-.blockquote[]
-
-
-
-
-???
-
-
-
-
-
-
-
----
-class: inverse, center, middle
-
-## Räumliche Statistik vs. Geostatistik
-
-
-
-.blockquote[]
-
-.blockquote[]
 
 
 

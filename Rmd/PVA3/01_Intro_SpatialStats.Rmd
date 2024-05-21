@@ -67,7 +67,7 @@ library(tidyverse)
 
 ## PVA3
 
-### Räumliche Statistik und Geostatistik
+### Teil 1: Räumliche Statistik und Geostatistik
 
  
 
@@ -106,7 +106,7 @@ class: left
 
 * Einführung und Motivation
 
-* Autokorrelation
+* Einführung Autokorrelation
 
 * Räumliche Daten
 
@@ -324,11 +324,87 @@ class: left
 
 .blockquote[Räumliche Nachbarschaft]
 
-## Räumliche Abhängigkeiten
+## Definitionen räumlicher Nachbarschaft
+
+
+.pull-left[
+
+"Klassisch": Gemeinsame Grenze/Berührungspunkt
 
 ```{r}
 #| echo: false
-#| out-width: "50%"
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","arealdata-neighborscontiguity_(Moraga).png"))
+```
+
+]
+--
+.pull-right[
+
+Abstand (bspw. euklidische Distanz, Manhattan-Distanz,...)
+
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","arealdata-neighborsdistance_(Moraga).png"))
+```
+
+]
+.quelle[Abbildungen: `r Citet(bib,"moraga_spatial_2023")`]
+
+
+???
+
+
+* Schachfiguren: Rook (Turm - darf nur gerade), Queen (Dame, darf auch diagonal)
+
+---
+class: left
+
+.blockquote[Räumliche Nachbarschaft]
+
+## Definitionen räumlicher Nachbarschaft (cont'd)
+
+.pull-left[
+
+$k$-nearest neighbors
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","arealdata-neighborskneighbors_(Moraga).png"))
+```
+] 
+--
+.pull-right[
+* erste vs. höhere Ordnung
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","arealdata-orderk_(Moraga).png"))
+```
+]
+
+.quelle[Abbildungen: `r Citet(bib,"moraga_spatial_2023")`]
+
+
+
+---
+class: left
+
+.blockquote[Räumliche Nachbarschaft]
+
+## Nachbarschaft, Ähnlichkeit und Abhängigkeit
+
+```{r}
+#| echo: false
+#| out-width: "60%"
 #| fig-align: "center"
 knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021).jpeg"))
 ```
@@ -336,9 +412,11 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021
 .quelle[Quelle: [Anders Sundell (2021)](https://x.com/i/flow/login?redirect_after_login=%2Fsundellviz)]
 
 
+
 ---
 class: left
 
+.blockquote[Räumliche Autokorrelation]
 
 ## Tobler's Gesetz
 
@@ -368,38 +446,6 @@ Einfaches, aber wirkungsvolles Konzept
 - Bildet die Grundlage für Konzepte in Bezug auf die räumliche Abhängigkeit
 
 
-
-
----
-class: left
-
-.blockquote[Räumliche Autokorrelation]
-
-## Räumliche Abhängigkeiten
-
-.panelset[
-.panel[.panel-name[Permutation]
-```{r}
-#| echo: false
-#| out-width: "90%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
-```
-.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
-]
-.panel[.panel-name[Cartogram]
-```{r}
-#| echo: false
-#| out-width: "100%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
-```
-.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
-
-]
-]
-
-
 ---
 class: left
 
@@ -417,40 +463,61 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Bildpuzzle_(slidingtiles.c
 .quelle[Bildquelle: [slidingtiles.com](https://slidingtiles.com/en/puzzle/play/landscapes/6615-switzerland#7x7)]
 
 
+???
 
-
-
-
-
-
-
-
-
-
-
-
-
+* um das Spiel erfolgreich zu meistern, wird die Eigenschaft der Ähnlichkeit benachbarter Teile ausgenutzt
 
 
 
 ---
 class: left
 
-.blockquote[Räumliche Nachbarschaft]
+.blockquote[Räumliche Autokorrelation]
 
-## Räumliche Abhängigkeiten
+## Formen der räumlichen Autokorrelation
+
 
 ```{r}
 #| echo: false
-#| out-width: "50%"
+#| out-width: "100%"
 #| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Europe_Trust_(Sundell_2021).jpeg"))
+knitr::include_graphics(xfun::from_root("img","PVA3","arealdata-SAC_(Moraga).png"))
 ```
 
-.quelle[Quelle: [Anders Sundell (2021)](https://x.com/i/flow/login?redirect_after_login=%2Fsundellviz)]
+
+???
+
+* Auto: self - es geht um dieselbe Eigenschaft (eine Variable bzw. Ausprägung)
+
+* Correlation: degree of relative correspondence (Korrelation zeigt an, ob Muster vorhanden sind)
+
+* Arten von Mustern:
+  * Positive: similar values cluster together on a map
+  * Negative: dissimilar values Cluster together on a map
 
 
 
+---
+class: left
+
+.blockquote[Räumliche Autokorrelation]
+
+## Definition (nach D. Griffith)
+
+.blockquote[
+"[Spatial autocorrelation] may be defined as the correlation among values of [i.e., within]
+a single variable strictly attributable to their
+relatively close locational positions on a twodimensional
+surface, introducing a deviation
+from the independent observations assumption
+of classical statistics. Spatial autocorrelation
+exists because real world phenomena are typified
+by orderliness, (map) pattern, and systematic
+concentration, rather than randomness."
+.tr[
+`r Citet(bib, "griffith_spatial_2017")`, S. 2087
+]
+]
 
 
 ---
@@ -464,14 +531,11 @@ class: left
 .panelset[
 .panel[.panel-name[A-Annahmen]
 
-* Ausgangspunkt: Linearer Wirkungszusammenhang
+* Ausgangspunkt: Wahrer Wirkungszusammenhang linear
 
 $$y=X\beta+\varepsilon$$
 
-* Schätzfunktion: 
-
-$$y=X\hat{\beta}+e$$
-
+* Methode der kleinsten Quadrate (Ordinary Least Squares, OLS) zur Ermittlung der Schätzer $\hat{\beta}$ (für die wahren Parameter $\beta$)
 
 
 * Annahmen zur funktionalen Spezifikation
@@ -505,7 +569,7 @@ Annahmen zur Variablen-Spezifikation
 ]
 .panel[.panel-name[Theorem]
 
-Unter den getroffenen Annahmen (ohne b4) sind die nach der Methode der kleinsten Quadrate (Ordinary Least Squares, OLS) ermittelten Schätzer $\hat{\beta}$ innerhalb der Klasse der unverzerrten linearen Schätzer effizient.
+Unter den getroffenen Annahmen (ohne b4) sind die nach OLS-Methode ermittelten Schätzer $\hat{\beta}$ innerhalb der Klasse der unverzerrten linearen Schätzer effizient.
 
 `r fa('circle-right')` BLUE-Eigenschaft: Best Linear Unbiased Estimator
 
@@ -525,7 +589,7 @@ class: left
 
 * Annahme unabhängiger Beobachtungen für Regressionsanalyse (und stat. Tests) 
 
-* Verletzung der Annahme `r fa('cirlce-right')` verzerrte Schätzer und fehlerhafte p-Werte
+* Verletzung der Annahme `r fa('circle-right')` verzerrte Schätzer und fehlerhafte p-Werte
 
 * Typische Fälle abhängiger Beobachtungen
 
@@ -540,14 +604,6 @@ class: left
 A sizeable mathematical statistical theory literature exists about independent observations. This section addresses the remaining divisions of the proposed correlated data classification scheme: (2) matched k-tuples, k ≥ 2; (3) time series autocorrelation; (4) spatial series autocorrelation; (5) space-time series autocorrelation; and, (6) network series autocorrelation. One common pragmatic objective is a parsimonious parametrization of the correlation structure that optimizes the efficiency of parameter estimation
 
 [Griffith](https://www.mdpi.com/2571-905X/3/3/14)
-
-
-
-
-
-
-
-
 
 
 
@@ -630,8 +686,11 @@ knitr::include_graphics(xfun::from_root("img","PVA3","RasterVektor_(opengeoedu.d
 ---
 class: left
 
+.blockquote[Raster- vs. Vektordaten]
+
 ## Vergleich
 
+.small[
 |                  |                                       Vektordaten                                        |                                               Rasterdaten                                                |
 |------------------|:----------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
 | Kleinste Einheit |                         Punkte (meist 2D, d.h. x,y-Koordinaten)                          |                          Rasterzelle/Pixel (u.a. regular, rotated, curvilinear)                          |
@@ -641,28 +700,131 @@ class: left
 | Speicherbedarf   |                                       meist gering                                       |                                                meist groß                                                |
 
 
+]
+
 
 
 
 ---
 class: left
 
-.blockquote[]
+.blockquote[Koordinatensysteme]
 
-## Simple Features und sf-Paket
+## Arten von Koordinatenreferenzsystemen (CRS)
+
+* Geodätische CRS
+
+  * Geographische CRS (2D, 3D)
+
+  * Geozentrische CRS
+
+* Projizierte CRS
+
+* Lokale CRS
+
+* Kombinierte CRS
+
+???
+
+* Geodätisches CRS: Geographische und Geozentrische CRS werden auch als Geodätisches CRS bezeichnet.
+  * Geographisches CRS: Das geografische CRS verwendet ein **ellipsoidisches Modell der Erde**, um auf dessen Oberfläche die Position eines Objekts
+      * mit **zweidimensionalen Koordinaten (Längen- und Breitengrad)** zu beschreiben. Die Lage des künstlichen Ellipsoides bezüglich der realen Erde wird mit einem geodätischen Datum beschrieben.
+      * Wird *zusätzlich eine Höhe** angegeben, die auf das Ellipsoid bezogen ist, wird das als **3D Geographisches CRS** bezeichnet.
+  * Geozentrisches CRS: Das geozentrische CRS geht vom **Schwerpunkt der Erde als Nullpunkt** aus und verwendet **dreidimensionale Koordinaten**, um die Position eines Objektes zu beschreiben.
+
+* Projiziert: ist ein geographisches CRS, bei dem die Koordinaten durch eine **Kartenprojektion in die Ebene** projiziert wurden.
+
+* Lokal: ein CRS, das **nur in einem lokalen Kontext** verwendet wird; etwa für Bautätigkeiten oder zum Bestimmen von Koordinaten relativ zu sich bewegenden Objekten (wie Schiffe oder Flugzeuge).
+
+
+* Kombiniert: CRS bei denen die Lage und die Höhe in unterschiedlichen Bezugssystemen bestimmt wird.
+
+
+---
+class: left
+
+.blockquote[Koordinatensysteme]
+
+## Geographische vs. projizierte CRS
+
+.panelset[
+.panel[.panel-name[Geographisch]
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","geographicCRS_(Moraga).png"))
+```
+
+]
+.panel[.panel-name[Projiziert]
+```{r}
+#| echo: false
+#| out-width: "80%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","projectedCRS_(Moraga).png"))
+```
+]
+]
+.quelle[Bildquelle: `r Citet(bib,"moraga_spatial_2023")`.]
+
+
+
+---
+class: left
+
+.blockquote[Koordinatensysteme]
+
+## Grundlegende Projektionstypen
 
 ```{r}
 #| echo: false
 #| out-width: "80%"
 #| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","02-sfdiagram.png"))
+knitr::include_graphics(xfun::from_root("img","PVA3","projection_families.png"))
 ```
 
-Elemente von sf-Objekten:
+.quelle[Quelle: [docs.qgis.org](https://docs.qgis.org/3.34/en/docs/gentle_gis_introduction/coordinate_reference_systems.html#the-three-families-of-map-projections).]
 
-* sfg
 
-* sfc
+---
+class: left
+
+.blockquote[Koordinatensysteme]
+
+## Wichtige Koordinatensysteme für die Praxis
+
+
+.panelset[
+.panel[.panel-name[Übersicht]
+* Die meisten gebräuchlichen CRS können durch Angabe ihrer EPSG-Codes (European Petroleum Survey Group) oder ihrer Proj4-Strings angegeben werden.
+
+* Übersicht: [Spatial Reference List](https://spatialreference.org/ref/)
+
+* Besonders häufig verwendet: 
+  * WGS 84
+  * ETRS89 / UTM
+]
+.panel[.panel-name[Video WGS84]
+<iframe width="800" height="400" src="https://www.youtube.com/embed/o2_t6MGieLI?si=NMpAhuaTnxxI63DL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+]
+]
+
+
+
+
+???
+
+
+* Einzelheiten zu einer bestimmten Projektion können mit der Funktion st_crs() des sf-Pakets eingesehen werden. Der EPSG-Code 4326 bezieht sich beispielsweise auf die WGS84-Längen-/Breitengradprojektion.
+
+
+
+
+
+
+
+
 
 
 ---
@@ -672,21 +834,24 @@ class: inverse, center, middle
 
 
 
-.blockquote[]
+.blockquote[Entwicklungslinien der Analyse Räumlicher Daten]
 
-.blockquote[]
+.blockquote[Grundlegende Konzepte]
 
-
+.blockquote[Anwendungsgebiete]
 
 
 ---
 class: left
 
+.blockquote[Entwicklungslinien der Analyse Räumlicher Daten]
 
-## Entwicklungslinien der Analyse Räumlicher Daten
+
+## Räumliche Statistik vs. Geostatistik
 
 .pull-left[
 .center[**Räumliche Statistik**]
+.small[
 * Kontext: Entwicklung der multivariaten Statistik (19. Jahrhundert)
 
 * Feststellung Laplace in den 1880er Jahren: Autokorrelation in Zeitreihendaten wirkt sich auf Varianzberechnung aus.
@@ -694,20 +859,28 @@ class: left
 * Übertragung auf Autokorrelation in Räumlichen Daten
 
 * Nutzung der Eigenschaft räumlicher Autokorrelation zur Imputation fehlender Werte
-
 ]
+]
+
 --
+
 .pull-right[
 .center[**Geostatistik**]
+.small[
 * Kontex: Praxisfragen im Zusammenhang mit der Exploration natürlicher Ressourcen (Gold, Öl etc.)
 
 * Abschätzung der Rohstoffausbeute von Standorten auf Basis von Probebohrungen
 
 * Nutzung der Eigenschaft räumlicher Autokorrelation zur **Interpolation**
 ]
+]
+
 
 --
+
+
 `r fa('exclamation-circle')` Räumliche Autokorrelation als gemeinsame konzeptionelle Basis.
+
 
 ???
 
@@ -717,6 +890,8 @@ vgl. `r Citet(bib,"griffith_spatial_2017")`
 
 ---
 class: left
+
+.blockquote[Grundlegende Konzepte]
 
 ## Konzeptionelle Grundlagen der Räumlichen Statistik und Geostatistik
 
@@ -746,77 +921,155 @@ vgl. `r Citet(bib,"griffith_spatial_2017")`, S. 2087
 ---
 class: left
 
-## Räumliche Autokorrelation
+.blockquote[Grundlegende Konzepte]
+
+## Matrixdarstellung Nachbarschaft
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Matrix_(Griffith).png"))
+```
+
+???
+
+* Adjazenzmatrix
+
+* Coding Schema abhängig vom Nachbarschafts-Konzept. Hier: Rook (TUrm)
+
+  * Create indicator variables: IS location A adjacent to location B (1=yes)
+
+  * There are more sophisticated coding strategies (length of common boundary, etc….)
+
+* Premultiplying a vector of attributes with adj. Matrix
+
+* Matrix C interpretation vs. Matrix w row-sum-standardized
+
 
 
 
 ---
 class: left
+
+.blockquote[Grundlegende Konzepte]
 
 ## Quantifizierung räumlicher Autokorrelation
 
 
+* Moran's I (`r Citet(bib,"moran_notes_1950")`)
 
----
-class: left
-
-## Statistische Verteilungstheorie für räumliche Autokorrelation
+$$MC=\frac{n}{\sum_{i=1}^n \sum_{j=1}^nc_{ij}}\cdot \frac{\sum_{i=1}^n \sum_{j=1}^nc_{ij}(y_i-\bar{y})(y_j-\bar{y})}{\sum_{i=1}^n(y_i-\bar{y})^2}$$
 
 
 
----
-class: left
+* Geary' C (`r Citet(bib, "geary_contiguity_1954")`)
 
-## Mathematische Beschreibung räumlicher Autokorrelation (I): Autoregression
+$$GR=\frac{n-1}{2\cdot\sum_{i=1}^n \sum_{j=1}^nc_{ij}}\cdot \frac{\sum_{i=1}^n \sum_{j=1}^nc_{ij}(y_i-y_j)^2}{\sum_{i=1}^n(y_i-\bar{y})^2}$$
 
+???
 
-
----
-class: left
-
-## Mathematische Beschreibung räumlicher Autokorrelation (II): Geostatistik
+* Quantifizierung der Beziehungen  zwischen miteinander verbundenen Objektpaaren
+im geografischen Raum
 
 
+* Objektpaare in Adjazenzmatrix erfasst 
+
+* c-Werte aus c-Matrix (Adjazenzmatrix, s.o.)
+ cij commonly is 0 or 1, with 1 denoting that a linkage exists between
+locations i and j (i.e., the pair is tied together) and 0 otherwise)
+
+* Zwei der populärsten Maße für Autocorrelation 
+
+* Beide Nenner: Varianz von y
+
+* Zähler Moran: Produkt-Momente ähnlich wie Bravais-Pearson-Korrelation. Unterschied: Multiplikatuion mit $c_{ij}$
+
+* Zähler Geary: Paarweise vergleiche (statt Produkt-Momente)
+
++ for nominal data: join counts
 
 
 
+ToDo
 
----
-class: left
-
-## Visualisierung räumlicher Autokorrelation (I): Autoregression
-
-
-
-
----
-class: left
-
-## Visualisierung räumlicher Autokorrelation (II): Geostatistik
-
-
----
-class: left
-
-## Interpretation räumlicher Autokorrelation
+* Griffith (2017):
+  * Statistische Verteilungstheorie für räumliche Autokorrelation
+  * Mathematische Beschreibung räumlicher Autokorrelation (II): Geostatistik
 
 
 
 ---
 class: left
 
-## Zentrale Anwendungsgebiete
+.blockquote[Grundlegende Konzepte]
+
+## Mathematische Beschreibung räumlicher Autokorrelation: Autoregression
+
+* Bedingte Autoregression (CAR): Kovarianzmatrix $\sum$:
+
+$$\sum=(I-\rho W) ^{-1}\sigma^2$$
+
+* Simultane Autoregression (SAR): Kovarianzmatrix $\sum$:
+
+$$\sum=[(I-\rho W^T)(I-\rho W)]^{-1}\sigma^2$$
+
+Ausführlicher: vgl. `r Citet(bib, "griffith_spatial_2017")`
 
 
+???
 
+* Because spatial autocorrelation refers to observations **within a single variable**, given the **identically
+distributed** statistical assumption, each observation has the same population variance. 
+
+* Because observations are pairwise correlated,an n-by-n covariance matrix, say $\sum$, can be constructed
+for them, with the same sequence of observations used to label its rows and columns
 
 
 
 ---
 class: left
 
+.blockquote[Grundlegende Konzepte]
 
-## Zusammenfassung
+## Visualisierung räumlicher Autokorrelation
+
+.pull-left[
+Moran Streudiagramm
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Moran_scatterplot_(Barreca_etal_2017).png"))
+```
+.quelle[Bildquelle: `r Citet(bib,"barreca_assessing_2017")`.]
+]
+--
+.pull-right[
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","schematic_variogram_(wikipedia).svg"))
+```
+
+.quelle[Bildquelle: [wikipedia.org](https://en.wikipedia.org/wiki/Variogram).]
+
+]
+
+???
+
+
+Todo Griffith (2017, S. 2093ff) Interpretation räumlicher Autokorrelation
+
+
+
+---
+class: left
+
+.blockquote[Grundlegende Konzepte]
+
+## Zusammenfassung Räumliche Statistik vs. Geostatistik
 
 ```{r}
 #| echo: false
@@ -826,6 +1079,61 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_S
 ```
 
 .quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
+
+
+
+
+
+---
+class: left
+
+.blockquote[Anwendungsgebiete]
+
+## Zentrale Anwendungsgebiete
+
+* Explorative Analysen
+
+  * Beschreibung der Daten (Karten, Kennzahlen)
+  
+  * Muster aufdecken und Hypothesen generieren
+  
+* Statistische Inferenz
+
+  * Robuste Regressionsanalysen unter Berücksichtigung von Autokorrelation
+  
+  * Imputation fehlender Werte 
+  
+
+---
+class: left
+
+.blockquote[Anwendungsgebiete]
+
+## Grundidee Inferenz mit räumlichen Daten
+
+.panelset[
+.panel[.panel-name[Permutation]
+```{r}
+#| echo: false
+#| out-width: "90%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
+```
+.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
+]
+.panel[.panel-name[Cartogram]
+```{r}
+#| echo: false
+#| out-width: "100%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
+```
+.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
+
+]
+]
+
+
 
 
 ---
