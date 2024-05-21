@@ -957,13 +957,13 @@ class: left
 ## Quantifizierung räumlicher Autokorrelation
 
 
-* Moran's I (`r Citet(bib,"moran_notes_1950")`)
+* Moran's I, `r Citet(bib,"moran_notes_1950")`
 
 $$MC=\frac{n}{\sum_{i=1}^n \sum_{j=1}^nc_{ij}}\cdot \frac{\sum_{i=1}^n \sum_{j=1}^nc_{ij}(y_i-\bar{y})(y_j-\bar{y})}{\sum_{i=1}^n(y_i-\bar{y})^2}$$
 
 
 
-* Geary' C (`r Citet(bib, "geary_contiguity_1954")`)
+* Geary' C, `r Citet(bib, "geary_contiguity_1954")`
 
 $$GR=\frac{n-1}{2\cdot\sum_{i=1}^n \sum_{j=1}^nc_{ij}}\cdot \frac{\sum_{i=1}^n \sum_{j=1}^nc_{ij}(y_i-y_j)^2}{\sum_{i=1}^n(y_i-\bar{y})^2}$$
 
@@ -1035,17 +1035,21 @@ class: left
 ## Visualisierung räumlicher Autokorrelation
 
 .pull-left[
-Moran Streudiagramm
+.center[Moran Streudiagramm]
+<br>
 ```{r}
 #| echo: false
 #| out-width: "100%"
 #| fig-align: "center"
 knitr::include_graphics(xfun::from_root("img","PVA3","Moran_scatterplot_(Barreca_etal_2017).png"))
 ```
-.quelle[Bildquelle: `r Citet(bib,"barreca_assessing_2017")`.]
+
 ]
 --
 .pull-right[
+.center[Variogramm]
+<br>
+<br>
 ```{r}
 #| echo: false
 #| out-width: "100%"
@@ -1053,7 +1057,8 @@ knitr::include_graphics(xfun::from_root("img","PVA3","Moran_scatterplot_(Barreca
 knitr::include_graphics(xfun::from_root("img","PVA3","schematic_variogram_(wikipedia).svg"))
 ```
 
-.quelle[Bildquelle: [wikipedia.org](https://en.wikipedia.org/wiki/Variogram).]
+
+.quelle[Bildquelle: links: `r Citet(bib,"barreca_assessing_2017")`, rechts: [wikipedia.org](https://en.wikipedia.org/wiki/Variogram).]
 
 ]
 
@@ -1064,21 +1069,6 @@ Todo Griffith (2017, S. 2093ff) Interpretation räumlicher Autokorrelation
 
 
 
----
-class: left
-
-.blockquote[Grundlegende Konzepte]
-
-## Zusammenfassung Räumliche Statistik vs. Geostatistik
-
-```{r}
-#| echo: false
-#| out-width: "50%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_Sxxi.png"))
-```
-
-.quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
 
 
 
@@ -1111,28 +1101,32 @@ class: left
 
 ## Grundidee Inferenz mit räumlichen Daten
 
-.panelset[
-.panel[.panel-name[Permutation]
-```{r}
-#| echo: false
-#| out-width: "90%"
-#| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
-```
-.quellePanURL[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
-]
-.panel[.panel-name[Cartogram]
 ```{r}
 #| echo: false
 #| out-width: "100%"
 #| fig-align: "center"
-knitr::include_graphics(xfun::from_root("img","PVA3","Grid_People_Population_2020_(worldmapper.org).png"))
+knitr::include_graphics(xfun::from_root("img","PVA3","worldmap_permutation_(Jacobs_2010)_ritzholtz.com.jpg"))
 ```
-.quellePanURL[Bildquelle: [worldmapper.org](https://worldmapper.org/maps/grid-population-2020/).]
 
-]
-]
+.quelle[Bildquelle: [ritholtz.com](https://ritholtz.com/2010/11/world-map-rearranged-by-population/).]
 
+
+
+---
+class: left
+
+.blockquote[Grundlegende Konzepte]
+
+## Zusammenfassender Überblick Räumliche Statistik vs. Geostatistik
+
+```{r}
+#| echo: false
+#| out-width: "40%"
+#| fig-align: "center"
+knitr::include_graphics(xfun::from_root("img","PVA3","Geostats_(Emery_Seguret)_Sxxi.png"))
+```
+
+.quelle[Quelle: `r Citet(bib,"seguret_geostatistics_2021")`, S. xxi.]
 
 
 
